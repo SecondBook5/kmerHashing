@@ -1,0 +1,32 @@
+original input:
+20105, 80311, 83382, 28159, 37208
+39055, 93639, 82850, 40328, 88839
+
+scheme 1 (division) - modulo: 120, bucket size: 1, linear
+# of collisions: 2, # of comparisons: 12, records inserted: 10, load factor: 0.08333333333333333
+None,  None,  None,  None,  None
+None,  None,  None,  37208, 40328
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  80311, None,  None,  None
+None,  None,  None,  None,  93639
+88839, None,  None,  None,  None
+None,  None,  None,  None,  None
+82850, None,  None,  None,  None
+39055, None,  None,  None,  None
+None,  None,  None,  None,  None
+20105, None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  28159
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  83382, None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+None,  None,  None,  None,  None
+
+
