@@ -5,12 +5,10 @@ import edu.jhu.algos.data_structures.LinkedListChain;
 
 /**
  * ProbingStrategy provides static utility methods for resolving hash table collisions.
- *
  * This class supports:
  * - Linear Probing
  * - Quadratic Probing (with configurable c1 and c2)
  * - In-table Chaining using LinkedListChain
- *
  * All methods accept PerformanceMetrics to track probing behavior and comparisons.
  */
 public class ProbingStrategy {
@@ -76,10 +74,17 @@ public class ProbingStrategy {
                 }
                 return; // Exit after successful insert
             } else {
-                // Collision occurred, keep probing
-                metrics.addCollision();
-                metrics.addProbe();
-                i++;
+                // Collision occurred, determine type
+                if (i == 0) {
+                    // ▶ Primary collision: first probe (home slot) is occupied
+                    metrics.addPrimaryCollision();
+                } else {
+                    // ▶ Secondary collision: additional probe is also occupied
+                    metrics.addSecondaryCollision();
+                }
+
+                metrics.addProbe();  // Count this probing step
+                i++;                 // Move to the next probe
             }
         }
 

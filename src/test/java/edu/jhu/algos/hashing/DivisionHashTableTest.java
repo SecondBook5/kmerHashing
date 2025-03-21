@@ -188,4 +188,42 @@ public class DivisionHashTableTest {
         assertEquals(0, metrics.getTotalCollisions());
         assertEquals(0, metrics.getTotalProbes());
     }
+
+    /**
+     * Test that DivisionHashTable tracks primary and secondary collisions separately.
+     */
+    @Test
+    public void testTracksPrimaryAndSecondaryCollisions() {
+        DivisionHashTable table = new DivisionHashTable(5, 1, 5, "linear", DEBUG);
+
+        // Insert 0 and 5 → both hash to index 0
+        table.insert(0);  // clean
+        table.insert(5);  // primary collision at 0, insert at 1
+        table.insert(10); // primary collision at 0, secondary at 1, insert at 2
+
+        PerformanceMetrics metrics = table.metrics;
+
+        assertEquals(3, metrics.getTotalInsertions(), "Should insert 3 keys.");
+        assertEquals(3, metrics.getTotalCollisions(), "Should count 2 primary + 1 secondary = 3 total collisions.");
+        assertEquals(2, metrics.getPrimaryCollisions(), "Two primary collisions from keys 5 and 10.");
+        assertEquals(1, metrics.getSecondaryCollisions(), "One secondary collision from key 10.");
+
+    }
+
+    /**
+     * Test that the load factor is computed correctly.
+     */
+    @Test
+    public void testLoadFactor() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+
+        table.insert(3);
+        table.insert(13);
+        table.insert(23);
+
+        double expectedLoad = 3.0 / 10.0;
+        double actualLoad = table.metrics.getLoadFactor();
+
+        assertEquals(expectedLoad, actualLoad, 0.0001, "Load factor should equal insertions / table size.");
+    }
 }

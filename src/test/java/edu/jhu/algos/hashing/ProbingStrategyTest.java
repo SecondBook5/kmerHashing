@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the ProbingStrategy class.
- *
  * Tests both open addressing (linear and quadratic probing) and chaining strategies.
  * Verifies correct insert behavior and metric tracking.
  */
@@ -133,6 +132,91 @@ public class ProbingStrategyTest {
         assertEquals(0, metrics.getTotalInsertions());
         assertEquals(3, metrics.getTotalCollisions());
         assertEquals(3, metrics.getTotalProbes());
+    }
+
+    /**
+     * Test that primary and secondary collisions are tracked correctly during probing.
+     * - Forces a primary collision at i=0 and a secondary collision at i=1.
+     */
+    @Test
+    public void testPrimaryAndSecondaryCollisionCounts() {
+        Integer[] table = new Integer[5];
+        PerformanceMetrics metrics = new PerformanceMetrics();
+
+        // Force both types of collisions:
+        // Fill index 1 (home slot for hash), and index 2 (next probe)
+        table[1] = 111;
+        table[2] = 222;
+
+        // Try to insert a key that hashes to 1 → should hit index 1 (primary)
+        // then hit index 2 (secondary), then go to index 3
+        ProbingStrategy.insertWithProbing(
+                table, 333, 1, 5, false, metrics, 0.5, 0.5, DEBUG);
+
+        // Validate slot 3 got the key
+        assertEquals(333, table[3], "Key should be inserted at index 3 after 2 collisions.");
+
+        // Validate counters
+        assertEquals(1, metrics.getPrimaryCollisions(), "Should count 1 primary collision.");
+        assertEquals(1, metrics.getSecondaryCollisions(), "Should count 1 secondary collision.");
+        assertEquals(2, metrics.getTotalCollisions(), "Total collisions should be 2.");
+        assertEquals(3, metrics.getTotalComparisons(), "Three comparisons: index 1, 2, then 3.");
+        assertEquals(2, metrics.getTotalProbes(), "Two probes before successful insert.");
+        assertEquals(1, metrics.getTotalInsertions(), "One successful insertion.");
+    }
+
+    /**
+     * Test that quadratic probing properly tracks primary and secondary collisions.
+     * - Forces a primary collision at i=0 and a secondary collision at i=1.
+     */
+    @Test
+    public void testQuadraticProbingPrimaryAndSecondaryCollisions() {
+        Integer[] table = new Integer[7];
+        PerformanceMetrics metrics = new PerformanceMetrics();
+
+        // Use mod 7 hash, key maps to index 2
+        table[2] = 1000;  // Home slot (primary collision)
+        table[3] = 2000;  // First quadratic probe (i=1): (2 + 0.5*1 + 0.5*1^2) % 7 = (2 + 1) % 7 = 3
+
+        // Should land on index 6 eventually
+        ProbingStrategy.insertWithProbing(
+                table, 3000, 2, 7, true, metrics, 0.5, 0.5, DEBUG);
+
+        assertEquals(3000, table[5], "Key should be inserted at index 6 after 2 collisions.");
+        assertEquals(1, metrics.getPrimaryCollisions(), "Should record 1 primary collision.");
+        assertEquals(1, metrics.getSecondaryCollisions(), "Should record 1 secondary collision.");
+        assertEquals(2, metrics.getTotalCollisions(), "Total collisions should be 2.");
+        assertEquals(3, metrics.getTotalComparisons(), "Three comparisons before insertion.");
+        assertEquals(2, metrics.getTotalProbes(), "Two probe steps (i=1 and i=2).");
+        assertEquals(1, metrics.getTotalInsertions(), "One successful insertion.");
+
+        System.out.println("Final table state:");
+        for (int i = 0; i < table.length; i++) {
+            System.out.printf("[%d]: %s\n", i, table[i] == null ? "null" : table[i].toString());
+        }
+    }
+
+    /**
+     * Test that chaining records insertion metrics correctly and preserves chain structure.
+     */
+    @Test
+    public void testChainingInsertionMetrics() {
+        PerformanceMetrics metrics = new PerformanceMetrics();
+        Stack<ChainedNode> pool = makeNodePool(5); // Allow space for chaining
+
+        LinkedListChain[] chainTable = new LinkedListChain[4];
+        chainTable[0] = new LinkedListChain(pool);
+
+        ProbingStrategy.insertWithChaining(chainTable, 11, 0, metrics, DEBUG);
+        ProbingStrategy.insertWithChaining(chainTable, 22, 0, metrics, DEBUG);
+        ProbingStrategy.insertWithChaining(chainTable, 33, 0, metrics, DEBUG);
+
+        // Validate chain contents and metric count
+        assertEquals(3, chainTable[0].size(), "Chain at index 0 should contain 3 items.");
+        assertTrue(chainTable[0].search(11), "Chain should contain key 11.");
+        assertTrue(chainTable[0].search(22), "Chain should contain key 22.");
+        assertTrue(chainTable[0].search(33), "Chain should contain key 33.");
+        assertEquals(3, metrics.getTotalInsertions(), "Metrics should show 3 successful insertions.");
     }
 
     /**

@@ -36,6 +36,8 @@ public class DivisionHashTable extends HashTable {
         this.strategy = strategy.toLowerCase(); // Normalize strategy for comparison
         this.debug = debug;
 
+        this.metrics.setTableSize(tableSize); // ▶ Enable load factor tracking
+
         // If chaining strategy is chosen, initialize linked lists and node pool
         if (this.strategy.equals("chaining")) {
             if (debug) {

@@ -150,4 +150,66 @@ public class PerformanceMetricsTest {
 
         assertEquals(Integer.MAX_VALUE, metrics.getTotalComparisons(), "Total comparisons should match Integer.MAX_VALUE.");
     }
+
+
+    /**
+     * Test primary and secondary collision counters.
+     * - Ensures both types of collisions are counted and reflected in total collisions.
+     */
+    @Test
+    public void testPrimaryAndSecondaryCollisions() {
+        PerformanceMetrics metrics = new PerformanceMetrics();
+
+        // Add two primary collisions and three secondary collisions
+        metrics.addPrimaryCollision();
+        metrics.addPrimaryCollision();
+        metrics.addSecondaryCollision();
+        metrics.addSecondaryCollision();
+        metrics.addSecondaryCollision();
+
+        // Validate individual and total collision counts
+        assertEquals(2, metrics.getPrimaryCollisions(), "Primary collisions should be 2.");
+        assertEquals(3, metrics.getSecondaryCollisions(), "Secondary collisions should be 3.");
+        assertEquals(5, metrics.getTotalCollisions(), "Total collisions should be 5.");
+    }
+
+    /**
+     * Test load factor calculation.
+     * - Ensures load factor is computed as insertions / table size.
+     */
+    @Test
+    public void testLoadFactorCalculation() {
+        PerformanceMetrics metrics = new PerformanceMetrics();
+
+        metrics.setTableSize(100); // Set table size
+        metrics.addInsertion();    // 1 insertion
+        metrics.addInsertion();    // 2 insertions
+
+        double expected = 2.0 / 100.0;
+        assertEquals(expected, metrics.getLoadFactor(), 0.0001, "Load factor should be insertions / tableSize.");
+    }
+
+    /**
+     * Test the toString() method summary output.
+     * - Ensures it contains all major metric fields in readable form.
+     */
+    @Test
+    public void testToStringSummaryOutput() {
+        PerformanceMetrics metrics = new PerformanceMetrics();
+
+        metrics.setTableSize(10);
+        metrics.addComparison();
+        metrics.addPrimaryCollision();
+        metrics.addSecondaryCollision();
+        metrics.addProbe();
+        metrics.addInsertion();
+
+        String output = metrics.toString();
+
+        assertTrue(output.contains("Comparisons"), "Summary should include 'Comparisons'.");
+        assertTrue(output.contains("Primary"), "Summary should include 'Primary' collisions.");
+        assertTrue(output.contains("Secondary"), "Summary should include 'Secondary' collisions.");
+        assertTrue(output.contains("Load Factor"), "Summary should include 'Load Factor'.");
+        assertTrue(output.contains("Execution Time"), "Summary should include 'Execution Time'.");
+    }
 }
