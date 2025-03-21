@@ -27,16 +27,18 @@ public class ProbingStrategy {
      * @param metrics      A PerformanceMetrics object to track collisions, probes, and comparisons.
      * @param c1           Constant c1 for quadratic probing (typically 0.5 as per assignment).
      * @param c2           Constant c2 for quadratic probing (typically 0.5 as per assignment).
+     * @param debug        If true, print debug information.
      */
     public static void insertWithProbing(
-            Integer[] table,        // Hash table array
-            int key,                // Key to insert
-            int startIndex,         // Hashed index (home position)
-            int tableSize,          // Size of the table
-            boolean useQuadratic,   // Toggle between linear and quadratic
-            PerformanceMetrics metrics, // Metrics for performance tracking
-            double c1,              // Quadratic probing constant
-            double c2               // Quadratic probing constant
+            Integer[] table,
+            int key,
+            int startIndex,
+            int tableSize,
+            boolean useQuadratic,
+            PerformanceMetrics metrics,
+            double c1,
+            double c2,
+            boolean debug
     ) {
         int i = 0;  // Probe attempt counter
 
@@ -56,6 +58,11 @@ public class ProbingStrategy {
             // Defensive check in case modulo wraps around
             if (probeIndex < 0) probeIndex += tableSize;
 
+            // Print debug information for probe index
+            if (debug) {
+                System.out.printf("[DEBUG] Probing attempt %d for key %d → index %d%n", i, key, probeIndex);
+            }
+
             // Always count a comparison attempt
             metrics.addComparison();
 
@@ -63,12 +70,16 @@ public class ProbingStrategy {
             if (table[probeIndex] == null) {
                 table[probeIndex] = key;     // Insert the key
                 metrics.addInsertion();      // Record successful insertion
-                return;                      // Exit after successful insert
+
+                if (debug) {
+                    System.out.printf("[DEBUG] Inserted key %d at index %d after %d probe(s)%n", key, probeIndex, i);
+                }
+                return; // Exit after successful insert
             } else {
                 // Collision occurred, keep probing
-                metrics.addCollision();      // Record collision event
-                metrics.addProbe();          // Record probe attempt
-                i++;                         // Try next offset
+                metrics.addCollision();
+                metrics.addProbe();
+                i++;
             }
         }
 
@@ -84,12 +95,14 @@ public class ProbingStrategy {
      * @param key          The key to insert.
      * @param index        The index where the key should be inserted.
      * @param metrics      A PerformanceMetrics object to track insertions.
+     * @param debug        If true, print debug information.
      */
     public static void insertWithChaining(
-            LinkedListChain[] chainTable,   // Table of chain slots
-            int key,                        // Key to insert
-            int index,                      // Index to insert into
-            PerformanceMetrics metrics      // Performance tracker
+            LinkedListChain[] chainTable,
+            int key,
+            int index,
+            PerformanceMetrics metrics,
+            boolean debug
     ) {
         // Defensive check: chain at this index must be initialized
         if (chainTable[index] == null) {
@@ -99,8 +112,11 @@ public class ProbingStrategy {
 
         // Insert into the linked list chain at the specified index
         chainTable[index].insert(key);
+        metrics.addInsertion(); // Record successful chaining insert
 
-        // Track successful insertion
-        metrics.addInsertion();
+        // Debug output for chaining
+        if (debug) {
+            System.out.printf("[DEBUG] Inserted key %d into chain at index %d%n", key, index);
+        }
     }
 }

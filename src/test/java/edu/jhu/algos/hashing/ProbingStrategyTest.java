@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ProbingStrategyTest {
 
+    private static final boolean DEBUG = true;
+
     /**
      * Helper method to create an empty node pool for chaining tests.
      */
@@ -40,12 +42,12 @@ public class ProbingStrategyTest {
 
         // Insert key 222 starting at index 2, should go to index 3
         ProbingStrategy.insertWithProbing(
-                table, 222, 2, 5, false, metrics, 0.5, 0.5);
+                table, 222, 2, 5, false, metrics, 0.5, 0.5, DEBUG);
 
-        assertEquals(111, table[2]);     // Existing key remains
-        assertEquals(222, table[3]);     // Key inserted with linear probing
+        assertEquals(111, table[2]);
+        assertEquals(222, table[3]);
         assertEquals(1, metrics.getTotalCollisions());
-        assertEquals(2, metrics.getTotalComparisons());  // Tried index 2 and 3
+        assertEquals(2, metrics.getTotalComparisons());
         assertEquals(1, metrics.getTotalInsertions());
         assertEquals(1, metrics.getTotalProbes());
     }
@@ -63,10 +65,7 @@ public class ProbingStrategyTest {
 
         // Attempt to insert key 2000 at index 3 using quadratic probing
         ProbingStrategy.insertWithProbing(
-                table, 2000, 3, 7, true, metrics, 0.5, 0.5);
-
-        // For i = 0: 3
-        // For i = 1: (3 + 0.5*1 + 0.5*1) % 7 = 4 → inserted at index 4
+                table, 2000, 3, 7, true, metrics, 0.5, 0.5, DEBUG);
 
         assertEquals(1000, table[3]);
         assertEquals(2000, table[4]);
@@ -87,8 +86,8 @@ public class ProbingStrategyTest {
         LinkedListChain[] chainTable = new LinkedListChain[5];
         chainTable[1] = new LinkedListChain(pool);
 
-        ProbingStrategy.insertWithChaining(chainTable, 99, 1, metrics);
-        ProbingStrategy.insertWithChaining(chainTable, 88, 1, metrics);
+        ProbingStrategy.insertWithChaining(chainTable, 99, 1, metrics, DEBUG);
+        ProbingStrategy.insertWithChaining(chainTable, 88, 1, metrics, DEBUG);
 
         assertTrue(chainTable[1].search(99));
         assertTrue(chainTable[1].search(88));
@@ -106,8 +105,7 @@ public class ProbingStrategyTest {
         // No chain initialized at index 2
         LinkedListChain[] chainTable = new LinkedListChain[3];
 
-        // Should fail without throwing
-        ProbingStrategy.insertWithChaining(chainTable, 55, 2, metrics);
+        ProbingStrategy.insertWithChaining(chainTable, 55, 2, metrics, DEBUG);
 
         // Nothing should be inserted
         assertEquals(0, metrics.getTotalInsertions());
@@ -128,10 +126,10 @@ public class ProbingStrategyTest {
 
         // Attempt to insert, no room
         ProbingStrategy.insertWithProbing(
-                table, 999, 0, 3, false, metrics, 0.5, 0.5);
+                table, 999, 0, 3, false, metrics, 0.5, 0.5, DEBUG);
 
-        assertFalse(arrayContains(table, 999));  // Should not appear
-        assertEquals(3, metrics.getTotalComparisons());  // All slots checked
+        assertFalse(arrayContains(table, 999));
+        assertEquals(3, metrics.getTotalComparisons());
         assertEquals(0, metrics.getTotalInsertions());
         assertEquals(3, metrics.getTotalCollisions());
         assertEquals(3, metrics.getTotalProbes());

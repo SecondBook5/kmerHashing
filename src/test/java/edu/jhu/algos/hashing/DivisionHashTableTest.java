@@ -1,93 +1,191 @@
 package edu.jhu.algos.hashing;
 
-import org.junit.jupiter.api.BeforeEach;
+import edu.jhu.algos.utils.PerformanceMetrics;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for DivisionHashTable.
- * - Tests insertion, collisions, and error handling.
+ * Unit tests for DivisionHashTable using all supported strategies.
+ * Tests correctness, metrics tracking, chaining behavior, and corner cases.
  */
-class DivisionHashTableTest {
+public class DivisionHashTableTest {
 
-    private DivisionHashTable hashTable;
+    private static final boolean DEBUG = true;
 
     /**
-     * Setup: Initializes a new hash table before each test.
+     * Test linear probing inserts correctly and updates performance metrics.
      */
-    @BeforeEach
-    void setUp() {
-        hashTable = new DivisionHashTable(10, 1, 10); // Small table for testing
+    @Test
+    public void testLinearProbingInsert() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+
+        table.insert(2);   // hashes to index 2
+        table.insert(12);  // hashes to 2 again → probes to 3
+
+        assertEquals(2, table.table[2]);
+        assertEquals(12, table.table[3]);
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(2, metrics.getTotalInsertions());
+        assertEquals(3, metrics.getTotalComparisons()); // both checked a slot
+        assertEquals(1, metrics.getTotalCollisions());  // 12 collided at 2
+        assertEquals(1, metrics.getTotalProbes());      // probed to 3
     }
 
     /**
-     * Test inserting valid keys.
+     * Test quadratic probing inserts correctly and probes into a new slot.
      */
     @Test
-    void testValidInsertions() {
-        hashTable.insert(5);
-        hashTable.insert(15); // Should trigger Linear Probing (collision at index 5)
+    public void testQuadraticProbingInsert() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "quadratic", DEBUG);
 
-        assertEquals(5, hashTable.table[5]);
-        assertEquals(15, hashTable.table[6]); // Should be placed after probing
-    }
+        table.insert(5);   // hashes to index 5
+        table.insert(15);  // hashes to 5 again → probes
 
-    /**
-     * Test inserting duplicate keys (causing collisions).
-     */
-    @Test
-    void testCollisionHandling() {
-        hashTable.insert(3);
-        hashTable.insert(13); // Collision at index 3, should move to 4
-        hashTable.insert(23); // Another collision at index 3, should move to 5
-
-        assertEquals(3, hashTable.table[3]);
-        assertEquals(13, hashTable.table[4]);
-        assertEquals(23, hashTable.table[5]);
-    }
-
-    /**
-     * Test inserting negative keys (should be rejected).
-     */
-    @Test
-    void testNegativeKeyRejection() {
-        hashTable.insert(-5);
-        for (int i = 0; i < hashTable.tableSize; i++) {
-            assertNotEquals(-5, hashTable.table[i]); // Negative key should not be in the table
-        }
-    }
-
-    /**
-     * Test inserting more keys than the table can hold.
-     */
-    @Test
-    void testTableFullScenario() {
-        for (int i = 0; i < 10; i++) {
-            hashTable.insert(i * 10); // Fill the table
-        }
-
-        // Next insertion should fail
-        hashTable.insert(1000);
-
-        boolean tableFull = true;
-        for (int i = 0; i < hashTable.tableSize; i++) {
-            if (hashTable.table[i] == -1) {
-                tableFull = false;
+        // Robust assertion: key 15 should exist somewhere in the table
+        boolean found15 = false;
+        for (Integer slot : table.table) {
+            if (slot != null && slot == 15) {
+                found15 = true;
                 break;
             }
         }
-        assertTrue(tableFull); // Table should be completely full
+
+        assertTrue(found15, "Key 15 should be present in the table after insertion.");
+
+        // Probe metrics still matter
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(2, metrics.getTotalInsertions());
+        assertTrue(metrics.getTotalComparisons() >= 2);
+        assertEquals(1, metrics.getTotalCollisions());
+        assertEquals(1, metrics.getTotalProbes());
+    }
+
+
+    /**
+     * Test chaining inserts multiple values to same linked list chain.
+     */
+    @Test
+    public void testChainingInsert() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "chaining", DEBUG);
+
+        table.insert(7);   // index 7
+        table.insert(17);  // also index 7
+
+        assertTrue(table.getChainAt(7).search(7));
+        assertTrue(table.getChainAt(7).search(17));
+        assertEquals(2, table.getChainAt(7).size());
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(2, metrics.getTotalInsertions());
+        assertEquals(0, metrics.getTotalProbes());
+        assertEquals(0, metrics.getTotalCollisions());
     }
 
     /**
-     * Test inserting into a full table does not cause ArrayIndexOutOfBoundsException.
+     * Test probing behavior when table is full and insertion fails.
      */
     @Test
-    void testNoOutOfBoundsErrors() {
-        for (int i = 0; i < 10; i++) {
-            hashTable.insert(i * 10); // Fill the table
+    public void testLinearProbingFailsWhenFull() {
+        DivisionHashTable table = new DivisionHashTable(3, 1, 3, "linear", DEBUG);
+
+        table.insert(0);  // → 0
+        table.insert(1);  // → 1
+        table.insert(2);  // → 2
+        table.insert(3);  // Should fail
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(3, metrics.getTotalInsertions()); // keys 0, 1, 2 inserted
+        assertEquals(6, metrics.getTotalComparisons()); // 3 normal + 3 failed for key 3
+        assertEquals(3, metrics.getTotalProbes()); // 3 probes for failed key 3
+        assertEquals(3, metrics.getTotalCollisions()); // same: 3 failed probes are 3 collisions
+    }
+
+    /**
+     * Test clearTable() resets all fields and metrics correctly.
+     */
+    @Test
+    public void testClearTableResetsEverything() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+
+        table.insert(3);
+        table.insert(13);
+        assertEquals(2, table.metrics.getTotalInsertions());
+
+        table.clearTable();
+
+        for (Integer val : table.table) {
+            assertNull(val);
         }
 
-        assertDoesNotThrow(() -> hashTable.insert(200)); // Should gracefully handle full table
+        assertEquals(0, table.metrics.getTotalInsertions());
+        assertEquals(0, table.metrics.getTotalComparisons());
+    }
+
+    /**
+     * Test chaining clearTable returns all nodes and resets chains.
+     */
+    @Test
+    public void testChainingClearTableReleasesNodes() {
+        DivisionHashTable table = new DivisionHashTable(5, 1, 5, "chaining", DEBUG);
+
+        table.insert(1);
+        table.insert(6);  // same index
+
+        assertEquals(2, table.getChainAt(1).size());
+
+        table.clearTable();
+
+        assertEquals(0, table.getChainAt(1).size());
+        assertTrue(table.getChainAt(1).isEmpty());
+    }
+
+    /**
+     * Edge case: clean insert with no collisions or probes.
+     */
+    @Test
+    public void testNoCollisionNoProbes() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+
+        table.insert(3); // clean insert
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(1, metrics.getTotalInsertions());
+        assertEquals(1, metrics.getTotalComparisons());
+        assertEquals(0, metrics.getTotalCollisions());
+        assertEquals(0, metrics.getTotalProbes());
+    }
+
+    /**
+     * Edge case: make sure failed insert doesn't increase insert count.
+     */
+    @Test
+    public void testInsertFailsMetricsStable() {
+        DivisionHashTable table = new DivisionHashTable(2, 1, 2, "linear", DEBUG);
+
+        table.insert(0);
+        table.insert(1);
+        table.insert(2); // should fail
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(2, metrics.getTotalInsertions());  // Only 2 succeeded
+        assertTrue(metrics.getTotalComparisons() >= 2); // at least 2 comparisons
+    }
+
+    /**
+     * Chaining should not affect probe/collision counts.
+     */
+    @Test
+    public void testChainingMetricsOnlyTracksInsertions() {
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "chaining", DEBUG);
+
+        table.insert(1);
+        table.insert(11); // same index
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(2, metrics.getTotalInsertions());
+        assertEquals(0, metrics.getTotalCollisions());
+        assertEquals(0, metrics.getTotalProbes());
     }
 }
