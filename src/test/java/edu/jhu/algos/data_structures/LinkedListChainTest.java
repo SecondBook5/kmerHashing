@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the LinkedListChain class.
  *
- * These tests verify:
- * - Correct insertion and search behavior.
- * - Memory reuse using a stack-based node pool.
- * - Proper handling of edge cases such as empty chains and exhausted pools.
+ * This test suite verifies:
+ * - Correct insert and search behavior
+ * - Memory reuse using a preallocated stack-based pool
+ * - Handling of exhausted memory pools
+ * - Accurate size and empty status reporting
+ * - Behavior when inserting duplicate keys
  */
 public class LinkedListChainTest {
 
@@ -25,9 +27,8 @@ public class LinkedListChainTest {
 
         // Fill the pool with safe placeholder nodes using the factory method
         for (int i = 0; i < count; i++) {
-            pool.push(ChainedNode.createEmptyNode());
+            pool.push(ChainedNode.createEmptyNode());  // Safe placeholder creation
         }
-
         return pool;
     }
 
@@ -125,5 +126,22 @@ public class LinkedListChainTest {
 
         chain.clear();
         assertTrue(chain.isEmpty());           // Should be empty again after clear
+    }
+
+    /**
+     * Test insertion of duplicate keys.
+     * Confirms that duplicates are allowed and counted.
+     */
+    @Test
+    public void testDuplicateKeyInsertion() {
+        Stack<ChainedNode> pool = makeNodePool(3);
+        LinkedListChain chain = new LinkedListChain(pool);
+
+        chain.insert(55);
+        chain.insert(55);
+        chain.insert(55);  // Same key inserted 3 times
+
+        assertEquals(3, chain.size(), "All duplicates should be stored.");
+        assertTrue(chain.search(55), "Duplicate key should be searchable.");
     }
 }
