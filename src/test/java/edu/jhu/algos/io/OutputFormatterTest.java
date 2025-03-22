@@ -64,8 +64,7 @@ public class OutputFormatterTest {
                 "linear",
                 table,
                 keys,
-                OUTPUT_FILE_PROBING,
-                true // Enable debug mode
+                OUTPUT_FILE_PROBING
         );
 
         File file = new File(OUTPUT_FILE_PROBING);
@@ -102,8 +101,7 @@ public class OutputFormatterTest {
                 "chaining",
                 table,
                 keys,
-                OUTPUT_FILE_CHAINING,
-                true // Enable debug mode
+                OUTPUT_FILE_CHAINING
         );
 
         File file = new File(OUTPUT_FILE_CHAINING);
@@ -133,8 +131,7 @@ public class OutputFormatterTest {
                         "linear",
                         null,     // null hash table
                         null,     // null keys
-                        OUTPUT_FILE_NULL_INPUT,
-                        true      // debug on for visibility
+                        OUTPUT_FILE_NULL_INPUT
                 )
         );
     }

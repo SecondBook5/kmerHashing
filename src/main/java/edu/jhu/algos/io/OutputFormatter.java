@@ -31,7 +31,6 @@ public class OutputFormatter {
      * @param table            The populated hash table.
      * @param keys             Original input list of keys to insert.
      * @param outputFile       Path to the output file to write.
-     * @param debug            If true, output is also mirrored to the console.
      */
     public static void writeOutput(
             int schemeNumber,
@@ -42,8 +41,7 @@ public class OutputFormatter {
             String strategy,
             HashTable table,
             List<Integer> keys,
-            String outputFile,
-            boolean debug
+            String outputFile
     ) {
         // Defensive check: ensure input parameters are not null
         if (table == null || keys == null || outputFile == null) {
@@ -82,7 +80,7 @@ public class OutputFormatter {
             if (keys.size() % 5 != 0) inputBlock.append("\n");
 
             writer.write(inputBlock.toString()); // write to file
-            if (debug) System.out.print(inputBlock); // mirror to console
+            System.out.print(inputBlock);        // mirror to console
 
             // --------------------------------------------
             // 2. Echo the scheme's configuration settings
@@ -97,7 +95,7 @@ public class OutputFormatter {
             );
 
             writer.write(configLine);
-            if (debug) System.out.print(configLine);
+            System.out.print(configLine);
 
             // --------------------------------------------
             // 3. Print performance metrics from the hash table
@@ -121,7 +119,7 @@ public class OutputFormatter {
             );
 
             writer.write(statsLine);
-            if (debug) System.out.print(statsLine);
+            System.out.print(statsLine);
 
             // --------------------------------------------
             // 4. Print the contents of the hash table
@@ -146,7 +144,7 @@ public class OutputFormatter {
                     }
 
                     writer.write(chainLine);
-                    if (debug) System.out.print(chainLine);
+                    System.out.print(chainLine);
                 }
 
             } else {
@@ -162,7 +160,7 @@ public class OutputFormatter {
                     if ((i + 1) % 5 == 0 || i == rawTable.length - 1) {
                         line.append("\n");
                         writer.write(line.toString());
-                        if (debug) System.out.print(line);
+                        System.out.print(line);
                         line.setLength(0); // clear the buffer
                     }
                 }
