@@ -144,4 +144,34 @@ public class LinkedListChainTest {
         assertEquals(3, chain.size(), "All duplicates should be stored.");
         assertTrue(chain.search(55), "Duplicate key should be searchable.");
     }
+
+    /**
+     * Test the toString() method returns correct formatted chain representation.
+     */
+    @Test
+    public void testToStringOutput() {
+        Stack<ChainedNode> pool = makeNodePool(3);
+        LinkedListChain chain = new LinkedListChain(pool);
+
+        chain.insert(100);
+        chain.insert(200);
+        chain.insert(300);  // Head of list is 300
+
+        String result = chain.toString();
+        assertTrue(result.startsWith("300 -> 200 -> 100 -> "), "Chain should be ordered LIFO.");
+        assertTrue(result.endsWith("None"), "Chain should end with 'None'.");
+        assertEquals("300 -> 200 -> 100 -> None", result);
+    }
+
+    @Test
+    public void testToStringAfterClear() {
+        Stack<ChainedNode> pool = makeNodePool(2);
+        LinkedListChain chain = new LinkedListChain(pool);
+
+        chain.insert(1);
+        chain.insert(2);
+        chain.clear();
+
+        assertEquals("None", chain.toString(), "After clear, toString() should return 'None'.");
+    }
 }

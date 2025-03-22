@@ -182,4 +182,20 @@ public class DivisionHashTable extends HashTable {
         }
         return chainTable[index];
     }
+
+    /**
+     * Returns the raw internal table array for use by OutputFormatter.
+     * - For chaining, returns the LinkedListChain[] array.
+     * - For probing, returns the standard Integer[] table.
+     *
+     * @return The internal structure (used for console/file output formatting).
+     */
+    @Override
+    public Object[] getRawTable() {
+        if (strategy.equals("chaining")) {
+            return chainTable;
+        } else {
+            return table;
+        }
+    }
 }

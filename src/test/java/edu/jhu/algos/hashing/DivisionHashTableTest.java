@@ -2,6 +2,7 @@ package edu.jhu.algos.hashing;
 
 import edu.jhu.algos.utils.PerformanceMetrics;
 import org.junit.jupiter.api.Test;
+import edu.jhu.algos.data_structures.LinkedListChain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -226,4 +227,29 @@ public class DivisionHashTableTest {
 
         assertEquals(expectedLoad, actualLoad, 0.0001, "Load factor should equal insertions / table size.");
     }
+
+    /**
+     * Test that getRawTable() returns correct internal structure based on strategy.
+     */
+    @Test
+    public void testGetRawTableReturnsCorrectStructure() {
+        // Case 1: Linear Probing (should return Integer[])
+        DivisionHashTable linearTable = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+        Object[] rawLinear = linearTable.getRawTable();
+        assertNotNull(rawLinear, "Raw table for linear probing should not be null.");
+        assertInstanceOf(Integer[].class, rawLinear, "Linear strategy should return Integer[] from getRawTable().");
+
+        // Case 2: Quadratic Probing (also returns Integer[])
+        DivisionHashTable quadTable = new DivisionHashTable(10, 1, 10, "quadratic", DEBUG);
+        Object[] rawQuadratic = quadTable.getRawTable();
+        assertNotNull(rawQuadratic, "Raw table for quadratic probing should not be null.");
+        assertInstanceOf(Integer[].class, rawQuadratic, "Quadratic strategy should return Integer[] from getRawTable().");
+
+        // Case 3: Chaining (should return LinkedListChain[])
+        DivisionHashTable chainTable = new DivisionHashTable(10, 1, 10, "chaining", DEBUG);
+        Object[] rawChaining = chainTable.getRawTable();
+        assertNotNull(rawChaining, "Raw table for chaining should not be null.");
+        assertInstanceOf(LinkedListChain[].class, rawChaining, "Chaining strategy should return LinkedListChain[] from getRawTable().");
+    }
+
 }

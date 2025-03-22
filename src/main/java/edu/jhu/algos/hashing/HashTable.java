@@ -119,4 +119,22 @@ public abstract class HashTable {
         System.out.println("Execution Time: " + metrics.getElapsedTimeMs() + " ms");
         System.out.println("Memory Usage: " + metrics.getMemoryUsageMB() + " MB");
     }
+
+    /**
+     * Returns the performance metrics associated with this hash table.
+     *
+     * @return PerformanceMetrics object tracking efficiency and statistics.
+     */
+    public PerformanceMetrics getMetrics() {
+        return this.metrics;
+    }
+
+    /**
+     * Provides access to the raw table array for output formatting.
+     *
+     * @return The internal table array as an Object array.
+     */
+    public Object[] getRawTable() {
+        return this.table;
+    }
 }

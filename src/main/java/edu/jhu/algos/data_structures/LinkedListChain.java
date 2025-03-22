@@ -118,4 +118,26 @@ public class LinkedListChain {
 
         head = null; // Clear the head reference
     }
+    /**
+     * Returns a string representation of the chain in the format:
+     * key1 -> key2 -> ... -> None
+     *
+     * This is used by OutputFormatter to format chaining-aware output.
+     *
+     * @return A string representing the full chain from head to tail.
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        ChainedNode current = head;
+
+        // Traverse the chain and build the string
+        while (current != null) {
+            sb.append(current.key).append(" -> ");
+            current = current.next;
+        }
+
+        sb.append("None");
+        return sb.toString();
+    }
 }
