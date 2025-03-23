@@ -125,6 +125,66 @@ public class DivisionHashTable extends HashTable {
     }
 
     /**
+     * Searches for a key in the hash table using the configured strategy.
+     *
+     * @param key The integer key to locate.
+     * @return True if the key is found; false otherwise.
+     */
+    @Override
+    public boolean search(int key) {
+        int index = hash(key);  // Compute the initial index using division hashing
+
+        switch (strategy) {
+            case "linear":
+                // Linear probing: move forward until key is found or empty slot
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (index + i) % tableSize;
+
+                    metrics.addComparison();  // Track each lookup attempt
+
+                    if (table[probeIndex] == null) {
+                        return false;  // Stop search on empty slot
+                    }
+                    if (table[probeIndex].equals(key)) {
+                        return true;  // Key match found
+                    }
+                }
+                return false;  // Searched full table without match
+
+            case "quadratic":
+                // Quadratic probing with constants c1 = 0.5, c2 = 0.5
+                double c1 = 0.5;
+                double c2 = 0.5;
+
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
+                    if (probeIndex < 0) {
+                        probeIndex = Math.floorMod(probeIndex, tableSize);
+                    }
+
+                    metrics.addComparison();  // Count comparison
+
+                    if (table[probeIndex] == null) {
+                        return false;  // Stop search on empty slot
+                    }
+                    if (table[probeIndex].equals(key)) {
+                        return true;  // Key match found
+                    }
+                }
+                return false;  // No match found after all attempts
+
+            case "chaining":
+                // Search within the linked list chain at the computed index
+                metrics.addComparison();  // One list traversal is one comparison unit
+                return chainTable[index].search(key);  // Delegate to linked list chain
+
+            default:
+                throw new IllegalStateException("Unknown strategy for search: " + strategy);
+        }
+    }
+
+
+    /**
      * Prints the contents of the hash table to the console.
      * - For chaining, prints linked list chains at each index.
      * - For probing, defers to the formatting logic in HashTable.

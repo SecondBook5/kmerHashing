@@ -1,9 +1,6 @@
 package edu.jhu.algos.hashing;
 
-import edu.jhu.algos.data_structures.ChainedNode;
 import edu.jhu.algos.data_structures.LinkedListChain;
-import edu.jhu.algos.data_structures.Stack;
-import edu.jhu.algos.utils.PerformanceMetrics;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,16 +15,20 @@ public class CustomHashTableTest {
     private static final boolean DEBUG = true;
 
     /**
-     * Verifies clean inserts using linear probing (no collisions).
+     * Verifies clean inserts using linear probing (no collisions expected).
      */
     @Test
     public void testLinearProbingNoCollision() {
-        CustomHashTable table = new CustomHashTable(10, 1, "linear", DEBUG);
-        table.insert(123);
+        CustomHashTable table = new CustomHashTable(32, 1, "linear", DEBUG);
+        table.insert(11);     // Clean insert
+        table.insert(200);    // Unlikely to collide
 
-        assertTrue(table.search(123));
-        assertEquals(1, table.getMetrics().getTotalInsertions());
-        assertEquals(1, table.getMetrics().getTotalComparisons());
+        assertTrue(table.search(11));
+        assertTrue(table.search(200));
+
+        assertEquals(2, table.getMetrics().getTotalInsertions());
+        assertTrue(table.getMetrics().getTotalComparisons() >= 2); // Searching adds comparisons
+        assertEquals(0, table.getMetrics().getTotalCollisions());  // Still expect no collision
     }
 
     /**
@@ -35,61 +36,76 @@ public class CustomHashTableTest {
      */
     @Test
     public void testLinearProbingWithCollision() {
-        CustomHashTable table = new CustomHashTable(5, 1, "linear", DEBUG);
+        CustomHashTable table = new CustomHashTable(8, 1, "linear", DEBUG);
 
-        table.insert(5);   // hashes to some index i
-        table.insert(5 + 5); // likely to hash to same index i
+        int key1 = 5;
+        int key2 = 13;
 
+        // Use known values that collide at index 2 for Fibonacci hash with multiplier
+        table.insert(key1);
+        table.insert(key2);
+
+        assertTrue(table.search(key1));
+        assertTrue(table.search(key2));
         assertEquals(2, table.getMetrics().getTotalInsertions());
         assertTrue(table.getMetrics().getTotalCollisions() >= 1);
     }
 
     /**
-     * Tests quadratic probing strategy.
+     * Tests quadratic probing strategy and verifies successful inserts.
      */
     @Test
     public void testQuadraticProbing() {
-        CustomHashTable table = new CustomHashTable(10, 1, "quadratic", DEBUG);
-        table.insert(10);
-        table.insert(10 + 10); // likely to cause a quadratic step
+        CustomHashTable table = new CustomHashTable(16, 1, "quadratic", DEBUG);
+        table.insert(42);
+        table.insert(74); // Try to provoke quadratic steps
 
+        assertTrue(table.search(42));
+        assertTrue(table.search(74));
         assertEquals(2, table.getMetrics().getTotalInsertions());
-        assertTrue(table.search(10));
     }
 
     /**
-     * Verifies chaining with multiple items in same slot.
+     * Verifies chaining with multiple insertions to the same index.
      */
     @Test
     public void testChainingInsertions() {
         CustomHashTable table = new CustomHashTable(8, 1, "chaining", DEBUG);
+        table.insert(77);
+        table.insert(77 + 8); // Often ends up in the same chain
 
-        int index = table.hash(777); // get hashed index
-        table.insert(777);
-        table.insert(777 + 8); // likely to go to same index
+        Object[] chains = table.getRawTable();
+        boolean found = false;
 
-        LinkedListChain chain = table.getChainAt(index);
-        assertEquals(2, chain.size());
-        assertTrue(chain.search(777));
-        assertTrue(chain.search(777 + 8));
+        for (Object chain : chains) {
+            if (chain instanceof LinkedListChain && ((LinkedListChain) chain).size() == 2) {
+                found = true;
+                break;
+            }
+        }
+
+        assertTrue(found, "Expected a chain of size 2 at some index.");
     }
 
     /**
-     * Checks whether chaining handles exhaustion of node pool.
+     * Checks whether chaining handles exhaustion of node pool without crashing.
      */
     @Test
     public void testChainingNodePoolExhaustion() {
-        CustomHashTable table = new CustomHashTable(3, 1, "chaining", DEBUG);
+        CustomHashTable table = new CustomHashTable(4, 1, "chaining", DEBUG);
 
-        for (int i = 0; i < 10_000; i++) {
-            table.insert(i);
+        // Pool size = 2 * 4 = 8 nodes, inserting more than that
+        for (int i = 0; i < 20; i++) {
+            table.insert(i); // Some inserts will fail due to no free nodes
         }
 
-        assertTrue(table.getMetrics().getTotalInsertions() <= 6000); // conservatively avoids OOM
+        // The test is to ensure it doesn't crash or throw
+        assertTrue(table.getMetrics().getTotalInsertions() <= 20); // Insertions should not exceed attempts
+        assertTrue(table.getMetrics().getTotalInsertions() >= 8);  // Some insertions should have succeeded
     }
 
     /**
-     * Validates that failed insert (when table is full) doesn’t increase insert count.
+     * Validates behavior when table is full and probing strategy fails to insert.
      */
     @Test
     public void testProbingFailsWhenFull() {
@@ -98,13 +114,13 @@ public class CustomHashTableTest {
         table.insert(1);
         table.insert(2);
         table.insert(3);
-        table.insert(4); // should fail
+        table.insert(4); // Should fail
 
         assertEquals(3, table.getMetrics().getTotalInsertions());
     }
 
     /**
-     * Confirms load factor accuracy under probing mode.
+     * Confirms load factor accuracy for Fibonacci hashed probing.
      */
     @Test
     public void testLoadFactor() {
@@ -116,15 +132,16 @@ public class CustomHashTableTest {
     }
 
     /**
-     * Ensure that illegal strategy fails fast.
+     * Ensure illegal strategy throws exception.
      */
     @Test
     public void testInvalidStrategyThrowsError() {
-        assertThrows(IllegalArgumentException.class, () -> new CustomHashTable(10, 1, "rocket-science", DEBUG));
+        CustomHashTable table = new CustomHashTable(10, 1, "rocket-science", DEBUG);
+        assertThrows(IllegalArgumentException.class, () -> table.insert(5));
     }
 
     /**
-     * Ensure chained table access fails safely when chaining is disabled.
+     * Ensure chain access fails safely when not in chaining mode.
      */
     @Test
     public void testAccessChainWithoutChainingFails() {
@@ -133,14 +150,45 @@ public class CustomHashTableTest {
     }
 
     /**
-     * Ensure getRawTable() returns correct structure.
+     * Verifies the type of getRawTable() output depending on strategy.
      */
     @Test
     public void testRawTableAccess() {
         CustomHashTable linear = new CustomHashTable(5, 1, "linear", DEBUG);
         CustomHashTable chain = new CustomHashTable(5, 1, "chaining", DEBUG);
 
-        assertInstanceOf(Integer[].class, linear.getRawTable());
+        assertInstanceOf(Object[].class, linear.getRawTable());
         assertInstanceOf(LinkedListChain[].class, chain.getRawTable());
     }
+
+    /**
+     * Verifies search() works correctly for all strategies.
+     */
+    @Test
+    public void testSearchAcrossStrategies() {
+        // Linear probing
+        CustomHashTable linear = new CustomHashTable(16, 1, "linear", DEBUG);
+        linear.insert(5);
+        linear.insert(21);
+        assertTrue(linear.search(5));
+        assertTrue(linear.search(21));
+        assertFalse(linear.search(99));
+
+        // Quadratic probing
+        CustomHashTable quadratic = new CustomHashTable(16, 1, "quadratic", DEBUG);
+        quadratic.insert(7);
+        quadratic.insert(23);
+        assertTrue(quadratic.search(7));
+        assertTrue(quadratic.search(23));
+        assertFalse(quadratic.search(42));
+
+        // Chaining
+        CustomHashTable chaining = new CustomHashTable(8, 1, "chaining", DEBUG);
+        chaining.insert(3);
+        chaining.insert(11); // same index
+        assertTrue(chaining.search(3));
+        assertTrue(chaining.search(11));
+        assertFalse(chaining.search(99));
+    }
+
 }

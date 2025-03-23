@@ -59,15 +59,7 @@ public abstract class HashTable {
      * @param key The integer key to find.
      * @return True if the key is found, otherwise false.
      */
-    public boolean search(int key) {
-        for (int i = 0; i < tableSize; i++) {
-            metrics.addComparison(); // Track each lookup attempt
-            if (table[i] != null && table[i] == key) {
-                return true; // Key found
-            }
-        }
-        return false; // Key not found
-    }
+    public abstract boolean search(int key);
 
     /**
      * Clears the hash table by resetting all values to empty.

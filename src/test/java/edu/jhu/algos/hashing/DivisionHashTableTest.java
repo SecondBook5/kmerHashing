@@ -252,4 +252,33 @@ public class DivisionHashTableTest {
         assertInstanceOf(LinkedListChain[].class, rawChaining, "Chaining strategy should return LinkedListChain[] from getRawTable().");
     }
 
+    /**
+     * Test that search() correctly finds inserted keys using all strategies.
+     */
+    @Test
+    public void testSearchFunctionalityAcrossStrategies() {
+        // Linear Probing
+        DivisionHashTable linear = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+        linear.insert(3);
+        linear.insert(13);
+        assertTrue(linear.search(3), "Should find key 3 in linear probing.");
+        assertTrue(linear.search(13), "Should find key 13 in linear probing.");
+        assertFalse(linear.search(99), "Should not find key 99 in linear probing.");
+
+        // Quadratic Probing
+        DivisionHashTable quadratic = new DivisionHashTable(10, 1, 10, "quadratic", DEBUG);
+        quadratic.insert(4);
+        quadratic.insert(14);
+        assertTrue(quadratic.search(4), "Should find key 4 in quadratic probing.");
+        assertTrue(quadratic.search(14), "Should find key 14 in quadratic probing.");
+        assertFalse(quadratic.search(100), "Should not find key 100 in quadratic probing.");
+
+        // Chaining
+        DivisionHashTable chaining = new DivisionHashTable(10, 1, 10, "chaining", DEBUG);
+        chaining.insert(5);
+        chaining.insert(15); // same bucket
+        assertTrue(chaining.search(5), "Should find key 5 in chaining.");
+        assertTrue(chaining.search(15), "Should find key 15 in chaining.");
+        assertFalse(chaining.search(200), "Should not find key 200 in chaining.");
+    }
 }

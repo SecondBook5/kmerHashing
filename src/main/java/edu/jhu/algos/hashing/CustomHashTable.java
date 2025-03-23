@@ -24,8 +24,9 @@ public class CustomHashTable extends HashTable {
     private static final double PHI = (1 + Math.sqrt(5)) / 2;
 
     // Compute the multiplicative constant for Fibonacci hashing: ⌊2^64 / φ⌋
-    // We use unsigned multiplication via long, so this constant must fit within a long
-    private static final long FIBONACCI_MULTIPLIER = (long) (Math.pow(2, 64) / PHI);
+    // This value is precomputed and must be less than Long.MAX_VALUE
+    // Fibonacci multiplier constant = 2^64 / φ, interpreted as unsigned (0x9E3779B97F4A7C15)
+    private static final long FIBONACCI_MULTIPLIER = 0x9E3779B97F4A7C15L;
 
     /**
      * Constructor for the custom hash table.
@@ -74,20 +75,26 @@ public class CustomHashTable extends HashTable {
 
     /**
      * Implements Fibonacci hashing using Knuth's multiplicative method.
+     * Maps a key into the hash table using multiplication and modulo.
      *
      * @param key The key to hash.
      * @return An index in the range [0, tableSize).
      */
     @Override
     protected int hash(int key) {
-        // Convert to positive (if needed)
+        // Ensure non-negative key by converting to absolute long
         long k = Math.abs((long) key);
 
-        // Multiply using Fibonacci constant and shift to get the top bits
-        long hashValue = (FIBONACCI_MULTIPLIER * k);
+        // Perform Fibonacci multiplication
+        long hashValue = k * FIBONACCI_MULTIPLIER;
 
-        // Use unsigned right shift to keep only the top bits, then mod table size
-        int index = (int) ((hashValue >>> (64 - Integer.numberOfTrailingZeros(tableSize))) % tableSize);
+        // Use modulo with table size (not a power of 2)
+        int index = (int) (hashValue % tableSize);
+
+        // Defensive clamp to ensure index is always within bounds
+        if (index < 0 || index >= tableSize) {
+            index = Math.floorMod(index, tableSize);
+        }
 
         if (debug) {
             System.out.printf("[DEBUG] Hashed key %d → index %d using Fibonacci hashing%n", key, index);
@@ -129,6 +136,56 @@ public class CustomHashTable extends HashTable {
                 throw new IllegalArgumentException("Unknown strategy: " + strategy);
         }
     }
+
+    /**
+     * Searches for a key in the hash table.
+     *
+     * @param key The key to locate in the hash table.
+     * @return True if the key is found; false otherwise.
+     */
+    @Override
+    public boolean search(int key) {
+        int index = hash(key);  // Compute the initial index using Fibonacci hashing
+
+        switch (strategy) {
+            case "linear":
+                // Perform linear probing until key is found or slot is null
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (index + i) % tableSize;
+
+                    metrics.addComparison(); // Track each access
+                    if (table[probeIndex] == null) return false; // Stop if empty slot
+                    if (table[probeIndex].equals(key)) return true; // Match found
+                }
+                return false; // Key not found after probing entire table
+
+            case "quadratic":
+                // Perform quadratic probing using formula: (index + c1*i + c2*i^2) % tableSize
+                double c1 = 0.5;
+                double c2 = 0.5;
+
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
+
+                    metrics.addComparison(); // Track lookup
+                    if (probeIndex < 0) probeIndex = Math.floorMod(probeIndex, tableSize);
+
+                    if (table[probeIndex] == null) return false; // Stop if empty
+                    if (table[probeIndex].equals(key)) return true; // Found match
+                }
+                return false; // Key not found
+
+            case "chaining":
+                // Use linked list search at computed index
+                LinkedListChain chain = chainTable[index];
+                metrics.addComparison(); // Count as a single chained access
+                return chain.search(key); // Delegate search to linked list
+
+            default:
+                throw new IllegalStateException("Unsupported strategy: " + strategy);
+        }
+    }
+
 
     /**
      * Returns either the Integer[] table (probing) or LinkedListChain[] (chaining).
