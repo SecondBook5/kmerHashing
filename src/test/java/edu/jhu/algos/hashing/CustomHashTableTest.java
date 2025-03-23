@@ -1,5 +1,6 @@
 package edu.jhu.algos.hashing;
 
+import edu.jhu.algos.utils.PerformanceMetrics;
 import edu.jhu.algos.data_structures.LinkedListChain;
 import org.junit.jupiter.api.Test;
 
@@ -191,4 +192,31 @@ public class CustomHashTableTest {
         assertFalse(chaining.search(99));
     }
 
+    /**
+     * Tests quadratic probing with custom c1 and c2 values.
+     * Verifies that custom constants lead to valid probing behavior.
+     */
+    @Test
+    public void testQuadraticProbingWithCustomC1C2() {
+        double c1 = 1.0;
+        double c2 = 1.0;
+
+        // Use a small table to increase the chance of collision
+        CustomHashTable table = new CustomHashTable(7, 1, "quadratic", DEBUG, c1, c2);
+
+        // Force both keys to hash to the same slot
+        int firstKey = 3;
+        int secondKey = 74; // Should collide with key 3 due to hash(3) ≡ hash(74)
+
+        table.insert(firstKey);
+        table.insert(secondKey);
+
+        assertTrue(table.search(firstKey), "First key should be inserted and found.");
+        assertTrue(table.search(secondKey), "Second key should be inserted via probing.");
+
+        PerformanceMetrics metrics = table.getMetrics();
+        assertEquals(2, metrics.getTotalInsertions(), "Should insert both keys.");
+        assertTrue(metrics.getTotalProbes() >= 1, "Expected probing due to collision.");
+        assertTrue(metrics.getTotalCollisions() >= 1, "Expected collision due to same home index.");
+    }
 }

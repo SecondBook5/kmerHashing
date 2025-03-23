@@ -281,4 +281,29 @@ public class DivisionHashTableTest {
         assertTrue(chaining.search(15), "Should find key 15 in chaining.");
         assertFalse(chaining.search(200), "Should not find key 200 in chaining.");
     }
+
+    /**
+     * Test quadratic probing with custom c1 and c2 values.
+     */
+    @Test
+    public void testQuadraticProbingWithCustomC1C2() {
+        // Use distinct constants for variation
+        double customC1 = 1.0;
+        double customC2 = 1.0;
+
+        // Create a table with the overloaded constructor
+        DivisionHashTable table = new DivisionHashTable(10, 1, 10, "quadratic", DEBUG, customC1, customC2);
+
+        table.insert(2);   // Expect to hash to index 2
+        table.insert(12);  // Same index → should probe based on custom formula
+
+        // Validate that both keys are in table
+        assertTrue(table.search(2), "Should find key 2.");
+        assertTrue(table.search(12), "Should find key 12.");
+
+        PerformanceMetrics metrics = table.metrics;
+        assertEquals(2, metrics.getTotalInsertions());
+        assertTrue(metrics.getTotalComparisons() >= 2);
+        assertTrue(metrics.getTotalProbes() >= 1);
+    }
 }

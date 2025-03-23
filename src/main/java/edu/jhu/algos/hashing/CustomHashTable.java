@@ -17,8 +17,10 @@ public class CustomHashTable extends HashTable {
     private final String strategy;     // Collision handling strategy: "linear", "quadratic", or "chaining"
     private final boolean debug;       // Debug flag for console output
 
+    private final double c1;           // Quadratic probing constant (linear term)
+    private final double c2;           // Quadratic probing constant (quadratic term)
+
     private LinkedListChain[] chainTable; // Used only if chaining strategy is enabled
-    private Stack<ChainedNode> nodePool;  // Shared pool of reusable nodes for chaining
 
     // Compute golden ratio φ = (1 + √5) / 2 as a double
     private static final double PHI = (1 + Math.sqrt(5)) / 2;
@@ -37,9 +39,25 @@ public class CustomHashTable extends HashTable {
      * @param debug       Enable or disable debug logging
      */
     public CustomHashTable(int tableSize, int bucketSize, String strategy, boolean debug) {
+        this(tableSize, bucketSize, strategy, debug, 0.5, 0.5);  // default c1, c2
+    }
+
+    /**
+     * Extended constructor to allow custom c1 and c2 for quadratic probing.
+     *
+     * @param tableSize   Size of the hash table
+     * @param bucketSize  1 or 3 (formatting only)
+     * @param strategy    "linear", "quadratic", or "chaining"
+     * @param debug       Enable debug mode
+     * @param c1          Linear coefficient for quadratic probing
+     * @param c2          Quadratic coefficient for quadratic probing
+     */
+    public CustomHashTable(int tableSize, int bucketSize, String strategy, boolean debug, double c1, double c2) {
         super(tableSize, bucketSize);           // Call base class constructor to initialize the table and metrics
         this.strategy = strategy.toLowerCase(); // Normalize strategy string to lowercase
         this.debug = debug;                     // Set debug flag
+        this.c1 = c1;
+        this.c2 = c2;
         this.metrics.setTableSize(tableSize);   // Pass table size to metrics to enable load factor calculation
 
         // Initialize node pool and linked list array if using chaining
@@ -56,7 +74,8 @@ public class CustomHashTable extends HashTable {
      */
     private void initChainingSupport() {
         this.chainTable = new LinkedListChain[tableSize]; // Allocate linked list chain array
-        this.nodePool = new Stack<>();                    // Create a stack to hold reusable node objects
+        // Shared pool of reusable nodes for chaining
+        Stack<ChainedNode> nodePool = new Stack<>();                    // Create a stack to hold reusable node objects
 
         // Preallocate 2× the number of slots to cover worst-case chaining scenarios
         for (int i = 0; i < tableSize * 2; i++) {
@@ -125,7 +144,7 @@ public class CustomHashTable extends HashTable {
 
             case "quadratic":
                 ProbingStrategy.insertWithProbing(
-                        table, key, index, tableSize, true, metrics, 0.5, 0.5, debug);
+                        table, key, index, tableSize, true, metrics, c1, c2, debug);
                 break;
 
             case "chaining":
@@ -160,10 +179,6 @@ public class CustomHashTable extends HashTable {
                 return false; // Key not found after probing entire table
 
             case "quadratic":
-                // Perform quadratic probing using formula: (index + c1*i + c2*i^2) % tableSize
-                double c1 = 0.5;
-                double c2 = 0.5;
-
                 for (int i = 0; i < tableSize; i++) {
                     int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
 
@@ -179,13 +194,12 @@ public class CustomHashTable extends HashTable {
                 // Use linked list search at computed index
                 LinkedListChain chain = chainTable[index];
                 metrics.addComparison(); // Count as a single chained access
-                return chain.search(key); // Delegate search to linked list
+                return chain.search(key);
 
             default:
                 throw new IllegalStateException("Unsupported strategy: " + strategy);
         }
     }
-
 
     /**
      * Returns either the Integer[] table (probing) or LinkedListChain[] (chaining).

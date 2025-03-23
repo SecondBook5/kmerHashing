@@ -14,15 +14,16 @@ import edu.jhu.algos.data_structures.ChainedNode;
  */
 public class DivisionHashTable extends HashTable {
 
-    private final int modValue;        // Divisor used in division hashing
-    private final String strategy;     // Strategy: "linear", "quadratic", or "chaining"
-    private final boolean debug;       // Whether to print debug output
+    private final int modValue;         // Divisor used in division hashing
+    private final String strategy;      // Strategy: "linear", "quadratic", or "chaining"
+    private final boolean debug;        // Whether to print debug output
+    private final double c1;            // Coefficient for linear term in quadratic probing
+    private final double c2;            // Coefficient for quadratic term in quadratic probing
 
     private LinkedListChain[] chainTable;  // Used only if strategy is "chaining"
-    private Stack<ChainedNode> nodePool;   // Shared node pool for memory-efficient chaining
 
     /**
-     * Constructor for DivisionHashTable.
+     * Constructor for DivisionHashTable with default quadratic constants.
      *
      * @param tableSize   Total number of slots in the table (typically 120).
      * @param bucketSize  Size of each bucket (1 or 3).
@@ -31,12 +32,29 @@ public class DivisionHashTable extends HashTable {
      * @param debug       Whether to enable debug output.
      */
     public DivisionHashTable(int tableSize, int bucketSize, int modValue, String strategy, boolean debug) {
+        this(tableSize, bucketSize, modValue, strategy, debug, 0.5, 0.5);  // Default to 0.5
+    }
+
+    /**
+     * Overloaded constructor for DivisionHashTable with customizable c1 and c2.
+     *
+     * @param tableSize   Total number of slots in the table.
+     * @param bucketSize  Size of each bucket (1 or 3).
+     * @param modValue    Modulo divisor.
+     * @param strategy    Probing strategy: linear, quadratic, or chaining.
+     * @param debug       Enable verbose output.
+     * @param c1          c1 coefficient for quadratic probing.
+     * @param c2          c2 coefficient for quadratic probing.
+     */
+    public DivisionHashTable(int tableSize, int bucketSize, int modValue, String strategy, boolean debug, double c1, double c2) {
         super(tableSize, bucketSize);         // Call superclass constructor
         this.modValue = modValue;             // Store modulo value for hashing
         this.strategy = strategy.toLowerCase(); // Normalize strategy for comparison
         this.debug = debug;
+        this.c1 = c1;
+        this.c2 = c2;
 
-        this.metrics.setTableSize(tableSize); // ▶ Enable load factor tracking
+        this.metrics.setTableSize(tableSize); // Enable load factor tracking
 
         // If chaining strategy is chosen, initialize linked lists and node pool
         if (this.strategy.equals("chaining")) {
@@ -54,7 +72,8 @@ public class DivisionHashTable extends HashTable {
      */
     private void initChainingSupport() {
         this.chainTable = new LinkedListChain[tableSize];
-        this.nodePool = new Stack<>();
+        // Shared node pool for memory-efficient chaining
+        Stack<ChainedNode> nodePool = new Stack<>();
 
         // Preallocate 2× the number of table slots for chaining nodes
         for (int i = 0; i < tableSize * 2; i++) {
@@ -101,6 +120,10 @@ public class DivisionHashTable extends HashTable {
 
         if (debug) {
             System.out.printf("[DEBUG] Inserting key %d using strategy: %s%n", key, strategy);
+
+            if (strategy.equals("quadratic")) {
+                System.out.printf("[DEBUG] Quadratic probing parameters: c1 = %.2f, c2 = %.2f%n", c1, c2);
+            }
         }
 
         // Route to the appropriate collision handling method
@@ -112,7 +135,7 @@ public class DivisionHashTable extends HashTable {
 
             case "quadratic":
                 ProbingStrategy.insertWithProbing(
-                        table, key, index, tableSize, true, metrics, 0.5, 0.5, debug);
+                        table, key, index, tableSize, true, metrics, c1, c2, debug);
                 break;
 
             case "chaining":
@@ -134,61 +157,34 @@ public class DivisionHashTable extends HashTable {
     public boolean search(int key) {
         int index = hash(key);  // Compute the initial index using division hashing
 
-        switch (strategy) {
-            case "linear":
-                // Linear probing: move forward until key is found or empty slot
+        return switch (strategy) {
+            case "linear" -> {
                 for (int i = 0; i < tableSize; i++) {
                     int probeIndex = (index + i) % tableSize;
-
-                    metrics.addComparison();  // Track each lookup attempt
-
-                    if (table[probeIndex] == null) {
-                        return false;  // Stop search on empty slot
-                    }
-                    if (table[probeIndex].equals(key)) {
-                        return true;  // Key match found
-                    }
+                    metrics.addComparison();
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
                 }
-                return false;  // Searched full table without match
-
-            case "quadratic":
-                // Quadratic probing with constants c1 = 0.5, c2 = 0.5
-                double c1 = 0.5;
-                double c2 = 0.5;
-
+                yield false;
+            }
+            case "quadratic" -> {
                 for (int i = 0; i < tableSize; i++) {
                     int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
-                    if (probeIndex < 0) {
-                        probeIndex = Math.floorMod(probeIndex, tableSize);
-                    }
-
-                    metrics.addComparison();  // Count comparison
-
-                    if (table[probeIndex] == null) {
-                        return false;  // Stop search on empty slot
-                    }
-                    if (table[probeIndex].equals(key)) {
-                        return true;  // Key match found
-                    }
+                    if (probeIndex < 0) probeIndex = Math.floorMod(probeIndex, tableSize);
+                    metrics.addComparison();
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
                 }
-                return false;  // No match found after all attempts
-
-            case "chaining":
-                // Search within the linked list chain at the computed index
-                metrics.addComparison();  // One list traversal is one comparison unit
-                return chainTable[index].search(key);  // Delegate to linked list chain
-
-            default:
-                throw new IllegalStateException("Unknown strategy for search: " + strategy);
-        }
+                yield false;
+            }
+            case "chaining" -> {
+                metrics.addComparison();
+                yield chainTable[index].search(key);
+            }
+            default -> throw new IllegalStateException("Unknown strategy for search: " + strategy);
+        };
     }
 
-
-    /**
-     * Prints the contents of the hash table to the console.
-     * - For chaining, prints linked list chains at each index.
-     * - For probing, defers to the formatting logic in HashTable.
-     */
     @Override
     public void printTable() {
         if (debug) {
@@ -196,31 +192,26 @@ public class DivisionHashTable extends HashTable {
         }
 
         if (strategy.equals("chaining")) {
-            // Print one line per chained slot
             for (int i = 0; i < tableSize; i++) {
                 System.out.printf("%2d ", i);
-                chainTable[i].printChain();  // Custom print for chaining
+                chainTable[i].printChain();
             }
         } else {
-            super.printTable();  // Use inherited format for probing tables
+            super.printTable();
         }
     }
 
-    /**
-     * Clears the table contents and resets performance metrics.
-     * - If chaining, also returns all nodes to the node pool.
-     */
     @Override
     public void clearTable() {
         if (debug) {
             System.out.println("[DEBUG] Clearing hash table and resetting metrics...");
         }
 
-        super.clearTable();  // Reset array and metrics
+        super.clearTable();
 
         if (strategy.equals("chaining")) {
             for (int i = 0; i < tableSize; i++) {
-                chainTable[i].clear();  // Clear each list and return nodes to pool
+                chainTable[i].clear();
             }
 
             if (debug) {
@@ -229,13 +220,6 @@ public class DivisionHashTable extends HashTable {
         }
     }
 
-    /**
-     * Public accessor for retrieving a specific chain for testing.
-     *
-     * @param index The index of the chain in the table.
-     * @return The LinkedListChain at that index.
-     * @throws IllegalStateException if chaining is not enabled.
-     */
     public LinkedListChain getChainAt(int index) {
         if (!strategy.equals("chaining")) {
             throw new IllegalStateException("Chaining is not enabled for this hash table.");
@@ -243,19 +227,8 @@ public class DivisionHashTable extends HashTable {
         return chainTable[index];
     }
 
-    /**
-     * Returns the raw internal table array for use by OutputFormatter.
-     * - For chaining, returns the LinkedListChain[] array.
-     * - For probing, returns the standard Integer[] table.
-     *
-     * @return The internal structure (used for console/file output formatting).
-     */
     @Override
     public Object[] getRawTable() {
-        if (strategy.equals("chaining")) {
-            return chainTable;
-        } else {
-            return table;
-        }
+        return strategy.equals("chaining") ? chainTable : table;
     }
 }
