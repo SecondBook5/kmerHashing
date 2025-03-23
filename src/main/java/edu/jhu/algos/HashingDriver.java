@@ -1,6 +1,7 @@
 package edu.jhu.algos;
 
 import edu.jhu.algos.hashing.DivisionHashTable;
+import edu.jhu.algos.hashing.CustomHashTable;
 import edu.jhu.algos.hashing.HashTable;
 import edu.jhu.algos.hashing.HashingScheme;
 import edu.jhu.algos.io.OutputFormatter;
@@ -70,7 +71,39 @@ public class HashingDriver {
             return;
         }
 
-        // Placeholder for CustomHashTable (schemes 12–14)
-        System.err.println("Schemes 12–14 (custom hashing) are not implemented yet.");
+        // Handle schemes 12–14 (custom hashing using Fibonacci method)
+        if (scheme != null && scheme.hashingMethod.equals("custom")) {
+            HashTable table = new CustomHashTable(
+                    tableSize,
+                    scheme.bucketSize,
+                    scheme.strategy,
+                    debug
+            );
+
+            for (int key : keys) {
+                table.insert(key);
+            }
+
+            OutputFormatter.writeOutput(
+                    scheme.schemeNumber,
+                    scheme.hashingMethod,
+                    -1, // No mod value for Fibonacci hashing
+                    scheme.bucketSize,
+                    tableSize,
+                    scheme.strategy,
+                    table,
+                    keys,
+                    outputFilePath
+            );
+
+            if (debug) {
+                table.printStatistics();
+            }
+
+            return;
+        }
+
+        // Catch-all (should not be reached)
+        System.err.println("Unrecognized scheme or hashing method.");
     }
 }

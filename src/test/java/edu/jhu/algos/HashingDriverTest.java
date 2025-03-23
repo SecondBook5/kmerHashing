@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the HashingDriver class.
- * Verifies correct execution and output file generation for schemes 1–11.
+ * Verifies correct execution and output file generation for schemes 1–14.
  * Tests error handling for edge cases such as null input and invalid schemes.
  */
 public class HashingDriverTest {
@@ -66,6 +66,27 @@ public class HashingDriverTest {
     }
 
     /**
+     * Verifies that schemes 12–14 (Fibonacci hashing) execute correctly.
+     */
+    @Test
+    public void testCustomSchemes_12to14() throws IOException {
+        List<Integer> keys = loadSampleKeys();
+
+        for (int i = 12; i <= 14; i++) {
+            String filePath = OUTPUT_PREFIX + i + ".txt";
+            HashingDriver.runScheme(i, keys, filePath, false);
+
+            File file = new File(filePath);
+            assertTrue(file.exists(), "Expected file not created for scheme " + i);
+
+            String contents = readOutputFile(filePath);
+            assertTrue(contents.contains("scheme " + i + " (custom)"), "Missing scheme header in output file.");
+            assertTrue(contents.contains("original input:"), "Input block not printed.");
+            assertTrue(contents.contains("load factor"), "Statistics block missing.");
+        }
+    }
+
+    /**
      * Test that an empty key list does not produce output or crash.
      */
     @Test
@@ -104,8 +125,8 @@ public class HashingDriverTest {
     public void cleanUp() {
         List<String> tempFiles = new ArrayList<>();
 
-        // Dynamically generate scheme files (1–11)
-        for (int i = 1; i <= 11; i++) {
+        // Dynamically generate scheme files (1–14)
+        for (int i = 1; i <= 14; i++) {
             tempFiles.add(OUTPUT_PREFIX + i + ".txt");
         }
 
