@@ -4,6 +4,7 @@ import edu.jhu.algos.utils.PerformanceMetrics;
 import edu.jhu.algos.data_structures.LinkedListChain;
 import edu.jhu.algos.data_structures.Stack;
 import edu.jhu.algos.data_structures.ChainedNode;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -218,6 +219,39 @@ public class ProbingStrategyTest {
         assertTrue(chainTable[0].search(33), "Chain should contain key 33.");
         assertEquals(3, metrics.getTotalInsertions(), "Metrics should show 3 successful insertions.");
     }
+
+    /**
+     * Test performance impact of different c1 and c2 values for quadratic probing.
+     * This is useful for plotting asymptotic costs.
+     */
+    @Test
+    public void testQuadraticProbingParameterSweep() {
+        Integer[] table = new Integer[20];
+        double[] c1Values = {0.1, 0.5, 1.0};
+        double[] c2Values = {0.1, 0.5, 1.0};
+
+        System.out.printf("%-10s %-10s %-20s%n", "c1", "c2", "Total Comparisons");
+
+        for (double c1 : c1Values) {
+            for (double c2 : c2Values) {
+                // Clear the table
+                Arrays.fill(table, null);
+
+                PerformanceMetrics metrics = new PerformanceMetrics();
+
+                // Insert 10 keys (force collisions by choosing similar keys)
+                for (int k = 0; k < 10; k++) {
+                    int key = 100 + k * 3; // values spaced close together
+                    int index = key % table.length;
+
+                    ProbingStrategy.insertWithProbing(table, key, index, table.length, true, metrics, c1, c2, false);
+                }
+
+                System.out.printf("%-10.2f %-10.2f %-20d%n", c1, c2, metrics.getTotalComparisons());
+            }
+        }
+    }
+
 
     /**
      * Helper method to confirm if an array contains a value.

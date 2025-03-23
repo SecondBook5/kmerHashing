@@ -76,10 +76,10 @@ public class ProbingStrategy {
             } else {
                 // Collision occurred, determine type
                 if (i == 0) {
-                    // ▶ Primary collision: first probe (home slot) is occupied
+                    // Primary collision: first probe (home slot) is occupied
                     metrics.addPrimaryCollision();
                 } else {
-                    // ▶ Secondary collision: additional probe is also occupied
+                    // Secondary collision: additional probe is also occupied
                     metrics.addSecondaryCollision();
                 }
 
