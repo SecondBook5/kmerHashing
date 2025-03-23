@@ -1,10 +1,10 @@
 package edu.jhu.algos.hashing;
 
 /**
- * Enum representing the configuration of each supported hashing scheme (1–11).
+ * Enum representing the configuration of each supported hashing scheme (1–14).
  * Each entry defines:
- * - hashingMethod: "division"
- * - modValue: modulo used in division hash
+ * - hashingMethod: "division" or "custom"
+ * - modValue: modulo used in division hash (set to -1 for custom)
  * - bucketSize: 1 or 3
  * - strategy: collision resolution strategy
  */
@@ -20,7 +20,10 @@ public enum HashingScheme {
     SCHEME_8(8, "division", 113, 1, "quadratic"),
     SCHEME_9(9, "division", 113, 1, "chaining"),
     SCHEME_10(10, "division", 41, 3, "linear"),
-    SCHEME_11(11, "division", 41, 3, "quadratic");
+    SCHEME_11(11, "division", 41, 3, "quadratic"),
+    SCHEME_12(12, "custom", -1, 1, "linear"),
+    SCHEME_13(13, "custom", -1, 1, "quadratic"),
+    SCHEME_14(14, "custom", -1, 1, "chaining");
 
     public final int schemeNumber;
     public final String hashingMethod;
