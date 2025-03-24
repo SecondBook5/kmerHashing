@@ -98,7 +98,7 @@ public class OutputFormatter {
             System.out.print(configLine);
 
             // --------------------------------------------
-            // 3. Print performance metrics from the hash table
+            // 3. Print collision/comparison stats before the table
             // --------------------------------------------
             PerformanceMetrics metrics;
             try {
@@ -109,62 +109,94 @@ public class OutputFormatter {
                 return;
             }
 
-            // Build the metrics block with all key statistics
-            String statsLine = String.format(
-                    "# of collisions: %d, # of comparisons: %d, records inserted: %d, load factor: %.6f\n\n",
+            String statsBlock = String.format(
+                    "# of primary collisions: %d, secondary collisions: %d, total collisions: %d\n" +
+                            "# of comparisons: %d, records inserted: %d, load factor: %.6f\n\n",
+                    metrics.getPrimaryCollisions(),
+                    metrics.getSecondaryCollisions(),
                     metrics.getTotalCollisions(),
                     metrics.getTotalComparisons(),
                     metrics.getTotalInsertions(),
                     metrics.getLoadFactor()
             );
 
-            writer.write(statsLine);
-            System.out.print(statsLine);
+            writer.write(statsBlock);
+            System.out.print(statsBlock);
 
             // --------------------------------------------
             // 4. Print the contents of the hash table
-            //     - For "chaining": show one chain per row labeled by index
-            //     - For probing: print 5 columns per row
+            //     - Chaining: print in table format with arrows for debug-like style
+            //     - Probing: classic 5-wide (bucket 1) or 3-wide rows (bucket 3)
             // --------------------------------------------
             if (strategy.equalsIgnoreCase("chaining")) {
-                // Print each index and its chain (linked list format)
-                for (int i = 0; i < rawTable.length; i++) {
-                    String chainLine;
+                if (bucketSize == 1) {
+                    // Print chaining table: 5 items per row
+                    for (int i = 0; i < rawTable.length; i++) {
+                        String cell = (rawTable[i] == null) ? "None" : rawTable[i].toString();
+                        writer.write(String.format("%-20s", cell));
+                        System.out.printf("%-20s", cell);
 
-                    if (rawTable[i] == null) {
-                        chainLine = String.format("%2d: None\n", i);
-                    } else {
-                        try {
-                            chainLine = String.format("%2d: %s\n", i, rawTable[i].toString());
-                        } catch (Exception e) {
-                            chainLine = String.format("%2d: Error printing chain\n", i);
-                            System.err.println("Error printing chain at index " + i + ": " +
-                                    e.getClass().getSimpleName() + " - " + e.getMessage());
+                        if ((i + 1) % 5 == 0 || i == rawTable.length - 1) {
+                            writer.write("\n");
+                            System.out.println();
                         }
                     }
-
-                    writer.write(chainLine);
-                    System.out.print(chainLine);
+                } else if (bucketSize == 3) {
+                    // Print chaining table: one row per bucket with 3 columns
+                    for (int i = 0; i < rawTable.length; i += 3) {
+                        StringBuilder row = new StringBuilder();
+                        for (int j = 0; j < 3; j++) {
+                            int index = i + j;
+                            if (index < rawTable.length) {
+                                Object cell = rawTable[index];
+                                String cellStr = (cell == null) ? "None" : cell.toString();
+                                row.append(String.format("%-20s", cellStr));
+                            }
+                        }
+                        writer.write(row.toString() + "\n");
+                        System.out.println(row);
+                    }
                 }
-
             } else {
-                // Probing output: print 5 items per line, pad to fixed width
-                StringBuilder line = new StringBuilder();
+                // Probing strategies
+                if (bucketSize == 1) {
+                    for (int i = 0; i < rawTable.length; i++) {
+                        String cell = (rawTable[i] == null) ? "None" : rawTable[i].toString();
+                        writer.write(String.format("%-8s", cell));
+                        System.out.printf("%-8s", cell);
 
-                for (int i = 0; i < rawTable.length; i++) {
-                    Object cell = rawTable[i];
-                    String cellString = (cell == null || cell.toString().equals("-1")) ? "None" : cell.toString();
-                    line.append(String.format("%-8s", cellString)); // pad width for alignment
-
-                    // Output the line every 5 entries or at the end
-                    if ((i + 1) % 5 == 0 || i == rawTable.length - 1) {
-                        line.append("\n");
-                        writer.write(line.toString());
-                        System.out.print(line);
-                        line.setLength(0); // clear the buffer
+                        if ((i + 1) % 5 == 0 || i == rawTable.length - 1) {
+                            writer.write("\n");
+                            System.out.println();
+                        }
+                    }
+                } else if (bucketSize == 3) {
+                    for (int i = 0; i < rawTable.length; i += 3) {
+                        StringBuilder row = new StringBuilder();
+                        for (int j = 0; j < 3; j++) {
+                            int index = i + j;
+                            if (index < rawTable.length) {
+                                Object cell = rawTable[index];
+                                String cellStr = (cell == null) ? "None" : cell.toString();
+                                row.append(String.format("%-8s", cellStr));
+                            }
+                        }
+                        writer.write(row.toString() + "\n");
+                        System.out.println(row);
                     }
                 }
             }
+
+            // --------------------------------------------
+            // 5. Append final runtime/memory metrics
+            // --------------------------------------------
+            String trailingStats = String.format(
+                    "\nExecution Time: %d ms\nMemory Usage: %d MB\n",
+                    metrics.getElapsedTimeMs(),
+                    metrics.getMemoryUsageMB()
+            );
+            writer.write(trailingStats);
+            System.out.print(trailingStats);
 
         } catch (IOException ioEx) {
             // Handle file I/O errors with detailed context

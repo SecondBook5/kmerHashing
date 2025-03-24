@@ -24,8 +24,8 @@ public class PerformanceMetrics {
     // Variables for tracking hash table operations
     private long totalComparisons;       // Total number of key comparisons
     private long totalCollisions;        // Total number of collisions (primary + secondary)
-    private long primaryCollisions;      // ▶ Primary collisions: first attempt fails (home slot occupied)
-    private long secondaryCollisions;    // ▶ Secondary collisions: subsequent probe fails
+    private long primaryCollisions;      // Primary collisions: first attempt fails (home slot occupied)
+    private long secondaryCollisions;    // Secondary collisions: subsequent probe fails
     private long totalProbes;            // Total number of probing steps (includes successful insert probes)
     private long totalInsertions;        // Total number of keys successfully inserted
 
@@ -133,7 +133,7 @@ public class PerformanceMetrics {
 
     /**
      * Increments the primary collision counter.
-     * ▶ A primary collision occurs when the home slot is already occupied (i == 0).
+     * A primary collision occurs when the home slot is already occupied (i == 0).
      */
     public void addPrimaryCollision() {
         this.primaryCollisions++;
@@ -142,7 +142,7 @@ public class PerformanceMetrics {
 
     /**
      * Increments the secondary collision counter.
-     * ▶ A secondary collision occurs during additional probes (i > 0).
+     * A secondary collision occurs during additional probes (i > 0).
      */
     public void addSecondaryCollision() {
         this.secondaryCollisions++;

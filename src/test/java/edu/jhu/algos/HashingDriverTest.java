@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for the HashingDriver class.
  * Verifies correct execution and output file generation for schemes 1–14.
- * Tests error handling for edge cases such as null input and invalid schemes.
+ * Tests manual configuration and error handling for invalid input.
  */
 public class HashingDriverTest {
 
@@ -22,16 +22,13 @@ public class HashingDriverTest {
 
     /**
      * Loads a dummy input file containing basic integers.
-     * This mirrors what a real LabHashingInput.txt would contain.
-     *
-     * @return A list of integers to hash.
      */
     private List<Integer> loadSampleKeys() {
         return Arrays.asList(5, 18, 23, 42, 57, 67, 99);
     }
 
     /**
-     * Reads a file and returns its contents as a string for assertion checks.
+     * Reads a file and returns its contents as a string.
      */
     private String readOutputFile(String path) throws IOException {
         StringBuilder result = new StringBuilder();
@@ -45,7 +42,7 @@ public class HashingDriverTest {
     }
 
     /**
-     * Verifies that schemes 1–11 complete without errors and generate output files.
+     * Test all valid predefined schemes (1–11) using division hashing.
      */
     @Test
     public void testValidSchemes_1to11() throws IOException {
@@ -59,14 +56,14 @@ public class HashingDriverTest {
             assertTrue(file.exists(), "Expected file not created for scheme " + i);
 
             String contents = readOutputFile(filePath);
-            assertTrue(contents.contains("scheme " + i + " (division)"), "Missing scheme header in output file.");
-            assertTrue(contents.contains("original input:"), "Input block not printed.");
-            assertTrue(contents.contains("load factor"), "Statistics block missing.");
+            assertTrue(contents.contains("scheme " + i + " (division)"));
+            assertTrue(contents.contains("original input:"));
+            assertTrue(contents.contains("load factor"));
         }
     }
 
     /**
-     * Verifies that schemes 12–14 (Fibonacci hashing) execute correctly.
+     * Test all custom schemes (12–14) using Fibonacci hashing.
      */
     @Test
     public void testCustomSchemes_12to14() throws IOException {
@@ -80,14 +77,14 @@ public class HashingDriverTest {
             assertTrue(file.exists(), "Expected file not created for scheme " + i);
 
             String contents = readOutputFile(filePath);
-            assertTrue(contents.contains("scheme " + i + " (custom)"), "Missing scheme header in output file.");
-            assertTrue(contents.contains("original input:"), "Input block not printed.");
-            assertTrue(contents.contains("load factor"), "Statistics block missing.");
+            assertTrue(contents.contains("scheme " + i + " (custom)"));
+            assertTrue(contents.contains("original input:"));
+            assertTrue(contents.contains("load factor"));
         }
     }
 
     /**
-     * Test that an empty key list does not produce output or crash.
+     * Test edge case: empty input list should not throw.
      */
     @Test
     public void testEmptyInputList() {
@@ -96,7 +93,7 @@ public class HashingDriverTest {
     }
 
     /**
-     * Test null key list is handled safely without crashing.
+     * Test edge case: null key list should not throw.
      */
     @Test
     public void testNullKeyList() {
@@ -104,7 +101,7 @@ public class HashingDriverTest {
     }
 
     /**
-     * Test invalid scheme numbers (below 1 and above 14) are handled safely.
+     * Test invalid scheme numbers.
      */
     @Test
     public void testInvalidSchemeNumberTooLow() {
@@ -119,30 +116,128 @@ public class HashingDriverTest {
     }
 
     /**
-     * Dynamically deletes all test files after each run.
+     * Test runManual using division hashing with linear probing.
+     */
+    @Test
+    public void testManualDivisionLinearProbing() throws IOException {
+        List<Integer> keys = loadSampleKeys();
+        String filePath = OUTPUT_PREFIX + "manual_division_linear.txt";
+
+        HashingDriver.runManual(
+                "division",
+                113,           // mod
+                1,             // bucket size
+                "linear",      // strategy
+                0.5,
+                0.5,
+                keys,
+                filePath,
+                false
+        );
+
+        File file = new File(filePath);
+        assertTrue(file.exists());
+
+        String contents = readOutputFile(filePath);
+        assertTrue(contents.contains("original input:"));
+        assertTrue(contents.contains("load factor"));
+    }
+
+    /**
+     * Test runManual using custom hashing with quadratic probing.
+     */
+    @Test
+    public void testManualCustomQuadraticProbing() throws IOException {
+        List<Integer> keys = loadSampleKeys();
+        String filePath = OUTPUT_PREFIX + "manual_custom_quadratic.txt";
+
+        HashingDriver.runManual(
+                "custom",
+                -1,
+                1,
+                "quadratic",
+                0.5,
+                0.5,
+                keys,
+                filePath,
+                false
+        );
+
+        File file = new File(filePath);
+        assertTrue(file.exists());
+
+        String contents = readOutputFile(filePath);
+        assertTrue(contents.contains("original input:"));
+        assertTrue(contents.contains("load factor"));
+    }
+
+    /**
+     * Ensure that invalid hashing method is caught gracefully.
+     */
+    @Test
+    public void testManualInvalidHashingMethod() {
+        List<Integer> keys = loadSampleKeys();
+        assertDoesNotThrow(() -> HashingDriver.runManual(
+                "invalid-method", 0, 1, "linear", 0.5, 0.5,
+                keys, OUTPUT_PREFIX + "invalid_method.txt", false
+        ));
+    }
+
+    /**
+     * Ensure that chaining works when specified manually.
+     */
+    @Test
+    public void testManualChainingCustom() throws IOException {
+        List<Integer> keys = loadSampleKeys();
+        String filePath = OUTPUT_PREFIX + "manual_custom_chaining.txt";
+
+        HashingDriver.runManual(
+                "custom",
+                -1,
+                1,
+                "chaining",
+                0.0,
+                0.0,
+                keys,
+                filePath,
+                false
+        );
+
+        File file = new File(filePath);
+        assertTrue(file.exists());
+        String contents = readOutputFile(filePath);
+        assertTrue(contents.contains("original input:"));
+    }
+
+    /**
+     * Cleanup generated test files after each test run.
      */
     @AfterEach
     public void cleanUp() {
         List<String> tempFiles = new ArrayList<>();
 
-        // Dynamically generate scheme files (1–14)
+        // Scheme-based output files
         for (int i = 1; i <= 14; i++) {
             tempFiles.add(OUTPUT_PREFIX + i + ".txt");
         }
 
-        // Add all edge-case outputs
+        // Additional test-specific outputs
         tempFiles.addAll(Arrays.asList(
                 OUTPUT_PREFIX + "empty.txt",
                 OUTPUT_PREFIX + "null.txt",
                 OUTPUT_PREFIX + "invalid_low.txt",
-                OUTPUT_PREFIX + "invalid_high.txt"
+                OUTPUT_PREFIX + "invalid_high.txt",
+                OUTPUT_PREFIX + "manual_division_linear.txt",
+                OUTPUT_PREFIX + "manual_custom_quadratic.txt",
+                OUTPUT_PREFIX + "manual_custom_chaining.txt",
+                OUTPUT_PREFIX + "invalid_method.txt"
         ));
 
-        // Attempt to delete all files
+        // Delete all files if they exist
         for (String path : tempFiles) {
             File file = new File(path);
             if (file.exists() && !file.delete()) {
-                System.err.println("Warning: Failed to delete temp file → " + path);
+                System.err.println("Warning: Failed to delete file → " + path);
             }
         }
     }

@@ -97,10 +97,12 @@ public class DivisionHashTable extends HashTable {
      */
     @Override
     protected int hash(int key) {
-        int index = Math.abs(key) % modValue;
+        int hashed = Math.abs(key) % modValue;
+        int index = hashed % tableSize;
 
         if (debugMode) {
-            System.out.printf("[DEBUG] Hashed key %d → index %d using mod %d%n", key, index, modValue);
+            System.out.printf("[DEBUG] Hashed key %d → %d (mod %d) → final index %d (mod tableSize %d)%n",
+                    key, hashed, modValue, index, tableSize);
         }
 
         return index;

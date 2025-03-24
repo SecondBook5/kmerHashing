@@ -9,23 +9,30 @@ import edu.jhu.algos.io.OutputFormatter;
 import java.util.List;
 
 /**
- * HashingDriver handles execution of hash table schemes 1–14.
- * This driver is responsible for dispatching the appropriate hash table implementation
- * based on the scheme number and outputting the results to a file.
+ * HashingDriver handles execution of all hashing schemes (1–14)
+ * as well as user-defined manual hashing configuration via CLI parameters.
+ *
+ * Responsibilities:
+ * - Look up scheme definitions from the HashingScheme enum.
+ * - Construct and execute appropriate HashTable (Division or Custom).
+ * - Track and print performance metrics.
+ * - Write formatted results to output files.
  */
 public class HashingDriver {
 
     /**
-     * Executes a specific hashing scheme.
+     * Executes a predefined hashing scheme using HashingScheme (schemes 1–14).
      *
-     * @param schemeNumber   The scheme number (1–14) defined in HashingScheme.
-     * @param keys           List of integer keys to insert into the hash table.
-     * @param outputFilePath Path to the output file where results will be written.
-     * @param debug          If true, enables detailed console debugging output.
+     * Decision Tree:
+     * Step 1: Validate inputs (scheme number and key list)
+     * Step 2: Fetch HashingScheme from scheme number
+     * Step 3: If method == "division", use DivisionHashTable
+     * Step 4: If method == "custom", use CustomHashTable (Fibonacci hashing)
+     * Step 5: If no match found, report an error
      */
     public static void runScheme(int schemeNumber, List<Integer> keys, String outputFilePath, boolean debug) {
 
-        // Step 1: Input validation
+        // Step 1: Validate input
         if (keys == null || keys.isEmpty()) {
             System.err.println("Error: Input key list is empty or null.");
             return;
@@ -36,10 +43,10 @@ public class HashingDriver {
             return;
         }
 
-        final int tableSize = 120;  // Fixed table size across all schemes
-        HashingScheme scheme = HashingScheme.fromNumber(schemeNumber);  // Lookup scheme config
+        final int tableSize = 120; // Fixed table size for all schemes
+        HashingScheme scheme = HashingScheme.fromNumber(schemeNumber); // Step 2: Lookup configuration
 
-        // Step 2: Print debug information about scheme
+        // Optional debug output for scheme info
         if (debug) {
             if (scheme == null) {
                 System.err.printf("[DEBUG] No matching scheme found for number %d%n", schemeNumber);
@@ -54,21 +61,19 @@ public class HashingDriver {
             }
         }
 
-        // Step 3: Run division hashing strategy (schemes 1–11)
+        // Step 3: Division hashing (schemes 1–11)
         if (scheme != null && scheme.hashingMethod.equals("division")) {
             HashTable table = new DivisionHashTable(
-                    tableSize,              // Total number of slots in the table
-                    scheme.bucketSize,      // Either 1 or 3 depending on the scheme
-                    scheme.modValue,        // Modulo divisor for division hashing
-                    scheme.strategy,        // Collision strategy: linear, quadratic, chaining
-                    debug                   // Enable verbose debug output
+                    tableSize,
+                    scheme.bucketSize,
+                    scheme.modValue,
+                    scheme.strategy,
+                    debug
             );
 
             // Insert all keys
             for (int key : keys) {
-                if (debug) {
-                    System.out.printf("[DEBUG] Inserting key: %d%n", key);
-                }
+                if (debug) System.out.printf("[DEBUG] Inserting key: %d%n", key);
                 table.insert(key);
             }
 
@@ -85,28 +90,22 @@ public class HashingDriver {
                     outputFilePath
             );
 
-            // Print debug stats if enabled
-            if (debug) {
-                table.printStatistics();
-            }
-
+            if (debug) table.printStatistics();
             return;
         }
 
-        // Step 4: Run custom hashing strategy (schemes 12–14, Fibonacci hashing)
+        // Step 4: Custom (Fibonacci) hashing (schemes 12–14)
         if (scheme != null && scheme.hashingMethod.equals("custom")) {
             HashTable table = new CustomHashTable(
-                    tableSize,              // Fixed hash table size
-                    scheme.bucketSize,      // Bucket size is 1 in all custom schemes
-                    scheme.strategy,        // Strategy: linear, quadratic, or chaining
-                    debug                   // Enable debug logs
+                    tableSize,
+                    scheme.bucketSize,
+                    scheme.strategy,
+                    debug
             );
 
             // Insert each key using Fibonacci hashing
             for (int key : keys) {
-                if (debug) {
-                    System.out.printf("[DEBUG] Inserting key: %d%n", key);
-                }
+                if (debug) System.out.printf("[DEBUG] Inserting key: %d%n", key);
                 table.insert(key);
             }
 
@@ -114,7 +113,7 @@ public class HashingDriver {
             OutputFormatter.writeOutput(
                     scheme.schemeNumber,
                     scheme.hashingMethod,
-                    -1,                     // No mod value for Fibonacci hashing
+                    -1, // No mod value for Fibonacci
                     scheme.bucketSize,
                     tableSize,
                     scheme.strategy,
@@ -123,15 +122,97 @@ public class HashingDriver {
                     outputFilePath
             );
 
-            // Display performance metrics
-            if (debug) {
-                table.printStatistics();
-            }
-
+            if (debug) table.printStatistics();
             return;
         }
 
-        // Step 5: Fall-through error case (should never occur unless HashingScheme is corrupted)
+        // Step 5: Fallback (should never be reached unless HashingScheme is corrupted)
         System.err.printf("Unrecognized scheme or hashing method for scheme number %d.%n", schemeNumber);
+    }
+
+    /**
+     * Executes a manual hashing configuration from CLI flags (outside the 1–14 schemes).
+     *
+     * Decision Tree:
+     * Step 1: Validate key list
+     * Step 2: Determine hashing method ("division" or "custom")
+     * Step 3: Construct correct HashTable subclass with user parameters
+     * Step 4: Insert keys
+     * Step 5: Format and print results
+     */
+    public static void runManual(
+            String hashingMethod,
+            int modValue,
+            int bucketSize,
+            String strategy,
+            double c1,
+            double c2,
+            List<Integer> keys,
+            String outputFilePath,
+            boolean debug
+    ) {
+        final int tableSize = 120;
+
+        // Step 1: Validate keys
+        if (keys == null || keys.isEmpty()) {
+            System.err.println("Error: Input key list is empty or null.");
+            return;
+        }
+
+        // Print configuration summary
+        if (debug) {
+            System.out.printf(
+                    "[DEBUG] Running manual mode: method=%s, strategy=%s, mod=%d, bucketSize=%d, c1=%.2f, c2=%.2f%n",
+                    hashingMethod, strategy, modValue, bucketSize, c1, c2
+            );
+        }
+
+        HashTable table;
+
+        // Step 2 + 3: Determine hash type and construct table
+        if ("division".equalsIgnoreCase(hashingMethod)) {
+            table = new DivisionHashTable(
+                    tableSize,
+                    bucketSize,
+                    modValue,
+                    strategy.toLowerCase(),
+                    debug,
+                    c1,
+                    c2
+            );
+        } else if ("custom".equalsIgnoreCase(hashingMethod)) {
+            table = new CustomHashTable(
+                    tableSize,
+                    bucketSize,
+                    strategy.toLowerCase(),
+                    debug,
+                    c1,
+                    c2
+            );
+        } else {
+            System.err.println("Error: Unsupported hashing method: " + hashingMethod);
+            return;
+        }
+
+        // Step 4: Insert keys
+        for (int key : keys) {
+            if (debug) System.out.printf("[DEBUG] Inserting key: %d%n", key);
+            table.insert(key);
+        }
+
+        // Step 5: Format output
+        OutputFormatter.writeOutput(
+                -1, // Not a numbered scheme
+                hashingMethod,
+                ("division".equalsIgnoreCase(hashingMethod) ? modValue : -1),
+                bucketSize,
+                tableSize,
+                strategy,
+                table,
+                keys,
+                outputFilePath
+        );
+
+        if (debug) table.printStatistics();
     }
 }
