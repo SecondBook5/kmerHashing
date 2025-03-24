@@ -1,0 +1,45 @@
+original input:
+12501, 84763, 22599, 2698, 55555, 
+72501, 99999, 33975, 62501, 42501, 
+90911, 42699, 80800, 18765, 78901, 
+2699, 31753, 22699, 67676, 59531, 
+13956, 1234, 90123, 78888, 39531, 
+49531, 56565, 89531, 67890, 22999, 
+81111, 79531, 37319, 27431, 92501, 
+9531, 47893, 14763, 62699, 57391, 
+54321, 35197, 71717, 89102, 49287, 
+26987, 11, 99989, 64763, 19501, 
+12503, 22705, 38531, 47993, 54545, 
+62000, 78911, 88531, 92345, 358
+
+scheme 6 (division) - modulo: 127, bucket size: 1, chaining
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 0, records inserted: 60, load factor: 0.500000
+
+64763 -> 22599 -> None49531 -> None       None                89531 -> 31753 -> NoneNone                
+None                9531 -> 27431 -> NoneNone                None                None                
+None                11 -> 49287 -> None 88531 -> 22999 -> NoneNone                47893 -> None       
+None                92345 -> None       62501 -> None       35197 -> None       None                
+None                78888 -> None       None                None                62000 -> None       
+None                None                42699 -> None       80800 -> None       79531 -> None       
+None                14763 -> 2698 -> None2699 -> None        None                39531 -> 78901 -> None
+None                None                None                None                None                
+99989 -> None       None                None                None                78911 -> None       
+92501 -> None       None                None                None                None                
+38531 -> 56565 -> 99999 -> NoneNone                None                None                84763 -> None       
+12501 -> None       55555 -> None       12503 -> None       None                None                
+None                None                54545 -> None       26987 -> None       None                
+None                33975 -> None       None                None                None                
+19501 -> None       None                67890 -> None       None                None                
+89102 -> None       None                None                None                None                
+90123 -> None       None                None                42501 -> None       None                
+81111 -> None       None                None                62699 -> None       71717 -> None       
+None                1234 -> None        54321 -> None       22699 -> None       None                
+59531 -> None       18765 -> None       None                None                22705 -> None       
+None                None                None                None                358 -> None         
+None                90911 -> None       None                37319 -> None       None                
+None                72501 -> None       67676 -> None       13956 -> None       47993 -> 57391 -> None
+None                None                None                None                None                
+
+Execution Time: 0 ms
+Memory Usage: 0 MB
