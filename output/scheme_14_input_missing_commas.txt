@@ -1,0 +1,34 @@
+original input:
+600
+
+scheme 14 (custom) - modulo: N/A, bucket size: 1, chaining
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 0, records inserted: 1, load factor: 0.008333
+
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                600 -> None         
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+
+Execution Time: 4.435e-04 seconds
+Memory Usage: 0.000e+00 bytes

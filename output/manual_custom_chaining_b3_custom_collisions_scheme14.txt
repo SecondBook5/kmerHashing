@@ -1,0 +1,61 @@
+original input:
+1, 9, 17, 2, 10, 
+18, 3, 11, 19, 4, 
+12, 20, 5, 13, 21, 
+6, 14, 22, 7, 15, 
+23, 8, 16, 24, 25, 
+33, 41, 38, 46, 54, 
+59, 67, 75, 72, 80, 
+88, 93, 101, 109, 114, 
+122, 130, 127, 135, 143, 
+148, 156, 164, 169, 177, 
+185, 182, 190, 198, 203, 
+211, 219, 216, 224, 232
+
+scheme -1 (custom) - modulo: N/A, bucket size: 3, chaining
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 0, records inserted: 60, load factor: 0.500000
+
+24 -> 16 -> 8 -> NoneNone                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+219 -> 211 -> 203 -> None88 -> 80 -> 72 -> None21 -> 13 -> 5 -> None
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                232 -> 224 -> 216 -> None
+109 -> 101 -> 93 -> None18 -> 10 -> 2 -> NoneNone                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                130 -> 122 -> 114 -> None
+23 -> 15 -> 7 -> NoneNone                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                143 -> 135 -> 127 -> None20 -> 12 -> 4 -> None
+17 -> 9 -> 1 -> NoneNone                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+164 -> 156 -> 148 -> None41 -> 33 -> 25 -> None22 -> 14 -> 6 -> None
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                185 -> 177 -> 169 -> None
+54 -> 46 -> 38 -> None19 -> 11 -> 3 -> NoneNone                
+None                None                None                
+None                None                None                
+None                None                None                
+None                None                None                
+None                198 -> 190 -> 182 -> None75 -> 67 -> 59 -> None
+
+Execution Time: 2.594e-02 seconds
+Memory Usage: 0.000e+00 bytes

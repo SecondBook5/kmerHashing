@@ -1,0 +1,34 @@
+original input:
+42, 999
+
+scheme -1 (division) - modulo: 41, bucket size: 1, quadratic
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 2, records inserted: 2, load factor: 0.016667
+
+None    42      None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+999     None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+
+Execution Time: 2.107e-04 seconds
+Memory Usage: 0.000e+00 bytes

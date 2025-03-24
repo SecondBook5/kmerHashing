@@ -1,0 +1,41 @@
+original input:
+41130, 402763, 221248, 358884, 579970, 
+797525, 131505, 606918, 65519, 828093, 
+487182, 677502, 865276, 582292, 874476, 
+388032, 298456, 386170, 78743, 682209, 
+551400, 537863, 467226, 372913, 321243, 
+525241, 356030, 717458, 227387, 208246, 
+166730, 220756, 482430, 101085, 758217, 
+287727
+
+scheme 3 (division) - modulo: 120, bucket size: 1, chaining
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 0, records inserted: 36, load factor: 0.300000
+
+551400 -> None      525241 -> None      None                321243 -> None      None                
+797525 -> None      None                None                None                682209 -> None      
+386170 -> 579970 -> NoneNone                None                None                None                
+None                298456 -> None      None                None                None                
+None                None                None                537863 -> 78743 -> NoneNone                
+None                None                None                None                None                
+482430 -> None      None                None                None                None                
+None                874476 -> None      None                None                None                
+None                None                None                402763 -> None      None                
+101085 -> None      208246 -> None      None                None                None                
+166730 -> None      None                582292 -> None      None                None                
+None                None                758217 -> None      None                None                
+None                None                None                None                None                
+None                467226 -> None      None                None                None                
+None                None                388032 -> None      372913 -> None      None                
+None                220756 -> 865276 -> NoneNone                606918 -> None      None                
+None                None                None                None                358884 -> None      
+None                None                287727 -> None      221248 -> None      None                
+41130 -> None       None                None                828093 -> None      None                
+None                None                None                717458 -> None      None                
+None                None                677502 -> 487182 -> NoneNone                None                
+131505 -> None      None                227387 -> None      None                None                
+356030 -> None      None                None                None                None                
+None                None                None                None                65519 -> None       
+
+Execution Time: 2.146e-04 seconds
+Memory Usage: 0.000e+00 bytes

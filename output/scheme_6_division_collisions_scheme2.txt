@@ -1,0 +1,45 @@
+original input:
+1, 121, 241, 2, 122, 
+242, 3, 123, 243, 4, 
+124, 244, 5, 125, 245, 
+6, 126, 246, 7, 127, 
+247, 8, 128, 248, 9, 
+129, 249, 10, 130, 250, 
+11, 131, 251, 12, 132, 
+252, 13, 133, 253, 14, 
+134, 254, 15, 135, 255, 
+16, 136, 256, 17, 137, 
+257, 18, 138, 258, 19, 
+139, 259, 20, 140, 260
+
+scheme -1 (division) - modulo: 127, bucket size: 1, chaining
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 0, records inserted: 60, load factor: 0.500000
+
+254 -> 247 -> 127 -> None255 -> 248 -> 128 -> 121 -> 1 -> None256 -> 249 -> 129 -> 122 -> 2 -> None257 -> 250 -> 130 -> 123 -> 3 -> None258 -> 251 -> 131 -> 124 -> 4 -> None
+259 -> 252 -> 132 -> 125 -> 5 -> None260 -> 253 -> 133 -> 126 -> 6 -> None134 -> 7 -> None    135 -> 8 -> None    136 -> 9 -> None    
+137 -> 10 -> None   138 -> 11 -> None   139 -> 12 -> None   140 -> 13 -> None   14 -> None          
+15 -> None          16 -> None          17 -> None          18 -> None          19 -> None          
+20 -> None          None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                241 -> None         
+242 -> None         243 -> None         244 -> None         245 -> None         246 -> None         
+
+Execution Time: 4.057e-02 seconds
+Memory Usage: 0.000e+00 bytes

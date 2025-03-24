@@ -1,0 +1,45 @@
+original input:
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999
+
+scheme 14 (custom) - modulo: N/A, bucket size: 1, chaining
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 0, records inserted: 60, load factor: 0.500000
+
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> NoneNone                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+None                None                None                None                None                
+
+Execution Time: 4.709e-04 seconds
+Memory Usage: 0.000e+00 bytes

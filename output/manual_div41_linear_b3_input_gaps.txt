@@ -1,0 +1,51 @@
+original input:
+10, 1000, 10000, 25000, 50000, 
+100000
+
+scheme -1 (division) - modulo: 41, bucket size: 3, linear
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 6, records inserted: 6, load factor: 0.050000
+
+None    100000  None    
+None    None    None    
+None    None    None    
+None    10      None    
+None    None    None    
+None    1000    None    
+None    None    None    
+50000   None    None    
+None    None    None    
+None    None    None    
+None    25000   None    
+None    None    None    
+None    10000   None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+
+Execution Time: 2.071e-04 seconds
+Memory Usage: 0.000e+00 bytes

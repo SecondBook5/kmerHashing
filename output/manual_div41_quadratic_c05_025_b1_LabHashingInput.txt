@@ -1,0 +1,45 @@
+original input:
+12501, 84763, 22599, 2698, 55555, 
+72501, 99999, 33975, 62501, 42501, 
+90911, 42699, 80800, 18765, 78901, 
+2699, 31753, 22699, 67676, 59531, 
+13956, 1234, 90123, 78888, 39531, 
+49531, 56565, 89531, 67890, 22999, 
+81111, 79531, 37319, 27431, 92501, 
+9531, 47893, 14763, 62699, 57391, 
+54321, 35197, 71717, 89102, 49287, 
+26987, 11, 99989, 64763, 19501, 
+12503, 22705, 38531, 47993, 54545, 
+62000, 78911, 88531, 92345, 358
+
+scheme -1 (division) - modulo: 41, bucket size: 1, quadratic
+# of primary collisions: 37, secondary collisions: 225, total collisions: 262
+# of comparisons: 322, records inserted: 60, load factor: 0.500000
+
+55555   None    99999   49531   1234    
+90123   78888   39531   22599   37319   
+27431   92501   62699   72501   90911   
+81111   84763   62501   42699   78901   
+47893   31753   13956   14763   89102   
+42501   22699   33975   18765   67676   
+80800   89531   56565   2698    2699    
+67890   64763   12501   79531   22999   
+59531   11      12503   9531    57391   
+54321   99989   49287   92345   35197   
+71717   26987   22705   47993   88531   
+None    19501   54545   None    None    
+358     None    38531   None    62000   
+None    None    None    None    78911   
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+None    None    None    None    None    
+
+Execution Time: 1.335e-01 seconds
+Memory Usage: 1.049e+06 bytes

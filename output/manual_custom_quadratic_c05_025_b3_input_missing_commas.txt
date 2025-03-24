@@ -1,0 +1,50 @@
+original input:
+600
+
+scheme -1 (custom) - modulo: N/A, bucket size: 3, quadratic
+# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of comparisons: 1, records inserted: 1, load factor: 0.008333
+
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    600     None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+None    None    None    
+
+Execution Time: 1.509e-03 seconds
+Memory Usage: 0.000e+00 bytes

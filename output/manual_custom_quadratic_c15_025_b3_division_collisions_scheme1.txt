@@ -1,0 +1,61 @@
+original input:
+1, 121, 241, 2, 122, 
+242, 3, 123, 243, 4, 
+124, 244, 5, 125, 245, 
+6, 126, 246, 7, 127, 
+247, 8, 128, 248, 9, 
+129, 249, 10, 130, 250, 
+11, 131, 251, 12, 132, 
+252, 13, 133, 253, 14, 
+134, 254, 15, 135, 255, 
+16, 136, 256, 17, 137, 
+257, 18, 138, 258, 19, 
+139, 259, 20, 140, 260
+
+scheme -1 (custom) - modulo: N/A, bucket size: 3, quadratic
+# of primary collisions: 39, secondary collisions: 56, total collisions: 95
+# of comparisons: 155, records inserted: 60, load factor: 0.500000
+
+8       16      254     
+131     None    139     
+None    None    None    
+None    None    None    
+None    None    None    
+243     128     5       
+13      251     136     
+259     None    None    
+None    None    None    
+None    None    None    
+None    None    248     
+125     2       10      
+256     133     18      
+None    None    None    
+None    None    None    
+None    None    None    
+None    245     122     
+242     7       253     
+130     15      250     
+None    None    None    
+138     None    None    
+None    None    None    
+258     127     4       
+1       9       247     
+124     135     12      
+17      None    255     
+132     None    None    
+20      None    None    
+244     121     6       
+14      252     129     
+140     137     None    
+None    260     None    
+None    None    None    
+None    None    241     
+126     3       11      
+249     134     257     
+None    19      None    
+None    None    None    
+None    None    None    
+None    246     123     
+
+Execution Time: 5.520e-02 seconds
+Memory Usage: 0.000e+00 bytes

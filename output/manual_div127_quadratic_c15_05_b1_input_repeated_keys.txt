@@ -1,0 +1,45 @@
+original input:
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999, 
+999, 999, 999, 999, 999
+
+scheme -1 (division) - modulo: 127, bucket size: 1, quadratic
+# of primary collisions: 59, secondary collisions: 2934, total collisions: 2993
+# of comparisons: 3041, records inserted: 48, load factor: 0.400000
+
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+None    None    999     None    999     
+999     None    999     None    None    
+999     None    None    None    999     
+
+Execution Time: 7.208e-03 seconds
+Memory Usage: 0.000e+00 bytes
