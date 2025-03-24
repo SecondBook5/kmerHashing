@@ -24,7 +24,7 @@ original input:
 881089, 889008, 896927, 904846, 912765, 
 920684, 928603, 936522, 944441
 
-scheme 6 (division) - modulo: 127, bucket size: 1, chaining
+scheme -1 (division) - modulo: 127, bucket size: 1, chaining
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 0, records inserted: 119, load factor: 0.991667
 
@@ -53,5 +53,5 @@ None                366354 -> None      746466 -> None      120865 -> None      
 437625 -> None      817737 -> None      192136 -> None      572248 -> None      None                
 326759 -> None      706871 -> None      81270 -> None       461382 -> None      841494 -> None      
 
-Execution Time: 8.677e-04 seconds
+Execution Time: 1.376e-01 seconds
 Memory Usage: 0.000e+00 bytes

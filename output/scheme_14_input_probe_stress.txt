@@ -24,7 +24,7 @@ original input:
 881089, 889008, 896927, 904846, 912765, 
 920684, 928603, 936522, 944441
 
-scheme 14 (custom) - modulo: N/A, bucket size: 1, chaining
+scheme -1 (custom) - modulo: N/A, bucket size: 1, chaining
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 0, records inserted: 119, load factor: 0.991667
 
@@ -53,5 +53,5 @@ None                770223 -> None      477220 -> None      944441 -> 184217 -> 
 207974 -> None      None                825656 -> 382192 -> None89189 -> None       None                
 706871 -> None      413868 -> None      881089 -> None      588086 -> None      295083 -> None      
 
-Execution Time: 3.953e-04 seconds
+Execution Time: 1.043e-01 seconds
 Memory Usage: 0.000e+00 bytes

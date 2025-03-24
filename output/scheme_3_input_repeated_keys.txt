@@ -12,7 +12,7 @@ original input:
 999, 999, 999, 999, 999, 
 999, 999, 999, 999, 999
 
-scheme 3 (division) - modulo: 120, bucket size: 1, chaining
+scheme -1 (division) - modulo: 120, bucket size: 1, chaining
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 0, records inserted: 60, load factor: 0.500000
 
@@ -41,5 +41,5 @@ None                None                None                None                
 None                None                None                None                None                
 None                None                None                None                None                
 
-Execution Time: 2.533e-04 seconds
+Execution Time: 4.913e-02 seconds
 Memory Usage: 0.000e+00 bytes
