@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the LinkedListChain class.
- *
  * This test suite verifies:
  * - Correct insert and search behavior
  * - Memory reuse using a preallocated stack-based pool
@@ -39,7 +38,7 @@ public class LinkedListChainTest {
     @Test
     public void testInsertAndSearch() {
         Stack<ChainedNode> pool = makeNodePool(3);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         // Insert three keys into the chain
         chain.insert(10);
@@ -62,7 +61,7 @@ public class LinkedListChainTest {
     @Test
     public void testInsertFailsWhenPoolEmpty() {
         Stack<ChainedNode> pool = makeNodePool(1);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         // Insert the only allowed key
         chain.insert(5);
@@ -81,7 +80,7 @@ public class LinkedListChainTest {
     @Test
     public void testClearReturnsNodes() {
         Stack<ChainedNode> pool = makeNodePool(2);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         // Use all available nodes
         chain.insert(42);
@@ -102,7 +101,7 @@ public class LinkedListChainTest {
     @Test
     public void testSizeTracking() {
         Stack<ChainedNode> pool = makeNodePool(4);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         assertEquals(0, chain.size());         // Empty at start
 
@@ -117,7 +116,7 @@ public class LinkedListChainTest {
     @Test
     public void testIsEmpty() {
         Stack<ChainedNode> pool = makeNodePool(2);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         assertTrue(chain.isEmpty());           // New chain is empty
 
@@ -135,7 +134,7 @@ public class LinkedListChainTest {
     @Test
     public void testDuplicateKeyInsertion() {
         Stack<ChainedNode> pool = makeNodePool(3);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         chain.insert(55);
         chain.insert(55);
@@ -151,7 +150,7 @@ public class LinkedListChainTest {
     @Test
     public void testToStringOutput() {
         Stack<ChainedNode> pool = makeNodePool(3);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         chain.insert(100);
         chain.insert(200);
@@ -166,7 +165,7 @@ public class LinkedListChainTest {
     @Test
     public void testToStringAfterClear() {
         Stack<ChainedNode> pool = makeNodePool(2);
-        LinkedListChain chain = new LinkedListChain(pool);
+        LinkedListChain chain = new LinkedListChain(pool, false);
 
         chain.insert(1);
         chain.insert(2);

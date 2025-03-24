@@ -15,8 +15,6 @@ import edu.jhu.algos.utils.PerformanceMetrics;
 public class CustomHashTable extends HashTable {
 
     private final String strategy;     // Collision handling strategy: "linear", "quadratic", or "chaining"
-    private final boolean debug;       // Debug flag for console output
-
     private final double c1;           // Quadratic probing constant (linear term)
     private final double c2;           // Quadratic probing constant (quadratic term)
 
@@ -53,16 +51,15 @@ public class CustomHashTable extends HashTable {
      * @param c2          Quadratic coefficient for quadratic probing
      */
     public CustomHashTable(int tableSize, int bucketSize, String strategy, boolean debug, double c1, double c2) {
-        super(tableSize, bucketSize);           // Call base class constructor to initialize the table and metrics
-        this.strategy = strategy.toLowerCase(); // Normalize strategy string to lowercase
-        this.debug = debug;                     // Set debug flag
+        super(tableSize, bucketSize, debug);       // Call base class constructor with debugMode
+        this.strategy = strategy.toLowerCase();    // Normalize strategy string to lowercase
         this.c1 = c1;
         this.c2 = c2;
         this.metrics.setTableSize(tableSize);   // Pass table size to metrics to enable load factor calculation
 
         // Initialize node pool and linked list array if using chaining
         if (this.strategy.equals("chaining")) {
-            if (debug) {
+            if (debugMode) {
                 System.out.println("[DEBUG] Initializing chaining support...");
             }
             initChainingSupport();
@@ -84,10 +81,10 @@ public class CustomHashTable extends HashTable {
 
         // Create a LinkedListChain at every index
         for (int i = 0; i < tableSize; i++) {
-            chainTable[i] = new LinkedListChain(nodePool);
+            chainTable[i] = new LinkedListChain(nodePool, debugMode); // Initialize each chain with the shared node pool
         }
 
-        if (debug) {
+        if (debugMode) {
             System.out.printf("[DEBUG] Chaining pool created with %d nodes.%n", tableSize * 2);
         }
     }
@@ -115,7 +112,7 @@ public class CustomHashTable extends HashTable {
             index = Math.floorMod(index, tableSize);
         }
 
-        if (debug) {
+        if (debugMode) {
             System.out.printf("[DEBUG] Hashed key %d → index %d using Fibonacci hashing%n", key, index);
         }
 
@@ -131,7 +128,7 @@ public class CustomHashTable extends HashTable {
     public void insert(int key) {
         int index = hash(key); // Determine the home index using Fibonacci hashing
 
-        if (debug) {
+        if (debugMode) {
             System.out.printf("[DEBUG] Inserting key %d using strategy: %s%n", key, strategy);
         }
 
@@ -139,16 +136,16 @@ public class CustomHashTable extends HashTable {
         switch (strategy) {
             case "linear":
                 ProbingStrategy.insertWithProbing(
-                        table, key, index, tableSize, false, metrics, 0.5, 0.5, debug);
+                        table, key, index, tableSize, false, metrics, 0.5, 0.5, debugMode);
                 break;
 
             case "quadratic":
                 ProbingStrategy.insertWithProbing(
-                        table, key, index, tableSize, true, metrics, c1, c2, debug);
+                        table, key, index, tableSize, true, metrics, c1, c2, debugMode);
                 break;
 
             case "chaining":
-                ProbingStrategy.insertWithChaining(chainTable, key, index, metrics, debug);
+                ProbingStrategy.insertWithChaining(chainTable, key, index, metrics, debugMode);
                 break;
 
             default:
@@ -227,7 +224,7 @@ public class CustomHashTable extends HashTable {
                 chain.clear(); // Return nodes to pool
             }
 
-            if (debug) {
+            if (debugMode) {
                 System.out.println("[DEBUG] Chained lists cleared and nodes returned to pool.");
             }
         }

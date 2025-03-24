@@ -84,7 +84,7 @@ public class ProbingStrategyTest {
         Stack<ChainedNode> pool = makeNodePool(2);
 
         LinkedListChain[] chainTable = new LinkedListChain[5];
-        chainTable[1] = new LinkedListChain(pool);
+        chainTable[1] = new LinkedListChain(pool, false);
 
         ProbingStrategy.insertWithChaining(chainTable, 99, 1, metrics, DEBUG);
         ProbingStrategy.insertWithChaining(chainTable, 88, 1, metrics, DEBUG);
@@ -206,7 +206,7 @@ public class ProbingStrategyTest {
         Stack<ChainedNode> pool = makeNodePool(5); // Allow space for chaining
 
         LinkedListChain[] chainTable = new LinkedListChain[4];
-        chainTable[0] = new LinkedListChain(pool);
+        chainTable[0] = new LinkedListChain(pool, false);
 
         ProbingStrategy.insertWithChaining(chainTable, 11, 0, metrics, DEBUG);
         ProbingStrategy.insertWithChaining(chainTable, 22, 0, metrics, DEBUG);

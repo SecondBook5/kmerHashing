@@ -16,7 +16,6 @@ public class DivisionHashTable extends HashTable {
 
     private final int modValue;         // Divisor used in division hashing
     private final String strategy;      // Strategy: "linear", "quadratic", or "chaining"
-    private final boolean debug;        // Whether to print debug output
     private final double c1;            // Coefficient for linear term in quadratic probing
     private final double c2;            // Coefficient for quadratic term in quadratic probing
 
@@ -47,18 +46,17 @@ public class DivisionHashTable extends HashTable {
      * @param c2          c2 coefficient for quadratic probing.
      */
     public DivisionHashTable(int tableSize, int bucketSize, int modValue, String strategy, boolean debug, double c1, double c2) {
-        super(tableSize, bucketSize);         // Call superclass constructor
-        this.modValue = modValue;             // Store modulo value for hashing
+        super(tableSize, bucketSize, debug);    // Call superclass constructor with debug mode
+        this.modValue = modValue;               // Store modulo value for hashing
         this.strategy = strategy.toLowerCase(); // Normalize strategy for comparison
-        this.debug = debug;
         this.c1 = c1;
         this.c2 = c2;
 
-        this.metrics.setTableSize(tableSize); // Enable load factor tracking
+        this.metrics.setTableSize(tableSize);   // Enable load factor tracking
 
         // If chaining strategy is chosen, initialize linked lists and node pool
         if (this.strategy.equals("chaining")) {
-            if (debug) {
+            if (debugMode) {
                 System.out.println("[DEBUG] Initializing chaining support...");
             }
             initChainingSupport();
@@ -82,10 +80,10 @@ public class DivisionHashTable extends HashTable {
 
         // Initialize one LinkedListChain per table index
         for (int i = 0; i < tableSize; i++) {
-            chainTable[i] = new LinkedListChain(nodePool);
+            chainTable[i] = new LinkedListChain(nodePool, debugMode);
         }
 
-        if (debug) {
+        if (debugMode) {
             System.out.println("[DEBUG] Chaining support initialized with " + (tableSize * 2) + " preallocated nodes.");
         }
     }
@@ -101,7 +99,7 @@ public class DivisionHashTable extends HashTable {
     protected int hash(int key) {
         int index = Math.abs(key) % modValue;
 
-        if (debug) {
+        if (debugMode) {
             System.out.printf("[DEBUG] Hashed key %d → index %d using mod %d%n", key, index, modValue);
         }
 
@@ -118,7 +116,7 @@ public class DivisionHashTable extends HashTable {
     public void insert(int key) {
         int index = hash(key);  // Compute the home slot
 
-        if (debug) {
+        if (debugMode) {
             System.out.printf("[DEBUG] Inserting key %d using strategy: %s%n", key, strategy);
 
             if (strategy.equals("quadratic")) {
@@ -130,16 +128,16 @@ public class DivisionHashTable extends HashTable {
         switch (strategy) {
             case "linear":
                 ProbingStrategy.insertWithProbing(
-                        table, key, index, tableSize, false, metrics, 0.5, 0.5, debug);
+                        table, key, index, tableSize, false, metrics, 0.5, 0.5, debugMode);
                 break;
 
             case "quadratic":
                 ProbingStrategy.insertWithProbing(
-                        table, key, index, tableSize, true, metrics, c1, c2, debug);
+                        table, key, index, tableSize, true, metrics, c1, c2, debugMode);
                 break;
 
             case "chaining":
-                ProbingStrategy.insertWithChaining(chainTable, key, index, metrics, debug);
+                ProbingStrategy.insertWithChaining(chainTable, key, index, metrics, debugMode);
                 break;
 
             default:
@@ -187,7 +185,7 @@ public class DivisionHashTable extends HashTable {
 
     @Override
     public void printTable() {
-        if (debug) {
+        if (debugMode) {
             System.out.println("[DEBUG] Printing table for strategy: " + strategy);
         }
 
@@ -203,7 +201,7 @@ public class DivisionHashTable extends HashTable {
 
     @Override
     public void clearTable() {
-        if (debug) {
+        if (debugMode) {
             System.out.println("[DEBUG] Clearing hash table and resetting metrics...");
         }
 
@@ -214,7 +212,7 @@ public class DivisionHashTable extends HashTable {
                 chainTable[i].clear();
             }
 
-            if (debug) {
+            if (debugMode) {
                 System.out.println("[DEBUG] Chained lists cleared and nodes returned to pool.");
             }
         }

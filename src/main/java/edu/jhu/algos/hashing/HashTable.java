@@ -14,21 +14,24 @@ public abstract class HashTable {
     protected int bucketSize; // Defines if buckets hold 1 or 3 elements
     protected Integer[] table; // Hash table storage (now using Integer[] to allow null values)
     protected PerformanceMetrics metrics; // Object for tracking performance statistics
+    protected final boolean debugMode; // Enables debug output across subclasses
 
     /**
      * Constructor for initializing a hash table.
      *
      * @param tableSize  Number of slots in the table (default: 120).
      * @param bucketSize Size of each bucket (1 for most schemes, 3 for schemes 10 & 11).
+     * @param debugMode  Enables debug output for subclasses and diagnostics.
      * @throws IllegalArgumentException If bucketSize is not 1 or 3.
      */
-    public HashTable(int tableSize, int bucketSize) {
+    public HashTable(int tableSize, int bucketSize, boolean debugMode) {
         if (bucketSize != 1 && bucketSize != 3) {
             throw new IllegalArgumentException("Error: bucketSize must be 1 or 3.");
         }
 
         this.tableSize = tableSize;
         this.bucketSize = bucketSize;
+        this.debugMode = debugMode;
         this.table = new Integer[tableSize]; // Changed to Integer[] to allow null values
         this.metrics = new PerformanceMetrics(); // Initialize performance tracking
 

@@ -8,15 +8,18 @@ package edu.jhu.algos.data_structures;
 public class LinkedListChain {
     private ChainedNode head;                      // Head of the linked list chain
     private final Stack<ChainedNode> freeList;     // Stack to manage available (free) nodes
+    private final boolean debugMode;               // Flag for debug output (optional diagnostics)
 
     /**
      * Constructor initializes an empty chain and assigns a shared free list.
      *
      * @param freeList A shared Stack of preallocated ChainedNode objects.
+     * @param debugMode Enables debug output when true.
      */
-    public LinkedListChain(Stack<ChainedNode> freeList) {
+    public LinkedListChain(Stack<ChainedNode> freeList, boolean debugMode) {
         this.head = null;
         this.freeList = freeList;
+        this.debugMode = debugMode;
     }
 
     /**
@@ -30,7 +33,9 @@ public class LinkedListChain {
     public void insert(int key) {
         // Defensive check: ensure memory is available in the free list
         if (freeList.isEmpty()) {
-            System.err.println("Error: No free nodes available for chaining.");
+            if (debugMode) {
+                System.err.println("Debug: No free nodes available for chaining. Key = " + key);
+            }
             return;
         }
 
@@ -118,6 +123,7 @@ public class LinkedListChain {
 
         head = null; // Clear the head reference
     }
+
     /**
      * Returns a string representation of the chain in the format:
      * key1 -> key2 -> ... -> None

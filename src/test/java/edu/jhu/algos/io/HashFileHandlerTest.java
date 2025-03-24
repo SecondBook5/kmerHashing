@@ -144,4 +144,16 @@ public class HashFileHandlerTest {
         assertEquals(1, keys.get(0), "First number should be 1");
         assertEquals(10000, keys.get(9999), "Last number should be 10000");
     }
+    @Test
+    public void testMinMaxIntegerValues(@TempDir Path tempDir) {
+        Path testFile = createTestFile(tempDir, "test_int_bounds.txt", "2147483647\n-2147483648\nabc\n");
+        assertNotNull(testFile, "Test file creation failed.");
+
+        List<Integer> keys = HashFileHandler.readFile(testFile.toString());
+
+        assertEquals(2, keys.size(), "Should read 2 valid integer bounds and skip the invalid line");
+        assertEquals(Integer.MAX_VALUE, keys.get(0), "Should read Integer.MAX_VALUE");
+        assertEquals(Integer.MIN_VALUE, keys.get(1), "Should read Integer.MIN_VALUE");
+    }
+
 }
