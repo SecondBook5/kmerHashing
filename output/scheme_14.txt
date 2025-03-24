@@ -41,5 +41,5 @@ None                None                27431 -> 33975 -> NoneNone              
 None                26987 -> 22699 -> NoneNone                99989 -> None       None                
 None                None                None                None                64763 -> None       
 
-Execution Time: 0 ms
-Memory Usage: 0 MB
+Execution Time: 3.946e-04 seconds
+Memory Usage: 0.000e+00 bytes

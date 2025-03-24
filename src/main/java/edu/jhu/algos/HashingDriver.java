@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * HashingDriver handles execution of all hashing schemes (1–14)
  * as well as user-defined manual hashing configuration via CLI parameters.
- *
  * Responsibilities:
  * - Look up scheme definitions from the HashingScheme enum.
  * - Construct and execute appropriate HashTable (Division or Custom).
@@ -22,7 +21,6 @@ public class HashingDriver {
 
     /**
      * Executes a predefined hashing scheme using HashingScheme (schemes 1–14).
-     *
      * Decision Tree:
      * Step 1: Validate inputs (scheme number and key list)
      * Step 2: Fetch HashingScheme from scheme number
@@ -71,11 +69,17 @@ public class HashingDriver {
                     debug
             );
 
+            // Start performance timer
+            table.getMetrics().startTimer();
+
             // Insert all keys
             for (int key : keys) {
                 if (debug) System.out.printf("[DEBUG] Inserting key: %d%n", key);
                 table.insert(key);
             }
+
+            // Stop performance timer
+            table.getMetrics().stopTimer();
 
             // Write formatted results to output file
             OutputFormatter.writeOutput(
@@ -103,11 +107,17 @@ public class HashingDriver {
                     debug
             );
 
+            // Start performance timer
+            table.getMetrics().startTimer();
+
             // Insert each key using Fibonacci hashing
             for (int key : keys) {
                 if (debug) System.out.printf("[DEBUG] Inserting key: %d%n", key);
                 table.insert(key);
             }
+
+            // Stop performance timer
+            table.getMetrics().stopTimer();
 
             // Write results to file — note mod value is not used in Fibonacci hashing
             OutputFormatter.writeOutput(
@@ -132,7 +142,6 @@ public class HashingDriver {
 
     /**
      * Executes a manual hashing configuration from CLI flags (outside the 1–14 schemes).
-     *
      * Decision Tree:
      * Step 1: Validate key list
      * Step 2: Determine hashing method ("division" or "custom")
@@ -195,10 +204,14 @@ public class HashingDriver {
         }
 
         // Step 4: Insert keys
+        table.getMetrics().startTimer();
+
         for (int key : keys) {
             if (debug) System.out.printf("[DEBUG] Inserting key: %d%n", key);
             table.insert(key);
         }
+
+        table.getMetrics().stopTimer();
 
         // Step 5: Format output
         OutputFormatter.writeOutput(

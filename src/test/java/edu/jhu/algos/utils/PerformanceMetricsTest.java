@@ -27,8 +27,8 @@ public class PerformanceMetricsTest {
         }
         metrics.stopTimer();
 
-        // Verify that the recorded time is at least 50ms
-        assertTrue(metrics.getElapsedTimeMs() >= 50, "Elapsed time should be at least 50ms.");
+        double elapsedSec = Double.parseDouble(metrics.getElapsedTime());
+        assertTrue(elapsedSec >= 0.05, "Elapsed time should be at least 0.05 seconds.");
     }
 
     /**
@@ -38,8 +38,6 @@ public class PerformanceMetricsTest {
     @Test
     public void testStopTimerWithoutStart() {
         PerformanceMetrics metrics = new PerformanceMetrics();
-
-        // Ensure an exception is thrown when stopTimer() is called before startTimer()
         Exception exception = assertThrows(IllegalStateException.class, metrics::stopTimer);
         assertEquals("Error: stopTimer() called without a valid startTimer() call.", exception.getMessage());
     }
@@ -58,11 +56,10 @@ public class PerformanceMetricsTest {
         metrics.addProbe();
         metrics.addInsertion();
 
-        // Verify that counters correctly reflect the number of calls
-        assertEquals(2, metrics.getTotalComparisons(), "Total comparisons should be 2.");
-        assertEquals(1, metrics.getTotalCollisions(), "Total collisions should be 1.");
-        assertEquals(1, metrics.getTotalProbes(), "Total probes should be 1.");
-        assertEquals(1, metrics.getTotalInsertions(), "Total insertions should be 1.");
+        assertEquals(2, metrics.getTotalComparisons());
+        assertEquals(1, metrics.getTotalCollisions());
+        assertEquals(1, metrics.getTotalProbes());
+        assertEquals(1, metrics.getTotalInsertions());
     }
 
     /**
@@ -74,11 +71,11 @@ public class PerformanceMetricsTest {
         PerformanceMetrics metrics = new PerformanceMetrics();
 
         metrics.startTimer();
-        int[] dummyArray = new int[1000000]; // Allocate a large array to simulate memory usage
+        int[] dummyArray = new int[1_000_000]; // Simulate memory usage
         metrics.stopTimer();
 
-        // Ensure that memory tracking does not return a negative value
-        assertTrue(metrics.getMemoryUsageMB() >= 0, "Memory usage should be non-negative.");
+        double usedBytes = Double.parseDouble(metrics.getMemoryUsage());
+        assertTrue(usedBytes >= 0, "Memory usage should be non-negative.");
     }
 
     /**
@@ -98,13 +95,17 @@ public class PerformanceMetricsTest {
 
         metrics.resetAll();
 
-        // Verify that all values reset to zero
-        assertEquals(0, metrics.getTotalComparisons(), "Total comparisons should reset to 0.");
-        assertEquals(0, metrics.getTotalCollisions(), "Total collisions should reset to 0.");
-        assertEquals(0, metrics.getTotalProbes(), "Total probes should reset to 0.");
-        assertEquals(0, metrics.getTotalInsertions(), "Total insertions should reset to 0.");
-        assertEquals(0, metrics.getElapsedTimeMs(), "Elapsed time should reset to 0.");
+        // Assert counters reset
+        assertEquals(0, metrics.getTotalComparisons());
+        assertEquals(0, metrics.getTotalCollisions());
+        assertEquals(0, metrics.getTotalProbes());
+        assertEquals(0, metrics.getTotalInsertions());
+
+        // Assert elapsed time and memory usage reset to 0 (as double)
+        assertEquals(0.0, Double.parseDouble(metrics.getElapsedTime()), 0.0001);
+        assertEquals(0.0, Double.parseDouble(metrics.getMemoryUsage()), 0.0001);
     }
+
 
     /**
      * Test measuring time for an extremely fast operation.
@@ -117,8 +118,8 @@ public class PerformanceMetricsTest {
         metrics.startTimer();
         metrics.stopTimer();
 
-        // The execution time should be very small, but non-negative
-        assertTrue(metrics.getElapsedTimeMs() >= 0, "Elapsed time should be non-negative.");
+        double elapsedSec = Double.parseDouble(metrics.getElapsedTime());
+        assertTrue(elapsedSec >= 0, "Elapsed time should be non-negative.");
     }
 
     /**
@@ -132,8 +133,8 @@ public class PerformanceMetricsTest {
         metrics.startTimer();
         metrics.stopTimer();
 
-        // If no memory-intensive operation was performed, the memory usage should be 0 or very small
-        assertTrue(metrics.getMemoryUsageMB() >= 0, "Memory usage should be non-negative.");
+        double memoryBytes = Double.parseDouble(metrics.getMemoryUsage());
+        assertTrue(memoryBytes >= 0, "Memory usage should be non-negative.");
     }
 
     /**
@@ -148,9 +149,8 @@ public class PerformanceMetricsTest {
             metrics.addComparison();
         }
 
-        assertEquals(Integer.MAX_VALUE, metrics.getTotalComparisons(), "Total comparisons should match Integer.MAX_VALUE.");
+        assertEquals(Integer.MAX_VALUE, metrics.getTotalComparisons());
     }
-
 
     /**
      * Test primary and secondary collision counters.
@@ -160,17 +160,15 @@ public class PerformanceMetricsTest {
     public void testPrimaryAndSecondaryCollisions() {
         PerformanceMetrics metrics = new PerformanceMetrics();
 
-        // Add two primary collisions and three secondary collisions
         metrics.addPrimaryCollision();
         metrics.addPrimaryCollision();
         metrics.addSecondaryCollision();
         metrics.addSecondaryCollision();
         metrics.addSecondaryCollision();
 
-        // Validate individual and total collision counts
-        assertEquals(2, metrics.getPrimaryCollisions(), "Primary collisions should be 2.");
-        assertEquals(3, metrics.getSecondaryCollisions(), "Secondary collisions should be 3.");
-        assertEquals(5, metrics.getTotalCollisions(), "Total collisions should be 5.");
+        assertEquals(2, metrics.getPrimaryCollisions());
+        assertEquals(3, metrics.getSecondaryCollisions());
+        assertEquals(5, metrics.getTotalCollisions());
     }
 
     /**
@@ -181,12 +179,12 @@ public class PerformanceMetricsTest {
     public void testLoadFactorCalculation() {
         PerformanceMetrics metrics = new PerformanceMetrics();
 
-        metrics.setTableSize(100); // Set table size
-        metrics.addInsertion();    // 1 insertion
-        metrics.addInsertion();    // 2 insertions
+        metrics.setTableSize(100);
+        metrics.addInsertion();
+        metrics.addInsertion();
 
         double expected = 2.0 / 100.0;
-        assertEquals(expected, metrics.getLoadFactor(), 0.0001, "Load factor should be insertions / tableSize.");
+        assertEquals(expected, metrics.getLoadFactor(), 0.0001);
     }
 
     /**
@@ -206,10 +204,10 @@ public class PerformanceMetricsTest {
 
         String output = metrics.toString();
 
-        assertTrue(output.contains("Comparisons"), "Summary should include 'Comparisons'.");
-        assertTrue(output.contains("Primary"), "Summary should include 'Primary' collisions.");
-        assertTrue(output.contains("Secondary"), "Summary should include 'Secondary' collisions.");
-        assertTrue(output.contains("Load Factor"), "Summary should include 'Load Factor'.");
-        assertTrue(output.contains("Execution Time"), "Summary should include 'Execution Time'.");
+        assertTrue(output.contains("Comparisons"));
+        assertTrue(output.contains("Primary"));
+        assertTrue(output.contains("Secondary"));
+        assertTrue(output.contains("Load Factor"));
+        assertTrue(output.contains("Execution Time"));
     }
 }

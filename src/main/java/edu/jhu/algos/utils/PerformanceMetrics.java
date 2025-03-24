@@ -4,7 +4,7 @@ package edu.jhu.algos.utils;
  * A utility class to measure performance data for hashing operations,
  * including execution time, memory usage, and key operation counts.
  * <p>
- * ▶ PRIMARY vs. SECONDARY COLLISIONS (important distinction for probing strategies):
+ * PRIMARY vs. SECONDARY COLLISIONS (important distinction for probing strategies):
  * - A **primary collision** occurs when the first index computed by the hash function
  *   (i.e., the "home slot") is already occupied.
  * - A **secondary collision** occurs during subsequent probes (i > 0) when a new slot is checked
@@ -70,25 +70,27 @@ public class PerformanceMetrics {
     }
 
     /**
-     * Retrieves the total elapsed execution time in milliseconds.
+     * Retrieves the total elapsed execution time in seconds (formatted in scientific notation).
      *
-     * @return The elapsed time in milliseconds, or 0 if stopTimer() hasn't been called.
+     * @return The elapsed time as a String in scientific notation.
      */
-    public long getElapsedTimeMs() {
+    public String getElapsedTime() {
         if (startTime == 0 || endTime == 0) {
-            System.err.println("Warning: getElapsedTimeMs() called before stopTimer(). Returning 0.");
-            return 0;
+            System.err.println("Warning: getElapsedTime() called before stopTimer(). Returning 0.");
+            return "0.000e+0";
         }
-        return (endTime - startTime) / 1_000_000; // Convert nanoseconds to milliseconds
+        double seconds = (endTime - startTime) / 1_000_000_000.0;
+        return String.format("%.3e", seconds); // scientific notation
     }
 
     /**
-     * Retrieves the memory usage difference before and after execution, in megabytes.
+     * Retrieves the memory usage difference in bytes (formatted in scientific notation).
      *
-     * @return The memory usage difference (MB).
+     * @return The memory usage as a String in scientific notation.
      */
-    public long getMemoryUsageMB() {
-        return (memoryAfter - memoryBefore) / (1024 * 1024); // Convert bytes to MB
+    public String getMemoryUsage() {
+        long bytes = memoryAfter - memoryBefore;
+        return String.format("%.3e", (double) bytes); // scientific notation
     }
 
     /**
@@ -196,9 +198,9 @@ public class PerformanceMetrics {
                         "Collisions: %d (Primary: %d, Secondary: %d)\n" +
                         "Probes: %d\n" +
                         "Insertions: %d\n" +
-                        "Load Factor: %.2f\n" +
-                        "Execution Time: %d ms\n" +
-                        "Memory Usage: %d MB",
+                        "Load Factor: %.6f\n" +
+                        "Execution Time: %s seconds\n" +
+                        "Memory Usage: %s bytes",
                 totalComparisons,
                 totalCollisions,
                 primaryCollisions,
@@ -206,8 +208,8 @@ public class PerformanceMetrics {
                 totalProbes,
                 totalInsertions,
                 getLoadFactor(),
-                getElapsedTimeMs(),
-                getMemoryUsageMB()
+                getElapsedTime(),
+                getMemoryUsage()
         );
     }
 }

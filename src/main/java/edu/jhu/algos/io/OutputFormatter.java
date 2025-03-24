@@ -12,8 +12,7 @@ import java.util.List;
  * OutputFormatter handles formatting and writing output to file.
  * It echoes the input, prints hash strategy parameters, performance metrics,
  * and the final hash table in a grid format.
- *
- * If debug mode is enabled, the content is also mirrored to the console.
+ * The content is also mirrored to the console.
  */
 public class OutputFormatter {
 
@@ -110,8 +109,11 @@ public class OutputFormatter {
             }
 
             String statsBlock = String.format(
-                    "# of primary collisions: %d, secondary collisions: %d, total collisions: %d\n" +
-                            "# of comparisons: %d, records inserted: %d, load factor: %.6f\n\n",
+                    """
+                            # of primary collisions: %d, secondary collisions: %d, total collisions: %d
+                            # of comparisons: %d, records inserted: %d, load factor: %.6f
+                            
+                            """,
                     metrics.getPrimaryCollisions(),
                     metrics.getSecondaryCollisions(),
                     metrics.getTotalCollisions(),
@@ -153,7 +155,7 @@ public class OutputFormatter {
                                 row.append(String.format("%-20s", cellStr));
                             }
                         }
-                        writer.write(row.toString() + "\n");
+                        writer.write(row + "\n");
                         System.out.println(row);
                     }
                 }
@@ -181,7 +183,7 @@ public class OutputFormatter {
                                 row.append(String.format("%-8s", cellStr));
                             }
                         }
-                        writer.write(row.toString() + "\n");
+                        writer.write(row + "\n");
                         System.out.println(row);
                     }
                 }
@@ -191,9 +193,9 @@ public class OutputFormatter {
             // 5. Append final runtime/memory metrics
             // --------------------------------------------
             String trailingStats = String.format(
-                    "\nExecution Time: %d ms\nMemory Usage: %d MB\n",
-                    metrics.getElapsedTimeMs(),
-                    metrics.getMemoryUsageMB()
+                    "\nExecution Time: %s seconds\nMemory Usage: %s bytes\n",
+                    metrics.getElapsedTime(),
+                    metrics.getMemoryUsage()
             );
             writer.write(trailingStats);
             System.out.print(trailingStats);

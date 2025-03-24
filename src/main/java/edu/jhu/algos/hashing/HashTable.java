@@ -111,8 +111,8 @@ public abstract class HashTable {
         System.out.println("Collisions: " + metrics.getTotalCollisions());
         System.out.println("Probes: " + metrics.getTotalProbes());
         System.out.println("Insertions: " + metrics.getTotalInsertions());
-        System.out.println("Execution Time: " + metrics.getElapsedTimeMs() + " ms");
-        System.out.println("Memory Usage: " + metrics.getMemoryUsageMB() + " MB");
+        System.out.println("Execution Time: " + metrics.getElapsedTime() + "seconds");
+        System.out.println("Memory Usage: " + metrics.getMemoryUsage() + " bytes");
     }
 
     /**

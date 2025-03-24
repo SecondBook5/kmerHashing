@@ -41,5 +41,5 @@ None                90911 -> None       None                37319 -> None       
 None                72501 -> None       67676 -> None       13956 -> None       47993 -> 57391 -> None
 None                None                None                None                None                
 
-Execution Time: 0 ms
-Memory Usage: 0 MB
+Execution Time: 2.698e-04 seconds
+Memory Usage: 0.000e+00 bytes
