@@ -69,5 +69,5 @@ None    190099  250488
 21575   796405  849109  
 276340  515986  173347  
 
-Execution Time: 1.046e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.090e-01 seconds
+Memory Usage: 2.097e+06 bytes

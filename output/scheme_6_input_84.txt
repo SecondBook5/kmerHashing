@@ -17,7 +17,7 @@ original input:
 618104, 217597, 34451, 504031, 522670, 
 318806, 167795, 240606, 165679
 
-scheme 6 (division) - modulo: 127, bucket size: 1, chaining
+scheme -1 (division) - modulo: 127, bucket size: 1, chaining
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 0, records inserted: 84, load factor: 0.700000
 
@@ -46,5 +46,5 @@ None                None                None                None                
 None                None                None                692390 -> None      837552 -> None      
 462522 -> None      252846 -> 903975 -> None572379 -> None      None                None                
 
-Execution Time: 2.685e-04 seconds
+Execution Time: 2.325e-02 seconds
 Memory Usage: 0.000e+00 bytes

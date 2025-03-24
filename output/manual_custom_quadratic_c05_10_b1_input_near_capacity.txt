@@ -53,5 +53,5 @@ None    1094    1033    1030    1118
 1101    1039    1000    1008    1037    
 1076    1049    1016    1040    1090    
 
-Execution Time: 1.144e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.947e-01 seconds
+Memory Usage: 2.097e+06 bytes

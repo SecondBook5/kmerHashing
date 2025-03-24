@@ -12,7 +12,7 @@ original input:
 999, 999, 999, 999, 999, 
 999, 999, 999, 999, 999
 
-scheme 4 (division) - modulo: 127, bucket size: 1, linear
+scheme -1 (division) - modulo: 127, bucket size: 1, linear
 # of primary collisions: 59, secondary collisions: 1711, total collisions: 1770
 # of comparisons: 1830, records inserted: 60, load factor: 0.500000
 
@@ -41,5 +41,5 @@ None    None    None    None    None
 999     999     999     999     999     
 999     999     999     999     999     
 
-Execution Time: 8.004e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.504e-01 seconds
+Memory Usage: 3.146e+06 bytes

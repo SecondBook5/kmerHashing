@@ -24,7 +24,7 @@ original input:
 830771, 535386, 849109, 497794, 756007, 
 692056, 450011, 250488, 648842, 328813
 
-scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
+scheme -1 (custom) - modulo: N/A, bucket size: 1, quadratic
 # of primary collisions: 58, secondary collisions: 609, total collisions: 667
 # of comparisons: 785, records inserted: 118, load factor: 0.983333
 
@@ -53,5 +53,5 @@ scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
 854137  173347  451064  860494  52629   
 763593  590452  56417   351294  699891  
 
-Execution Time: 1.373e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 9.936e-02 seconds
+Memory Usage: 1.049e+06 bytes

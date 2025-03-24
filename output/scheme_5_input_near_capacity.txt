@@ -24,7 +24,7 @@ original input:
 1110, 1111, 1112, 1113, 1114, 
 1115, 1116, 1117, 1118
 
-scheme 5 (division) - modulo: 127, bucket size: 1, quadratic
+scheme -1 (division) - modulo: 127, bucket size: 1, quadratic
 # of primary collisions: 103, secondary collisions: 232, total collisions: 335
 # of comparisons: 454, records inserted: 119, load factor: 0.991667
 
@@ -53,5 +53,5 @@ scheme 5 (division) - modulo: 127, bucket size: 1, quadratic
 1116    1000    1001    1002    1003    
 1004    1005    1006    1007    1008    
 
-Execution Time: 7.893e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.148e-01 seconds
+Memory Usage: 1.049e+06 bytes

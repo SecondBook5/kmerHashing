@@ -24,7 +24,7 @@ original input:
 1000, 1113, 1500, 1613, 2000, 
 2113
 
-scheme 10 (division) - modulo: 41, bucket size: 3, linear
+scheme -1 (division) - modulo: 41, bucket size: 3, linear
 # of primary collisions: 75, secondary collisions: 4435, total collisions: 4510
 # of comparisons: 4626, records inserted: 116, load factor: 0.966667
 
@@ -69,5 +69,5 @@ scheme 10 (division) - modulo: 41, bucket size: 3, linear
 2000    2113    None    
 None    None    None    
 
-Execution Time: 1.260e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.795e-01 seconds
+Memory Usage: 7.340e+06 bytes

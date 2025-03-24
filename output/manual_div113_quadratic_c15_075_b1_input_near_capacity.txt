@@ -53,5 +53,5 @@ scheme -1 (division) - modulo: 113, bucket size: 1, quadratic
 1014    1015    1016    None    1113    
 1114    1115    1116    1117    1118    
 
-Execution Time: 3.347e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.200e-01 seconds
+Memory Usage: 1.049e+06 bytes

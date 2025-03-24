@@ -12,7 +12,7 @@ original input:
 999, 999, 999, 999, 999, 
 999, 999, 999, 999, 999
 
-scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
+scheme -1 (custom) - modulo: N/A, bucket size: 1, quadratic
 # of primary collisions: 59, secondary collisions: 2967, total collisions: 3026
 # of comparisons: 3074, records inserted: 48, load factor: 0.400000
 
@@ -41,5 +41,5 @@ None    999     None    None    999
 None    None    None    999     None    
 None    999     None    999     999     
 
-Execution Time: 2.569e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 2.354e-01 seconds
+Memory Usage: 4.194e+06 bytes

@@ -2,7 +2,7 @@ original input:
 10, 1000, 10000, 25000, 50000, 
 100000
 
-scheme 11 (division) - modulo: 41, bucket size: 3, quadratic
+scheme -1 (division) - modulo: 41, bucket size: 3, quadratic
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 6, records inserted: 6, load factor: 0.050000
 
@@ -47,5 +47,5 @@ None    None    None
 None    None    None    
 None    None    None    
 
-Execution Time: 3.545e-04 seconds
+Execution Time: 1.521e-02 seconds
 Memory Usage: 0.000e+00 bytes

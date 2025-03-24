@@ -69,5 +69,5 @@ None    1081    1116
 1008    1035    1052    
 1075    1016    1057    
 
-Execution Time: 2.194e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.870e-01 seconds
+Memory Usage: 2.097e+06 bytes

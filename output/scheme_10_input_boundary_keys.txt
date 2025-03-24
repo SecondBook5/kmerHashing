@@ -1,7 +1,7 @@
 original input:
 -2147483648, -1, 0, 1, 2147483647
 
-scheme 10 (division) - modulo: 41, bucket size: 3, linear
+scheme -1 (division) - modulo: 41, bucket size: 3, linear
 # of primary collisions: 1, secondary collisions: 0, total collisions: 1
 # of comparisons: 6, records inserted: 5, load factor: 0.041667
 
@@ -46,5 +46,5 @@ None    None    None
 None    None    None    
 None    None    None    
 
-Execution Time: 1.741e-04 seconds
+Execution Time: 1.849e-02 seconds
 Memory Usage: 0.000e+00 bytes

@@ -62,5 +62,5 @@ None    522737  None
 None    None    55476   
 None    None    None    
 
-Execution Time: 2.807e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 7.017e-02 seconds
+Memory Usage: 1.049e+06 bytes

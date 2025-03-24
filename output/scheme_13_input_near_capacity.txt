@@ -24,7 +24,7 @@ original input:
 1110, 1111, 1112, 1113, 1114, 
 1115, 1116, 1117, 1118
 
-scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
+scheme -1 (custom) - modulo: N/A, bucket size: 1, quadratic
 # of primary collisions: 107, secondary collisions: 1227, total collisions: 1334
 # of comparisons: 1453, records inserted: 119, load factor: 0.991667
 
@@ -53,5 +53,5 @@ scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
 1043    1059    1000    1008    1067    
 1016    1051    1074    1024    1104    
 
-Execution Time: 7.309e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.087e-01 seconds
+Memory Usage: 2.097e+06 bytes

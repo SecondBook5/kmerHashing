@@ -57,5 +57,5 @@ None    None    999
 None    999     None    
 None    999     None    
 
-Execution Time: 1.410e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 2.160e-01 seconds
+Memory Usage: 3.146e+06 bytes

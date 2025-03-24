@@ -2,7 +2,7 @@ original input:
 10, 1000, 10000, 25000, 50000, 
 100000
 
-scheme 12 (custom) - modulo: N/A, bucket size: 1, linear
+scheme -1 (custom) - modulo: N/A, bucket size: 1, linear
 # of primary collisions: 1, secondary collisions: 0, total collisions: 1
 # of comparisons: 7, records inserted: 6, load factor: 0.050000
 
@@ -31,5 +31,5 @@ None    None    None    None    None
 None    None    1000    100000  None    
 None    None    None    None    None    
 
-Execution Time: 1.949e-04 seconds
+Execution Time: 9.578e-03 seconds
 Memory Usage: 0.000e+00 bytes

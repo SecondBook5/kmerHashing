@@ -69,5 +69,5 @@ None    450011  116781
 594741  585036  756007  
 830771  849109  692056  
 
-Execution Time: 1.411e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.615e-01 seconds
+Memory Usage: 3.146e+06 bytes

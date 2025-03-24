@@ -1,7 +1,7 @@
 original input:
 600
 
-scheme 5 (division) - modulo: 127, bucket size: 1, quadratic
+scheme -1 (division) - modulo: 127, bucket size: 1, quadratic
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 1, records inserted: 1, load factor: 0.008333
 
@@ -30,5 +30,5 @@ None    None    None    None    None
 None    None    None    None    None    
 None    None    None    None    None    
 
-Execution Time: 9.036e-04 seconds
+Execution Time: 2.603e-03 seconds
 Memory Usage: 0.000e+00 bytes

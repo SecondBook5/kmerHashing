@@ -67,5 +67,5 @@ None    240323  None
 207183  None    None    
 None    None    134181  
 
-Execution Time: 1.740e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.574e-01 seconds
+Memory Usage: 2.097e+06 bytes

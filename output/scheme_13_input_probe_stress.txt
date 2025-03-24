@@ -24,7 +24,7 @@ original input:
 881089, 889008, 896927, 904846, 912765, 
 920684, 928603, 936522, 944441
 
-scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
+scheme -1 (custom) - modulo: N/A, bucket size: 1, quadratic
 # of primary collisions: 16, secondary collisions: 72, total collisions: 88
 # of comparisons: 207, records inserted: 119, load factor: 0.991667
 
@@ -53,5 +53,5 @@ scheme 13 (custom) - modulo: N/A, bucket size: 1, quadratic
 207974  793980  382192  89189   944441  
 706871  413868  881089  588086  295083  
 
-Execution Time: 3.151e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.528e-01 seconds
+Memory Usage: 1.049e+06 bytes

@@ -8,7 +8,7 @@ original input:
 166730, 220756, 482430, 101085, 758217, 
 287727
 
-scheme 12 (custom) - modulo: N/A, bucket size: 1, linear
+scheme -1 (custom) - modulo: N/A, bucket size: 1, linear
 # of primary collisions: 1, secondary collisions: 0, total collisions: 1
 # of comparisons: 37, records inserted: 36, load factor: 0.300000
 
@@ -37,5 +37,5 @@ None    None    537863  None    None
 None    None    None    None    579970  
 386170  None    372913  None    402763  
 
-Execution Time: 2.201e-04 seconds
+Execution Time: 2.648e-02 seconds
 Memory Usage: 0.000e+00 bytes

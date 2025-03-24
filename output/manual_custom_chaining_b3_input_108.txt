@@ -67,5 +67,5 @@ None                134181 -> None      None
 None                181511 -> 26447 -> NoneNone                
 None                None                None                
 
-Execution Time: 7.865e-04 seconds
+Execution Time: 5.550e-02 seconds
 Memory Usage: 0.000e+00 bytes

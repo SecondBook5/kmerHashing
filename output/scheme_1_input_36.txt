@@ -8,7 +8,7 @@ original input:
 166730, 220756, 482430, 101085, 758217, 
 287727
 
-scheme 1 (division) - modulo: 120, bucket size: 1, linear
+scheme -1 (division) - modulo: 120, bucket size: 1, linear
 # of primary collisions: 4, secondary collisions: 0, total collisions: 4
 # of comparisons: 40, records inserted: 36, load factor: 0.300000
 
@@ -37,5 +37,5 @@ None    None    487182  677502  None
 356030  None    None    None    None    
 None    None    None    None    65519   
 
-Execution Time: 2.246e-04 seconds
+Execution Time: 3.964e-02 seconds
 Memory Usage: 0.000e+00 bytes

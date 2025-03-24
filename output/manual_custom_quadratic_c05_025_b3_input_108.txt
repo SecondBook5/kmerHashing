@@ -67,5 +67,5 @@ None    611373  531675
 688035  26447   None    
 72377   181511  89943   
 
-Execution Time: 4.116e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 8.666e-02 seconds
+Memory Usage: 1.049e+06 bytes

@@ -24,7 +24,7 @@ original input:
 1000, 1113, 1500, 1613, 2000, 
 2113
 
-scheme 8 (division) - modulo: 113, bucket size: 1, quadratic
+scheme -1 (division) - modulo: 113, bucket size: 1, quadratic
 # of primary collisions: 6, secondary collisions: 135, total collisions: 141
 # of comparisons: 257, records inserted: 116, load factor: 0.966667
 
@@ -53,5 +53,5 @@ None    1       2       3       4
 110     1000    1613    None    None    
 2000    1500    1113    None    2113    
 
-Execution Time: 4.372e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.487e-01 seconds
+Memory Usage: 1.049e+06 bytes

@@ -17,7 +17,7 @@ original input:
 618104, 217597, 34451, 504031, 522670, 
 318806, 167795, 240606, 165679
 
-scheme 2 (division) - modulo: 120, bucket size: 1, quadratic
+scheme -1 (division) - modulo: 120, bucket size: 1, quadratic
 # of primary collisions: 29, secondary collisions: 33, total collisions: 62
 # of comparisons: 146, records inserted: 84, load factor: 0.700000
 
@@ -46,5 +46,5 @@ None    None    None    None    572379
 692390  None    558229  600713  37193   
 760794  374756  None    None    135713  
 
-Execution Time: 5.167e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 7.049e-02 seconds
+Memory Usage: 1.049e+06 bytes

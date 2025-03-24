@@ -24,7 +24,7 @@ original input:
 1000, 1113, 1500, 1613, 2000, 
 2113
 
-scheme 12 (custom) - modulo: N/A, bucket size: 1, linear
+scheme -1 (custom) - modulo: N/A, bucket size: 1, linear
 # of primary collisions: 103, secondary collisions: 915, total collisions: 1018
 # of comparisons: 1134, records inserted: 116, load factor: 0.966667
 
@@ -53,5 +53,5 @@ None    None    None    4       1
 51      54      62      70      78      
 86      94      102     110     59      
 
-Execution Time: 8.624e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.637e-01 seconds
+Memory Usage: 2.097e+06 bytes

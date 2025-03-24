@@ -24,7 +24,7 @@ original input:
 881089, 889008, 896927, 904846, 912765, 
 920684, 928603, 936522, 944441
 
-scheme 8 (division) - modulo: 113, bucket size: 1, quadratic
+scheme -1 (division) - modulo: 113, bucket size: 1, quadratic
 # of primary collisions: 6, secondary collisions: 264, total collisions: 270
 # of comparisons: 388, records inserted: 118, load factor: 0.983333
 
@@ -53,5 +53,5 @@ scheme 8 (division) - modulo: 113, bucket size: 1, quadratic
 754385  556410  358435  928603  None    
 904846  936522  None    920684  912765  
 
-Execution Time: 2.643e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 3.831e-01 seconds
+Memory Usage: 1.049e+06 bytes

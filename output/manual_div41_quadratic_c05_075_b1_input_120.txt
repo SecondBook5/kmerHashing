@@ -53,5 +53,5 @@ None    756007  740984  473993  830771
 401518  None    855005  657509  328813  
 515986  763955  660953  497794  286800  
 
-Execution Time: 2.816e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.225e-01 seconds
+Memory Usage: 2.097e+06 bytes

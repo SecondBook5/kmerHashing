@@ -24,7 +24,7 @@ original input:
 830771, 535386, 849109, 497794, 756007, 
 692056, 450011, 250488, 648842, 328813
 
-scheme 11 (division) - modulo: 41, bucket size: 3, quadratic
+scheme -1 (division) - modulo: 41, bucket size: 3, quadratic
 # of primary collisions: 95, secondary collisions: 971, total collisions: 1066
 # of comparisons: 1185, records inserted: 119, load factor: 0.991667
 
@@ -69,5 +69,5 @@ scheme 11 (division) - modulo: 41, bucket size: 3, quadratic
 594741  None    497794  
 450011  116781  830771  
 
-Execution Time: 1.486e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.790e-01 seconds
+Memory Usage: 2.097e+06 bytes

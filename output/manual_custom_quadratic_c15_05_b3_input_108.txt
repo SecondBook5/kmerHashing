@@ -67,5 +67,5 @@ None    700150  184359
 72377   26447   688035  
 240323  None    207183  
 
-Execution Time: 4.223e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 7.262e-02 seconds
+Memory Usage: 1.049e+06 bytes

@@ -69,5 +69,5 @@ None    683114  738547
 936522  770223  825656  
 809818  865251  920684  
 
-Execution Time: 5.906e-04 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 1.943e-01 seconds
+Memory Usage: 2.097e+06 bytes

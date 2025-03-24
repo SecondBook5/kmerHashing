@@ -24,7 +24,7 @@ original input:
 1110, 1111, 1112, 1113, 1114, 
 1115, 1116, 1117, 1118
 
-scheme 9 (division) - modulo: 113, bucket size: 1, chaining
+scheme -1 (division) - modulo: 113, bucket size: 1, chaining
 # of primary collisions: 0, secondary collisions: 0, total collisions: 0
 # of comparisons: 0, records inserted: 119, load factor: 0.991667
 
@@ -53,5 +53,5 @@ scheme 9 (division) - modulo: 113, bucket size: 1, chaining
 1014 -> None        1015 -> None        1016 -> None        None                None                
 None                None                None                None                None                
 
-Execution Time: 9.070e-04 seconds
+Execution Time: 5.504e-02 seconds
 Memory Usage: 0.000e+00 bytes

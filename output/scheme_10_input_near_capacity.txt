@@ -24,7 +24,7 @@ original input:
 1110, 1111, 1112, 1113, 1114, 
 1115, 1116, 1117, 1118
 
-scheme 10 (division) - modulo: 41, bucket size: 3, linear
+scheme -1 (division) - modulo: 41, bucket size: 3, linear
 # of primary collisions: 78, secondary collisions: 4537, total collisions: 4615
 # of comparisons: 4734, records inserted: 119, load factor: 0.991667
 
@@ -69,5 +69,5 @@ scheme 10 (division) - modulo: 41, bucket size: 3, linear
 1114    1115    1116    
 1117    1118    None    
 
-Execution Time: 1.892e-03 seconds
-Memory Usage: 0.000e+00 bytes
+Execution Time: 2.014e-01 seconds
+Memory Usage: 7.340e+06 bytes
