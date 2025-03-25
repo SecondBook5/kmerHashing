@@ -23,8 +23,8 @@ original input:
 671553, 813416, 409493
 
 scheme -1 (custom) - modulo: N/A, bucket size: 3, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 108, load factor: 0.900000
+# of collisions: 41
+# of comparisons: 52, records inserted: 108, load factor: 0.900000
 
 None                163589 -> 611373 -> NoneNone                
 None                802740 -> 908172 -> NoneNone                
@@ -67,5 +67,5 @@ None                134181 -> None      None
 None                181511 -> 26447 -> NoneNone                
 None                None                None                
 
-Execution Time: 5.550e-02 seconds
+Execution Time: 5.687e-02 seconds
 Memory Usage: 0.000e+00 bytes

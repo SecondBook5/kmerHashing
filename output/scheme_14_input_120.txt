@@ -25,8 +25,8 @@ original input:
 692056, 450011, 250488, 648842, 328813
 
 scheme -1 (custom) - modulo: N/A, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 120, load factor: 1.000000
+# of collisions: 42
+# of comparisons: 55, records inserted: 120, load factor: 1.000000
 
 587816 -> 15088 -> None236725 -> None      212866 -> None      34031 -> None       None                
 503241 -> None      744230 -> None      115387 -> 309243 -> None451248 -> 265960 -> None401605 -> 410189 -> None
@@ -53,5 +53,5 @@ None                303857 -> 473993 -> None118510 -> None      450011 -> 122675
 860494 -> None      173347 -> None      451064 -> None      52629 -> None       648842 -> None      
 None                590452 -> None      56417 -> None       170302 -> 351294 -> None562107 -> 699891 -> None
 
-Execution Time: 4.952e-02 seconds
+Execution Time: 3.558e-02 seconds
 Memory Usage: 0.000e+00 bytes

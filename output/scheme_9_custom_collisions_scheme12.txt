@@ -13,8 +13,8 @@ original input:
 211, 219, 216, 224, 232
 
 scheme -1 (division) - modulo: 113, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 60, load factor: 0.500000
+# of collisions: 7
+# of comparisons: 7, records inserted: 60, load factor: 0.500000
 
 None                114 -> 1 -> None    2 -> None           3 -> None           4 -> None           
 5 -> None           232 -> 6 -> None    7 -> None           8 -> None           122 -> 9 -> None    
@@ -41,5 +41,5 @@ None                219 -> None         None                None                
 None                224 -> None         None                None                None                
 None                None                None                None                None                
 
-Execution Time: 3.351e-02 seconds
+Execution Time: 3.442e-02 seconds
 Memory Usage: 0.000e+00 bytes

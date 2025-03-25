@@ -2,7 +2,7 @@ original input:
 42, 999
 
 scheme -1 (custom) - modulo: N/A, bucket size: 3, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
+# of collisions: 0
 # of comparisons: 0, records inserted: 2, load factor: 0.016667
 
 None                None                None                
@@ -46,5 +46,5 @@ None                None                None
 None                None                None                
 None                None                None                
 
-Execution Time: 2.636e-03 seconds
+Execution Time: 5.418e-03 seconds
 Memory Usage: 0.000e+00 bytes

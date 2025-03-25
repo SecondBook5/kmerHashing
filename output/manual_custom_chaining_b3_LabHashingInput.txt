@@ -13,8 +13,8 @@ original input:
 62000, 78911, 88531, 92345, 358
 
 scheme -1 (custom) - modulo: N/A, bucket size: 3, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 60, load factor: 0.500000
+# of collisions: 14
+# of comparisons: 15, records inserted: 60, load factor: 0.500000
 
 None                92501 -> None       None                
 12503 -> None       None                None                
@@ -57,5 +57,5 @@ None                None                None
 None                None                None                
 None                None                64763 -> None       
 
-Execution Time: 5.220e-02 seconds
+Execution Time: 2.640e-02 seconds
 Memory Usage: 0.000e+00 bytes

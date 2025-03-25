@@ -25,8 +25,8 @@ original input:
 2113
 
 scheme -1 (division) - modulo: 120, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 116, load factor: 0.966667
+# of collisions: 6
+# of comparisons: 6, records inserted: 116, load factor: 0.966667
 
 None                1 -> None           2 -> None           3 -> None           4 -> None           
 5 -> None           6 -> None           7 -> None           8 -> None           9 -> None           
@@ -53,5 +53,5 @@ None                1 -> None           2 -> None           3 -> None           
 110 -> None         None                None                None                None                
 None                None                None                None                None                
 
-Execution Time: 4.669e-02 seconds
+Execution Time: 4.612e-02 seconds
 Memory Usage: 0.000e+00 bytes

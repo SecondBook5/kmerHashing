@@ -13,8 +13,8 @@ original input:
 139, 259, 20, 140, 260
 
 scheme -1 (division) - modulo: 120, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 60, load factor: 0.500000
+# of collisions: 40
+# of comparisons: 60, records inserted: 60, load factor: 0.500000
 
 None                241 -> 121 -> 1 -> None242 -> 122 -> 2 -> None243 -> 123 -> 3 -> None244 -> 124 -> 4 -> None
 245 -> 125 -> 5 -> None246 -> 126 -> 6 -> None247 -> 127 -> 7 -> None248 -> 128 -> 8 -> None249 -> 129 -> 9 -> None
@@ -41,5 +41,5 @@ None                None                None                None                
 None                None                None                None                None                
 None                None                None                None                None                
 
-Execution Time: 3.607e-02 seconds
+Execution Time: 3.137e-02 seconds
 Memory Usage: 0.000e+00 bytes

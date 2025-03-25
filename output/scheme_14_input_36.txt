@@ -9,8 +9,8 @@ original input:
 287727
 
 scheme -1 (custom) - modulo: N/A, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 36, load factor: 0.300000
+# of collisions: 1
+# of comparisons: 1, records inserted: 36, load factor: 0.300000
 
 None                101085 -> None      None                None                None                
 None                677502 -> None      227387 -> None      None                None                
@@ -37,5 +37,5 @@ None                None                537863 -> None      None                
 None                None                None                None                386170 -> 579970 -> None
 None                None                372913 -> None      None                402763 -> None      
 
-Execution Time: 2.736e-02 seconds
+Execution Time: 1.445e-02 seconds
 Memory Usage: 0.000e+00 bytes

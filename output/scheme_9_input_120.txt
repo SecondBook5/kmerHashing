@@ -25,8 +25,8 @@ original input:
 692056, 450011, 250488, 648842, 328813
 
 scheme -1 (division) - modulo: 113, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 120, load factor: 1.000000
+# of collisions: 47
+# of comparisons: 68, records inserted: 120, load factor: 1.000000
 
 303857 -> None      None                None                401605 -> None      None                
 188037 -> 901067 -> 173347 -> None286800 -> 779819 -> NoneNone                27806 -> None       776206 -> None      
@@ -53,5 +53,5 @@ None                None                None                236725 -> 587816 -> 
 879137 -> None      None                860494 -> 410189 -> 361486 -> NoneNone                None                
 None                None                None                None                None                
 
-Execution Time: 4.097e-02 seconds
+Execution Time: 5.090e-02 seconds
 Memory Usage: 0.000e+00 bytes

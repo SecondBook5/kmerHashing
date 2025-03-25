@@ -25,8 +25,8 @@ original input:
 1115, 1116, 1117, 1118
 
 scheme -1 (custom) - modulo: N/A, bucket size: 3, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 119, load factor: 0.991667
+# of collisions: 104
+# of comparisons: 570, records inserted: 119, load factor: 0.991667
 
 None                None                None                
 None                None                None                
@@ -69,5 +69,5 @@ None                None                None
 None                None                None                
 None                None                None                
 
-Execution Time: 9.959e-02 seconds
+Execution Time: 5.205e-02 seconds
 Memory Usage: 0.000e+00 bytes

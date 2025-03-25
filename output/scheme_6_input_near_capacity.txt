@@ -25,8 +25,8 @@ original input:
 1115, 1116, 1117, 1118
 
 scheme -1 (division) - modulo: 127, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 119, load factor: 0.991667
+# of collisions: 7
+# of comparisons: 7, records inserted: 119, load factor: 0.991667
 
 1016 -> 1009 -> None1017 -> 1010 -> None1018 -> 1011 -> None1019 -> 1012 -> None1020 -> 1013 -> None
 1021 -> 1014 -> None1022 -> 1015 -> None1023 -> None        1024 -> None        1025 -> None        
@@ -53,5 +53,5 @@ None                None                None                None                
 None                1000 -> None        1001 -> None        1002 -> None        1003 -> None        
 1004 -> None        1005 -> None        1006 -> None        1007 -> None        1008 -> None        
 
-Execution Time: 6.877e-02 seconds
+Execution Time: 3.599e-02 seconds
 Memory Usage: 0.000e+00 bytes

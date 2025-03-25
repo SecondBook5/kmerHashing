@@ -2,8 +2,8 @@ original input:
 -2147483648, -1, 0, 1, 2147483647
 
 scheme -1 (custom) - modulo: N/A, bucket size: 3, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 5, load factor: 0.041667
+# of collisions: 2
+# of comparisons: 2, records inserted: 5, load factor: 0.041667
 
 0 -> -2147483648 -> NoneNone                None                
 None                None                None                
@@ -46,5 +46,5 @@ None                None                None
 None                None                None                
 None                None                None                
 
-Execution Time: 5.341e-03 seconds
+Execution Time: 5.427e-03 seconds
 Memory Usage: 0.000e+00 bytes

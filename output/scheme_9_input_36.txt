@@ -9,8 +9,8 @@ original input:
 287727
 
 scheme -1 (division) - modulo: 113, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 36, load factor: 0.300000
+# of collisions: 5
+# of comparisons: 5, records inserted: 36, load factor: 0.300000
 
 None                None                None                582292 -> None      None                
 None                None                None                None                None                
@@ -37,5 +37,5 @@ None                None                221248 -> None      606918 -> None      
 None                41130 -> None       None                None                None                
 None                None                None                None                None                
 
-Execution Time: 1.505e-02 seconds
+Execution Time: 2.578e-02 seconds
 Memory Usage: 0.000e+00 bytes

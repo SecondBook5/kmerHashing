@@ -13,8 +13,8 @@ original input:
 999, 999, 999, 999, 999
 
 scheme -1 (division) - modulo: 127, bucket size: 1, chaining
-# of primary collisions: 0, secondary collisions: 0, total collisions: 0
-# of comparisons: 0, records inserted: 60, load factor: 0.500000
+# of collisions: 59
+# of comparisons: 1770, records inserted: 60, load factor: 0.500000
 
 None                None                None                None                None                
 None                None                None                None                None                
@@ -41,5 +41,5 @@ None                None                None                None                
 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> 999 -> NoneNone                None                None                None                
 None                None                None                None                None                
 
-Execution Time: 6.554e-02 seconds
+Execution Time: 3.437e-02 seconds
 Memory Usage: 0.000e+00 bytes
