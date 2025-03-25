@@ -116,8 +116,7 @@ public class ProbingStrategy {
         }
 
         // Insert into the linked list chain at the specified index
-        chainTable[index].insert(key);
-        metrics.addInsertion(); // Record successful chaining insert
+        chainTable[index].insert(key, metrics);  // insert handles all metrics
 
         // Debug output for chaining
         if (debug) {

@@ -1,5 +1,7 @@
 package edu.jhu.algos.data_structures;
 
+import edu.jhu.algos.utils.PerformanceMetrics;
+
 /**
  * Manages a chain of ChainedNode objects for separate chaining in hash tables.
  * - Uses a Stack<ChainedNode> as a free list to simulate memory reuse.
@@ -24,19 +26,33 @@ public class LinkedListChain {
 
     /**
      * Inserts a key into the chain by reusing a node from the free list.
+     * Also updates performance metrics if provided.
      *
      * If no free nodes are available, insertion fails and an error is printed.
      * Nodes are inserted at the front of the chain for O(1) insertion.
      *
      * @param key The integer key to insert into the chain.
+     * @param metrics Optional PerformanceMetrics object to track comparisons, insertions, and collisions.
      */
-    public void insert(int key) {
+    public void insert(int key, PerformanceMetrics metrics) {
         // Defensive check: ensure memory is available in the free list
         if (freeList.isEmpty()) {
             if (debugMode) {
                 System.err.println("Debug: No free nodes available for chaining. Key = " + key);
             }
-            return;
+            return; // Early return — no changes made
+        }
+
+        // Traverse the chain to count comparisons (simulating a search)
+        ChainedNode current = head;
+        while (current != null) {
+            if (metrics != null) metrics.addComparison();
+            current = current.next;
+        }
+
+        // Count as a collision if the chain already has entries
+        if (head != null && metrics != null) {
+            metrics.addCollision();
         }
 
         // Reuse a node from the stack
@@ -44,19 +60,31 @@ public class LinkedListChain {
         node.key = key;       // Assign the key to this reused node
         node.next = head;     // Link to the current head of the chain
         head = node;          // Update head to the new node
+
+        // Count this as a successful insertion
+        if (metrics != null) {
+            metrics.addInsertion();
+        }
+
+        if (debugMode) {
+            System.out.println("[DEBUG] Inserted key " + key + " into chain.");
+        }
     }
 
     /**
-     * Searches for a key within the chain.
+     * Searches for a key within the chain, counting comparisons if metrics is provided.
      *
      * @param key The key to search for.
+     * @param metrics Optional PerformanceMetrics object for tracking comparisons.
      * @return True if the key is found in the chain, false otherwise.
      */
-    public boolean search(int key) {
+    public boolean search(int key, PerformanceMetrics metrics) {
         ChainedNode current = head;
 
         // Traverse the list until key is found or end is reached
         while (current != null) {
+            if (metrics != null) metrics.addComparison();
+
             if (current.key == key) {
                 return true; // Key found
             }

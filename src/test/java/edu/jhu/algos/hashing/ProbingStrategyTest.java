@@ -89,8 +89,8 @@ public class ProbingStrategyTest {
         ProbingStrategy.insertWithChaining(chainTable, 99, 1, metrics, DEBUG);
         ProbingStrategy.insertWithChaining(chainTable, 88, 1, metrics, DEBUG);
 
-        assertTrue(chainTable[1].search(99));
-        assertTrue(chainTable[1].search(88));
+        assertTrue(chainTable[1].search(99, metrics));
+        assertTrue(chainTable[1].search(88, metrics));
         assertEquals(2, chainTable[1].size());
         assertEquals(2, metrics.getTotalInsertions());
     }
@@ -214,9 +214,9 @@ public class ProbingStrategyTest {
 
         // Validate chain contents and metric count
         assertEquals(3, chainTable[0].size(), "Chain at index 0 should contain 3 items.");
-        assertTrue(chainTable[0].search(11), "Chain should contain key 11.");
-        assertTrue(chainTable[0].search(22), "Chain should contain key 22.");
-        assertTrue(chainTable[0].search(33), "Chain should contain key 33.");
+        assertTrue(chainTable[0].search(11, metrics), "Chain should contain key 11.");
+        assertTrue(chainTable[0].search(22, metrics), "Chain should contain key 22.");
+        assertTrue(chainTable[0].search(33, metrics), "Chain should contain key 33.");
         assertEquals(3, metrics.getTotalInsertions(), "Metrics should show 3 successful insertions.");
     }
 

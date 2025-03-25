@@ -108,19 +108,34 @@ public class OutputFormatter {
                 return;
             }
 
-            String statsBlock = String.format(
-                    """
-                            # of primary collisions: %d, secondary collisions: %d, total collisions: %d
-                            # of comparisons: %d, records inserted: %d, load factor: %.6f
-                            
-                            """,
-                    metrics.getPrimaryCollisions(),
-                    metrics.getSecondaryCollisions(),
-                    metrics.getTotalCollisions(),
-                    metrics.getTotalComparisons(),
-                    metrics.getTotalInsertions(),
-                    metrics.getLoadFactor()
-            );
+            String statsBlock;
+            if (strategy.equalsIgnoreCase("chaining")) {
+                statsBlock = String.format(
+                        """
+                        # of collisions: %d
+                        # of comparisons: %d, records inserted: %d, load factor: %.6f
+                
+                        """,
+                        metrics.getTotalCollisions(),
+                        metrics.getTotalComparisons(),
+                        metrics.getTotalInsertions(),
+                        metrics.getLoadFactor()
+                );
+            } else {
+                statsBlock = String.format(
+                        """
+                        # of primary collisions: %d, secondary collisions: %d, total collisions: %d
+                        # of comparisons: %d, records inserted: %d, load factor: %.6f
+                
+                        """,
+                        metrics.getPrimaryCollisions(),
+                        metrics.getSecondaryCollisions(),
+                        metrics.getTotalCollisions(),
+                        metrics.getTotalComparisons(),
+                        metrics.getTotalInsertions(),
+                        metrics.getLoadFactor()
+                );
+            }
 
             writer.write(statsBlock);
             System.out.print(statsBlock);

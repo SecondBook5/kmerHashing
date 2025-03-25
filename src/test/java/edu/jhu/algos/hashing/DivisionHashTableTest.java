@@ -74,14 +74,14 @@ public class DivisionHashTableTest {
         table.insert(7);   // index 7
         table.insert(17);  // also index 7
 
-        assertTrue(table.getChainAt(7).search(7));
-        assertTrue(table.getChainAt(7).search(17));
+        assertTrue(table.getChainAt(7).search(7, table.metrics));
+        assertTrue(table.getChainAt(7).search(17, table.metrics));
         assertEquals(2, table.getChainAt(7).size());
 
         PerformanceMetrics metrics = table.metrics;
         assertEquals(2, metrics.getTotalInsertions());
         assertEquals(0, metrics.getTotalProbes());
-        assertEquals(0, metrics.getTotalCollisions());
+        assertEquals(1, metrics.getTotalCollisions());
     }
 
     /**
@@ -186,7 +186,7 @@ public class DivisionHashTableTest {
 
         PerformanceMetrics metrics = table.metrics;
         assertEquals(2, metrics.getTotalInsertions());
-        assertEquals(0, metrics.getTotalCollisions());
+        assertEquals(1, metrics.getTotalCollisions());
         assertEquals(0, metrics.getTotalProbes());
     }
 

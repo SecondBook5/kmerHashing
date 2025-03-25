@@ -177,10 +177,8 @@ public class DivisionHashTable extends HashTable {
                 }
                 yield false;
             }
-            case "chaining" -> {
-                metrics.addComparison();
-                yield chainTable[index].search(key);
-            }
+            case "chaining" -> chainTable[index].search(key, metrics);
+
             default -> throw new IllegalStateException("Unknown strategy for search: " + strategy);
         };
     }

@@ -163,39 +163,37 @@ public class CustomHashTable extends HashTable {
     public boolean search(int key) {
         int index = hash(key);  // Compute the initial index using Fibonacci hashing
 
-        switch (strategy) {
-            case "linear":
+        return switch (strategy) {
+            case "linear" -> {
                 // Perform linear probing until key is found or slot is null
                 for (int i = 0; i < tableSize; i++) {
                     int probeIndex = (index + i) % tableSize;
 
                     metrics.addComparison(); // Track each access
-                    if (table[probeIndex] == null) return false; // Stop if empty slot
-                    if (table[probeIndex].equals(key)) return true; // Match found
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
                 }
-                return false; // Key not found after probing entire table
-
-            case "quadratic":
+                yield false;
+            }
+            case "quadratic" -> {
                 for (int i = 0; i < tableSize; i++) {
                     int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
 
                     metrics.addComparison(); // Track lookup
                     if (probeIndex < 0) probeIndex = Math.floorMod(probeIndex, tableSize);
 
-                    if (table[probeIndex] == null) return false; // Stop if empty
-                    if (table[probeIndex].equals(key)) return true; // Found match
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
                 }
-                return false; // Key not found
-
-            case "chaining":
+                yield false;
+            }
+            case "chaining" -> {
                 // Use linked list search at computed index
                 LinkedListChain chain = chainTable[index];
-                metrics.addComparison(); // Count as a single chained access
-                return chain.search(key);
-
-            default:
-                throw new IllegalStateException("Unsupported strategy: " + strategy);
-        }
+                yield chain.search(key, metrics);
+            }
+            default -> throw new IllegalStateException("Unsupported strategy: " + strategy);
+        };
     }
 
     /**

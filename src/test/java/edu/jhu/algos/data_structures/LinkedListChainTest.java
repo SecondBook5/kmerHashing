@@ -1,16 +1,12 @@
 package edu.jhu.algos.data_structures;
 
+import edu.jhu.algos.utils.PerformanceMetrics;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the LinkedListChain class.
- * This test suite verifies:
- * - Correct insert and search behavior
- * - Memory reuse using a preallocated stack-based pool
- * - Handling of exhausted memory pools
- * - Accurate size and empty status reporting
- * - Behavior when inserting duplicate keys
+ * Unit tests for the LinkedListChain class with PerformanceMetrics tracking.
  */
 public class LinkedListChainTest {
 
@@ -26,7 +22,7 @@ public class LinkedListChainTest {
 
         // Fill the pool with safe placeholder nodes using the factory method
         for (int i = 0; i < count; i++) {
-            pool.push(ChainedNode.createEmptyNode());  // Safe placeholder creation
+            pool.push(ChainedNode.createEmptyNode());
         }
         return pool;
     }
@@ -38,20 +34,20 @@ public class LinkedListChainTest {
     @Test
     public void testInsertAndSearch() {
         Stack<ChainedNode> pool = makeNodePool(3);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        // Insert three keys into the chain
-        chain.insert(10);
-        chain.insert(20);
-        chain.insert(30);
+        chain.insert(10, metrics);
+        chain.insert(20, metrics);
+        chain.insert(30, metrics);
 
-        // Search for inserted keys (should be found)
-        assertTrue(chain.search(10));
-        assertTrue(chain.search(20));
-        assertTrue(chain.search(30));
+        assertTrue(chain.search(10, metrics));
+        assertTrue(chain.search(20, metrics));
+        assertTrue(chain.search(30, metrics));
+        assertFalse(chain.search(99, metrics));
 
-        // Search for a key not in the chain (should not be found)
-        assertFalse(chain.search(99));
+        assertEquals(3, metrics.getTotalInsertions());
+        assertEquals(12, metrics.getTotalComparisons());
     }
 
     /**
@@ -61,16 +57,17 @@ public class LinkedListChainTest {
     @Test
     public void testInsertFailsWhenPoolEmpty() {
         Stack<ChainedNode> pool = makeNodePool(1);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        // Insert the only allowed key
-        chain.insert(5);
+        chain.insert(5, metrics);
         assertEquals(1, chain.size());
 
-        // This insertion should fail silently (no more free nodes)
-        chain.insert(10);
-        assertEquals(1, chain.size());         // No new key inserted
-        assertFalse(chain.search(10));         // 10 should not be found
+        chain.insert(10, metrics);
+        assertEquals(1, chain.size());
+        assertFalse(chain.search(10, metrics));
+
+        assertEquals(1, metrics.getTotalInsertions());
     }
 
     /**
@@ -80,19 +77,19 @@ public class LinkedListChainTest {
     @Test
     public void testClearReturnsNodes() {
         Stack<ChainedNode> pool = makeNodePool(2);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        // Use all available nodes
-        chain.insert(42);
-        chain.insert(84);
+        chain.insert(42, metrics);
+        chain.insert(84, metrics);
 
-        assertEquals(0, pool.size());          // Pool should be empty
-        assertEquals(2, chain.size());         // Chain should hold both keys
+        assertEquals(0, pool.size());
+        assertEquals(2, chain.size());
 
         // Clear the chain and verify that nodes are returned
         chain.clear();
-        assertEquals(2, pool.size());          // All nodes returned to pool
-        assertTrue(chain.isEmpty());           // Chain should now be empty
+        assertEquals(2, pool.size());
+        assertTrue(chain.isEmpty());
     }
 
     /**
@@ -101,13 +98,14 @@ public class LinkedListChainTest {
     @Test
     public void testSizeTracking() {
         Stack<ChainedNode> pool = makeNodePool(4);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        assertEquals(0, chain.size());         // Empty at start
+        assertEquals(0, chain.size());
 
-        chain.insert(1);
-        chain.insert(2);
-        assertEquals(2, chain.size());         // Should have two items
+        chain.insert(1, metrics);
+        chain.insert(2, metrics);
+        assertEquals(2, chain.size());
     }
 
     /**
@@ -116,15 +114,16 @@ public class LinkedListChainTest {
     @Test
     public void testIsEmpty() {
         Stack<ChainedNode> pool = makeNodePool(2);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        assertTrue(chain.isEmpty());           // New chain is empty
+        assertTrue(chain.isEmpty());
 
-        chain.insert(7);
-        assertFalse(chain.isEmpty());          // Should not be empty after insert
+        chain.insert(7, metrics);
+        assertFalse(chain.isEmpty());
 
         chain.clear();
-        assertTrue(chain.isEmpty());           // Should be empty again after clear
+        assertTrue(chain.isEmpty());
     }
 
     /**
@@ -134,14 +133,16 @@ public class LinkedListChainTest {
     @Test
     public void testDuplicateKeyInsertion() {
         Stack<ChainedNode> pool = makeNodePool(3);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        chain.insert(55);
-        chain.insert(55);
-        chain.insert(55);  // Same key inserted 3 times
+        chain.insert(55, metrics);
+        chain.insert(55, metrics);
+        chain.insert(55, metrics);
 
-        assertEquals(3, chain.size(), "All duplicates should be stored.");
-        assertTrue(chain.search(55), "Duplicate key should be searchable.");
+        assertEquals(3, chain.size());
+        assertTrue(chain.search(55, metrics));
+        assertEquals(3, metrics.getTotalInsertions());
     }
 
     /**
@@ -150,27 +151,62 @@ public class LinkedListChainTest {
     @Test
     public void testToStringOutput() {
         Stack<ChainedNode> pool = makeNodePool(3);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        chain.insert(100);
-        chain.insert(200);
-        chain.insert(300);  // Head of list is 300
+        chain.insert(100, metrics);
+        chain.insert(200, metrics);
+        chain.insert(300, metrics);
 
         String result = chain.toString();
-        assertTrue(result.startsWith("300 -> 200 -> 100 -> "), "Chain should be ordered LIFO.");
-        assertTrue(result.endsWith("None"), "Chain should end with 'None'.");
+        assertTrue(result.startsWith("300 -> 200 -> 100 -> "));
+        assertTrue(result.endsWith("None"));
         assertEquals("300 -> 200 -> 100 -> None", result);
     }
 
     @Test
     public void testToStringAfterClear() {
         Stack<ChainedNode> pool = makeNodePool(2);
+        PerformanceMetrics metrics = new PerformanceMetrics();
         LinkedListChain chain = new LinkedListChain(pool, false);
 
-        chain.insert(1);
-        chain.insert(2);
+        chain.insert(1, metrics);
+        chain.insert(2, metrics);
         chain.clear();
 
-        assertEquals("None", chain.toString(), "After clear, toString() should return 'None'.");
+        assertEquals("None", chain.toString());
+    }
+
+    /**
+     * Verifies that each node in the chain is compared during search,
+     * and that PerformanceMetrics correctly counts comparisons.
+     */
+    @Test
+    public void testSearchComparisonCounting() {
+        Stack<ChainedNode> pool = makeNodePool(5);
+        LinkedListChain chain = new LinkedListChain(pool, false);
+        PerformanceMetrics metrics = new PerformanceMetrics();
+
+        // Insert values into chain: head will be 50 → 40 → 30
+        chain.insert(30, metrics);
+        chain.insert(40, metrics);
+        chain.insert(50, metrics); // head
+
+        // Reset comparisons so we only count during search
+        metrics.resetAll();
+
+        // Search for tail node (30) → 3 comparisons
+        assertTrue(chain.search(30, metrics));
+        assertEquals(3, metrics.getTotalComparisons(), "Expected 3 comparisons for key at tail");
+
+        // Reset and search for middle node (40) → 2 comparisons
+        metrics.resetAll();
+        assertTrue(chain.search(40, metrics));
+        assertEquals(2, metrics.getTotalComparisons(), "Expected 2 comparisons for middle key");
+
+        // Reset and search for nonexistent key → 3 comparisons
+        metrics.resetAll();
+        assertFalse(chain.search(999, metrics));
+        assertEquals(3, metrics.getTotalComparisons(), "Expected 3 comparisons for missing key");
     }
 }

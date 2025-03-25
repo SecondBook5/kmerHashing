@@ -89,7 +89,8 @@ public class CustomHashTableTest {
     }
 
     /**
-     * Checks whether chaining handles exhaustion of node pool without crashing.
+     * Checks whether chaining handles exhaustion of node pool without crashing,
+     * and that insertions and comparisons are still tracked properly.
      */
     @Test
     public void testChainingNodePoolExhaustion() {

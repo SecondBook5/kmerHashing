@@ -21,6 +21,12 @@ public class Main {
 
     public static void main(String[] args) {
         Map<String, String> flags = parseArgs(args);
+
+        System.out.println("DEBUG");
+        System.out.println("DEBUG: args = " + Arrays.toString(args));
+        System.out.println("DEBUG CLI args: " + Arrays.toString(args));
+        System.out.println("DEBUG Parsed flags: " + flags);
+
         boolean debug = flags.containsKey("--debug");
 
         // -----------------------------
@@ -125,6 +131,7 @@ public class Main {
 
     /**
      * Parses CLI arguments into a key-value map.
+     * Handles flags both with and without values (e.g., --debug).
      */
     private static Map<String, String> parseArgs(String[] args) {
         Map<String, String> map = new HashMap<>();
@@ -132,14 +139,14 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             String flag = args[i];
 
-            // Flags like --debug don’t need a value
             if (flag.equals("--debug")) {
-                map.put(flag, "true");
-            } else if (flag.startsWith("--") && i + 1 < args.length) {
-                String value = args[i + 1];
-                if (!value.startsWith("--")) {
-                    map.put(flag, value);
-                    i++; // skip next
+                map.put("--debug", "true");
+            } else if (flag.startsWith("--")) {
+                if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
+                    map.put(flag, args[i + 1]);
+                    i++;
+                } else {
+                    map.put(flag, "true"); // Standalone flag without value
                 }
             }
         }
