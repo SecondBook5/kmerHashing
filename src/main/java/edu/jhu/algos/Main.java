@@ -22,11 +22,6 @@ public class Main {
     public static void main(String[] args) {
         Map<String, String> flags = parseArgs(args);
 
-        System.out.println("DEBUG");
-        System.out.println("DEBUG: args = " + Arrays.toString(args));
-        System.out.println("DEBUG CLI args: " + Arrays.toString(args));
-        System.out.println("DEBUG Parsed flags: " + flags);
-
         boolean debug = flags.containsKey("--debug");
 
         // -----------------------------
