@@ -51,5 +51,5 @@ None    166721  884046  83442   256672
 369168  596291  139441  106996  133785  
 378210  711766  297843  152999  89943   
 
-Execution Time: 9.345e-02 seconds
+Execution Time: 8.227e-02 seconds
 Memory Usage: 1.049e+06 bytes

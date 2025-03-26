@@ -53,5 +53,5 @@ None    42      107     4       1
 19      61      108     52      77      
 62      27      65      1613    59      
 
-Execution Time: 1.576e-01 seconds
+Execution Time: 9.172e-02 seconds
 Memory Usage: 2.097e+06 bytes

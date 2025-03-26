@@ -53,5 +53,5 @@ None                None                None                None                
 None                1115 -> 1107 -> 1099 -> 1091 -> 1083 -> 1075 -> 1067 -> 1059 -> None1072 -> 1064 -> 1056 -> 1048 -> 1040 -> 1032 -> 1024 -> 1016 -> 1008 -> 1000 -> NoneNone                None                
 None                None                None                None                None                
 
-Execution Time: 3.739e-02 seconds
+Execution Time: 8.657e-02 seconds
 Memory Usage: 0.000e+00 bytes

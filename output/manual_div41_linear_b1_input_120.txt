@@ -53,5 +53,5 @@ scheme -1 (division) - modulo: 41, bucket size: 1, linear
 830771  535386  849109  497794  756007  
 692056  450011  250488  648842  328813  
 
-Execution Time: 2.424e-01 seconds
+Execution Time: 2.626e-01 seconds
 Memory Usage: 7.340e+06 bytes

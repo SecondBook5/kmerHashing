@@ -57,5 +57,5 @@ None    None    None
 241     242     243     
 244     245     246     
 
-Execution Time: 9.719e-02 seconds
+Execution Time: 7.877e-02 seconds
 Memory Usage: 2.097e+06 bytes

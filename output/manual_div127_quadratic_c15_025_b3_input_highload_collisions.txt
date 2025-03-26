@@ -69,5 +69,5 @@ None    1       2
 2113    1113    2000    
 1613    None    None    
 
-Execution Time: 1.005e-01 seconds
+Execution Time: 8.084e-02 seconds
 Memory Usage: 1.049e+06 bytes

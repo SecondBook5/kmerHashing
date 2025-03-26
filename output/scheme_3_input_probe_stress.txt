@@ -53,5 +53,5 @@ None                944441 -> None      936522 -> None      928603 -> None      
 398030 -> None      390111 -> None      382192 -> None      374273 -> None      366354 -> None      
 358435 -> None      350516 -> None      342597 -> None      334678 -> None      326759 -> None      
 
-Execution Time: 6.134e-02 seconds
+Execution Time: 3.908e-02 seconds
 Memory Usage: 0.000e+00 bytes

@@ -46,5 +46,5 @@ None    526935  87532   None    315558
 592460  651911  487696  720029  None    
 None    462522  None    310398  None    
 
-Execution Time: 5.048e-02 seconds
+Execution Time: 5.368e-02 seconds
 Memory Usage: 0.000e+00 bytes

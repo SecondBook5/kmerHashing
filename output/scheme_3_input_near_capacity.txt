@@ -53,5 +53,5 @@ scheme -1 (division) - modulo: 120, bucket size: 1, chaining
 1070 -> None        1071 -> None        1072 -> None        1073 -> None        1074 -> None        
 1075 -> None        1076 -> None        1077 -> None        1078 -> None        1079 -> None        
 
-Execution Time: 4.436e-02 seconds
+Execution Time: 5.156e-02 seconds
 Memory Usage: 0.000e+00 bytes

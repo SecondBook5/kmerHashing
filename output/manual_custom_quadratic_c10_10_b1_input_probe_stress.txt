@@ -53,5 +53,5 @@ scheme -1 (custom) - modulo: N/A, bucket size: 1, quadratic
 207974  770223  382192  89189   698952  
 706871  413868  881089  588086  295083  
 
-Execution Time: 1.271e-01 seconds
+Execution Time: 6.835e-02 seconds
 Memory Usage: 1.049e+06 bytes

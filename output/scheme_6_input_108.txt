@@ -51,5 +51,5 @@ None                628492 -> None      166721 -> None      551151 -> 87093 -> N
 None                527923 -> 752332 -> NoneNone                None                72377 -> None       
 17006 -> None       494654 -> None      None                None                122293 -> None      
 
-Execution Time: 2.760e-02 seconds
+Execution Time: 6.075e-02 seconds
 Memory Usage: 0.000e+00 bytes

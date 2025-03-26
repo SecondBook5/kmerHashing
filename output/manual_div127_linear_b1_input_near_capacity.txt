@@ -53,5 +53,5 @@ scheme -1 (division) - modulo: 127, bucket size: 1, linear
 None    1000    1001    1002    1003    
 1004    1005    1006    1007    1008    
 
-Execution Time: 7.632e-02 seconds
+Execution Time: 8.961e-02 seconds
 Memory Usage: 2.097e+06 bytes

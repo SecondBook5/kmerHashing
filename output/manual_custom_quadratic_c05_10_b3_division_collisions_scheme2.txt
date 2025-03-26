@@ -57,5 +57,5 @@ None    249     134
 260     None    None    
 None    246     123     
 
-Execution Time: 6.104e-02 seconds
+Execution Time: 4.362e-02 seconds
 Memory Usage: 0.000e+00 bytes

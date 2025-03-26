@@ -41,5 +41,5 @@ None    12501   55555   14763   None
 None    38531   22599   None    None    
 None    None    None    None    None    
 
-Execution Time: 7.082e-02 seconds
+Execution Time: 8.507e-02 seconds
 Memory Usage: 1.049e+06 bytes

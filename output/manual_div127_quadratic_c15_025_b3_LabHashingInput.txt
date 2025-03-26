@@ -57,5 +57,5 @@ None    90911   None
 57391   47993   None    
 None    None    None    
 
-Execution Time: 5.976e-02 seconds
+Execution Time: 7.303e-02 seconds
 Memory Usage: 1.049e+06 bytes

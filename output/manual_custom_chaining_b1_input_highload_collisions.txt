@@ -53,5 +53,5 @@ None                None                None                1500 -> None        
 None                None                1000 -> None        None                None                
 None                None                None                None                107 -> 99 -> 91 -> 83 -> 75 -> 67 -> 59 -> None
 
-Execution Time: 3.694e-02 seconds
+Execution Time: 3.519e-02 seconds
 Memory Usage: 0.000e+00 bytes
