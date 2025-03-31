@@ -95,6 +95,28 @@ public class LinkedListChain {
     }
 
     /**
+     * Checks whether a key exists in the linked list chain.
+     * - This supports the lookup operation in chained hash tables.
+     * - Unlike search, this method does not update performance metrics.
+     *
+     * @param key The key to search for.
+     * @return True if the key exists in the chain, false otherwise.
+     */
+    public boolean contains(int key) {
+        ChainedNode current = head;
+
+        // Traverse the chain to find the key
+        while (current != null) {
+            if (current.key == key) {
+                return true; // Found
+            }
+            current = current.next;
+        }
+
+        return false; // Not found
+    }
+
+    /**
      * Prints the contents of the chain in order from head to tail.
      * Example output: 789 -> 432 -> 120 -> null
      */

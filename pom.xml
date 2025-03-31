@@ -12,6 +12,8 @@
   <url>http://maven.apache.org</url>
 
   <build>
+    <finalName>Book_AJ_Lab2</finalName>
+
     <plugins>
       <!-- Compiler Plugin -->
       <plugin>
@@ -78,5 +80,4 @@
       <version>1.5.3</version>
     </dependency>
   </dependencies>
-
 </project>

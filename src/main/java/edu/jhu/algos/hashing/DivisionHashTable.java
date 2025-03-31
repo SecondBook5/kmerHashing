@@ -183,6 +183,44 @@ public class DivisionHashTable extends HashTable {
         };
     }
 
+    /**
+     * Looks up a key in the hash table using the configured strategy.
+     * - Uses the same probing strategy as insert/search.
+     * - Returns true if the key exists, false otherwise.
+     *
+     * Note: Lookup is metrics-neutral for chaining.
+     *
+     * @param key The key to look up.
+     * @return True if key is found, false otherwise.
+     */
+    @Override
+    public boolean lookup(int key) {
+        int index = hash(key);
+
+        return switch (strategy) {
+            case "linear" -> {
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (index + i) % tableSize;
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
+                }
+                yield false;
+            }
+            case "quadratic" -> {
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
+                    if (probeIndex < 0) probeIndex = Math.floorMod(probeIndex, tableSize);
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
+                }
+                yield false;
+            }
+            case "chaining" -> chainTable[index].contains(key);
+
+            default -> throw new IllegalStateException("Unknown strategy for lookup: " + strategy);
+        };
+    }
+
     @Override
     public void printTable() {
         if (debugMode) {

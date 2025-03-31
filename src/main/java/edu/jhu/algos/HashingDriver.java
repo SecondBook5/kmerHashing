@@ -5,8 +5,11 @@ import edu.jhu.algos.hashing.CustomHashTable;
 import edu.jhu.algos.hashing.HashTable;
 import edu.jhu.algos.hashing.HashingScheme;
 import edu.jhu.algos.io.OutputFormatter;
+import edu.jhu.algos.utils.HashingUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * HashingDriver handles execution of all hashing schemes (1–14)
@@ -20,6 +23,123 @@ import java.util.List;
 public class HashingDriver {
 
     /**
+     * Executes all 14 predefined hashing schemes using a single input list.
+     * Useful for batch testing and plotting comparison metrics.
+     *
+     * @param keys List of input keys
+     * @param baseOutputPath Output filename base (each scheme appends suffix)
+     * @param debug If true, enables debug logging
+     * @param generatePlots If true, generates visual plots from results
+     */
+    public static void runAllSchemes(List<Integer> keys, String baseOutputPath, boolean debug, boolean generatePlots) {
+        final Map<String, Map<String, Integer>> strategyMetrics = new HashMap<>();
+        final Map<Integer, Double> loadFactors = new HashMap<>();
+        final Map<Integer, Integer> insertionSizes = new HashMap<>();
+
+        for (int schemeNumber = 1; schemeNumber <= 14; schemeNumber++) {
+            String outputFile = baseOutputPath.replace(".txt", "_scheme" + schemeNumber + ".txt");
+
+            // Step 1: Lookup scheme
+            HashingScheme scheme = HashingScheme.fromNumber(schemeNumber);
+            if (scheme == null) {
+                System.err.printf("Skipping scheme %d: Configuration not found.%n", schemeNumber);
+                continue;
+            }
+
+            if (debug) {
+                System.out.printf("[DEBUG] Running all-schemes batch for scheme %d: method=%s, strategy=%s%n",
+                        schemeNumber, scheme.hashingMethod, scheme.strategy);
+            }
+
+            // Step 2: Construct and execute hash table
+            final int tableSize = 120;
+            HashTable table = getHashTable(debug, scheme, tableSize);
+
+            table.getMetrics().startTimer();
+            for (int key : keys) {
+                if (debug) System.out.printf("[DEBUG] [Scheme %d] Inserting key: %d%n", schemeNumber, key);
+                table.insert(key);
+            }
+            table.getMetrics().stopTimer();
+
+            // Step 3: Write output
+            OutputFormatter.writeOutput(
+                    scheme.schemeNumber,
+                    scheme.hashingMethod,
+                    ("division".equalsIgnoreCase(scheme.hashingMethod) ? scheme.modValue : -1),
+                    scheme.bucketSize,
+                    tableSize,
+                    scheme.strategy,
+                    table,
+                    keys,
+                    outputFile
+            );
+
+            if (debug) table.printStatistics();
+
+            // Step 4: Store metrics for plotting
+            String label = "Scheme " + schemeNumber + " (" + scheme.strategy + ")";
+            Map<String, Integer> metricsMap = new HashMap<>();
+            metricsMap.put("Comparisons", Math.toIntExact(table.getMetrics().getTotalComparisons()));
+            metricsMap.put("Collisions", Math.toIntExact(table.getMetrics().getTotalCollisions()));
+            metricsMap.put("Probes", Math.toIntExact(table.getMetrics().getTotalProbes()));
+
+            strategyMetrics.put(label, metricsMap);
+            loadFactors.put(schemeNumber, table.getMetrics().getLoadFactor());
+            insertionSizes.put(schemeNumber, Math.toIntExact(table.getMetrics().getTotalInsertions()));
+
+            // Generate individual bucket distribution for this scheme
+            if (generatePlots) {
+                String schemeName = scheme.hashingMethod + "_mod" + scheme.modValue + "_" + scheme.strategy;
+                HashingUtils.plotBucketDistribution(
+                        HashingUtils.mapBucketDistribution(table),
+                        "plots/distributions/" + schemeName + ".png"
+                );
+            }
+
+        }
+
+
+
+        // Step 5: Generate plots if requested
+        if (generatePlots) {
+            HashingUtils.generateAllPlots(
+                    null,                  // No single table for bucket map
+                    null,                  // No single PerformanceMetrics instance
+                    loadFactors,
+                    strategyMetrics,
+                    insertionSizes,
+                    "plots/"
+            );
+        }
+    }
+
+    /**
+     * Returns the appropriate HashTable instance for a given scheme.
+     */
+    private static HashTable getHashTable(boolean debug, HashingScheme scheme, int tableSize) {
+        if ("division".equalsIgnoreCase(scheme.hashingMethod)) {
+            return new DivisionHashTable(
+                    tableSize,
+                    scheme.bucketSize,
+                    scheme.modValue,
+                    scheme.strategy,
+                    debug
+            );
+        } else {
+            return new CustomHashTable(
+                    tableSize,
+                    scheme.bucketSize,
+                    scheme.strategy,
+                    debug
+            );
+        }
+    }
+
+    // runScheme and runManual stay unchanged...
+    // (Keep your current versions of runScheme and runManual intact here)
+
+/**
      * Executes a predefined hashing scheme using HashingScheme (schemes 1–14).
      * Decision Tree:
      * Step 1: Validate inputs (scheme number and key list)

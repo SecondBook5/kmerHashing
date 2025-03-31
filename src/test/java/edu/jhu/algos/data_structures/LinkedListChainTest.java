@@ -209,4 +209,23 @@ public class LinkedListChainTest {
         assertFalse(chain.search(999, metrics));
         assertEquals(3, metrics.getTotalComparisons(), "Expected 3 comparisons for missing key");
     }
+    /**
+     * Test that the contains() method correctly identifies keys in the chain.
+     * Unlike search(), contains() does NOT track comparisons.
+     */
+    @Test
+    public void testContainsWithoutMetrics() {
+        Stack<ChainedNode> pool = makeNodePool(3);
+        PerformanceMetrics metrics = new PerformanceMetrics();
+        LinkedListChain chain = new LinkedListChain(pool, false);
+
+        chain.insert(11, metrics);
+        chain.insert(22, metrics);
+        chain.insert(33, metrics);
+
+        assertTrue(chain.contains(11));
+        assertTrue(chain.contains(22));
+        assertTrue(chain.contains(33));
+        assertFalse(chain.contains(999));
+    }
 }

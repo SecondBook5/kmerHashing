@@ -65,6 +65,16 @@ public abstract class HashTable {
     public abstract boolean search(int key);
 
     /**
+     * Looks up a key in the hash table and returns true if it exists.
+     * - Each subclass must define its own lookup strategy based on probing or chaining.
+     * - This allows validation of whether a key has been successfully inserted.
+     *
+     * @param key The integer key to look up.
+     * @return True if the key exists in the table, false otherwise.
+     */
+    public abstract boolean lookup(int key);
+
+    /**
      * Clears the hash table by resetting all values to empty.
      * - Resets the hash table storage.
      * - Clears performance metrics for a fresh test.

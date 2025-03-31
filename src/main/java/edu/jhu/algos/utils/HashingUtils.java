@@ -11,13 +11,14 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
+import org.jfree.chart.ui.TextAnchor;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +28,7 @@ import java.util.logging.Logger;
  * - Collisions, probes, comparisons, and load factor visualizations
  * - Asymptotic analysis comparisons
  * - Grouped strategy comparisons
+ * - Continuous comparisons from summary CSVs (for batch benchmarking)
  */
 public class HashingUtils {
 
@@ -140,13 +142,118 @@ public class HashingUtils {
         saveChart(chart, filePath, 1000, 600);
     }
 
+    public static void plotSummaryComparisonsFromCSV(String csvPath, String outputPath) {
+        XYSeries comparisons = new XYSeries("Total Comparisons");
+        List<String[]> annotations = new ArrayList<>();
+        int index = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+            br.readLine(); // skip header
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                if (tokens.length < 14 || tokens[13] == null || tokens[13].equals("NA")) continue;
+
+                int x = index++;
+                int y = (int) Double.parseDouble(tokens[13]);
+                String label = String.format("%s | mod=%s | %s | c1=%s c2=%s",
+                        tokens[0], tokens[4], tokens[6], tokens[7], tokens[8]);
+
+                comparisons.add(x, y);
+                annotations.add(new String[]{String.valueOf(x), String.valueOf(y), label});
+            }
+
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to read CSV file for plotting", e);
+            return;
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(comparisons);
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Comparisons Across All Runs",
+                "Configuration Index", "Comparisons", dataset,
+                PlotOrientation.VERTICAL, true, true, false);
+
+        formatLineChart(chart, dataset, "Total Comparisons", Color.MAGENTA);
+
+        XYPlot plot = chart.getXYPlot();
+        for (String[] ann : annotations) {
+            XYTextAnnotation annotation = new XYTextAnnotation(ann[2],
+                    Double.parseDouble(ann[0]), Double.parseDouble(ann[1]));
+            annotation.setFont(new Font("Dialog", Font.PLAIN, 10));
+            annotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
+            plot.addAnnotation(annotation);
+        }
+
+        saveChart(chart, outputPath, 1400, 1000);
+    }
+
+    public static void plotRunAllOnlyFromCSV(String csvPath, String outputPath) {
+        XYSeries comparisons = new XYSeries("Run-All Comparisons");
+        List<String[]> annotations = new ArrayList<>();
+        int index = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvPath))) {
+            String header = br.readLine();
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] tokens = line.split(",");
+                if (tokens.length < 14) continue;
+
+                String predefinedFlag = tokens[12].trim();
+                if (!predefinedFlag.equalsIgnoreCase("TRUE")) continue;
+
+                int x = index++;
+                int y = (int) Double.parseDouble(tokens[13]);
+
+                String label = String.format("%s | mod=%s | %s | c1=%s c2=%s",
+                        tokens[0], tokens[4], tokens[6], tokens[7], tokens[8]);
+
+                comparisons.add(x, y);
+                annotations.add(new String[]{String.valueOf(x), String.valueOf(y), label});
+            }
+
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to read CSV for --run-all plotting", e);
+            return;
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection(comparisons);
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "Comparisons for 14 Predefined Schemes",
+                "Strategy Index", "Comparisons", dataset,
+                PlotOrientation.VERTICAL, true, true, false);
+
+        formatLineChart(chart, dataset, "Run-All Comparisons", Color.BLUE);
+
+        XYPlot plot = chart.getXYPlot();
+        for (String[] ann : annotations) {
+            XYTextAnnotation annotation = new XYTextAnnotation(ann[2],
+                    Double.parseDouble(ann[0]), Double.parseDouble(ann[1]));
+            annotation.setFont(new Font("Dialog", Font.PLAIN, 10));
+            annotation.setTextAnchor(TextAnchor.BOTTOM_LEFT);
+            plot.addAnnotation(annotation);
+        }
+
+        saveChart(chart, outputPath, 1400, 1000);
+    }
+
     private static void formatBarChart(JFreeChart chart) {
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setSeriesPaint(0, Color.BLUE);
         plot.setBackgroundPaint(Color.WHITE);
         plot.setRangeGridlinePaint(Color.GRAY);
-        chart.getLegend().setFrame(BlockBorder.NONE);
+
+        // ✅ Safe legend handling
+        if (chart.getLegend() != null) {
+            chart.getLegend().setFrame(BlockBorder.NONE);
+        }
     }
 
     private static void formatLineChart(JFreeChart chart, XYSeriesCollection dataset,
@@ -161,9 +268,13 @@ public class HashingUtils {
         plot.setBackgroundPaint(Color.WHITE);
         plot.setDomainGridlinePaint(Color.GRAY);
         plot.setRangeGridlinePaint(Color.GRAY);
-        chart.getLegend().setFrame(BlockBorder.NONE);
-    }
 
+        // Safe legend handling
+        if (chart.getLegend() != null) {
+            chart.getLegend().setFrame(BlockBorder.NONE);
+        }
+    }
+    
     private static void saveChart(JFreeChart chart, String filePath, int width, int height) {
         File file = new File(filePath);
         if (!file.getParentFile().exists()) {
@@ -192,16 +303,23 @@ public class HashingUtils {
         File outDir = new File(outputDir);
         if (!outDir.exists()) outDir.mkdirs();
 
-        plotBucketDistribution(mapBucketDistribution(table), outputDir + "/bucket_distribution.png");
+        // Only generate bucket distribution if table is provided
+        if (table != null) {
+            plotBucketDistribution(mapBucketDistribution(table), outputDir + "/bucket_distribution.png");
+        }
 
-        Map<String, Integer> metricMap = Map.of(
-                "Collisions", Math.toIntExact(metrics.getTotalCollisions()),
-                "Probes", Math.toIntExact(metrics.getTotalProbes()),
-                "Comparisons", Math.toIntExact(metrics.getTotalComparisons())
-        );
-        plotMetricsBarChart("Collisions, Probes, Comparisons", metricMap,
-                outputDir + "/collision_probes_comparisons.png");
+        // Only generate summary bar chart if metrics are provided
+        if (metrics != null) {
+            Map<String, Integer> metricMap = Map.of(
+                    "Collisions", Math.toIntExact(metrics.getTotalCollisions()),
+                    "Probes", Math.toIntExact(metrics.getTotalProbes()),
+                    "Comparisons", Math.toIntExact(metrics.getTotalComparisons())
+            );
+            plotMetricsBarChart("Collisions, Probes, Comparisons", metricMap,
+                    outputDir + "/collision_probes_comparisons.png");
+        }
 
+        // Always generate multi-scheme plots
         plotLoadFactorTrend(loadFactors, outputDir + "/load_factor_trend.png");
 
         plotGroupedComparison(strategyMetrics,
@@ -210,4 +328,5 @@ public class HashingUtils {
 
         plotAsymptoticAnalysis(observedComparisons, outputDir + "/asymptotic_analysis.png");
     }
+
 }

@@ -306,4 +306,41 @@ public class DivisionHashTableTest {
         assertTrue(metrics.getTotalComparisons() >= 2);
         assertTrue(metrics.getTotalProbes() >= 1);
     }
+    /**
+     * Test that lookup() behaves the same as search() but doesn't mutate performance metrics.
+     * This validates that lookup works across all strategies without side effects.
+     */
+    @Test
+    public void testLookupFunctionality() {
+        // Linear Probing
+        DivisionHashTable linear = new DivisionHashTable(10, 1, 10, "linear", DEBUG);
+        linear.insert(1);
+        linear.insert(11); // collision → probes
+        long originalComparisons = linear.metrics.getTotalComparisons();
+        assertTrue(linear.lookup(1), "Should find key 1 with lookup in linear strategy.");
+        assertTrue(linear.lookup(11), "Should find key 11 with lookup in linear strategy.");
+        assertFalse(linear.lookup(99), "Should not find key 99 with lookup.");
+        assertEquals(originalComparisons, linear.metrics.getTotalComparisons(), "Lookup should not affect metrics in linear probing.");
+
+        // Quadratic Probing
+        DivisionHashTable quadratic = new DivisionHashTable(10, 1, 10, "quadratic", DEBUG);
+        quadratic.insert(2);
+        quadratic.insert(12); // collision
+        long originalQComparisons = quadratic.metrics.getTotalComparisons();
+        assertTrue(quadratic.lookup(2), "Should find key 2 with lookup in quadratic strategy.");
+        assertTrue(quadratic.lookup(12), "Should find key 12 with lookup in quadratic strategy.");
+        assertFalse(quadratic.lookup(999), "Should not find nonexistent key.");
+        assertEquals(originalQComparisons, quadratic.metrics.getTotalComparisons(), "Lookup should not change metrics in quadratic probing.");
+
+        // Chaining
+        DivisionHashTable chaining = new DivisionHashTable(10, 1, 10, "chaining", DEBUG);
+        chaining.insert(3);
+        chaining.insert(13); // same bucket
+        long originalChainComparisons = chaining.metrics.getTotalComparisons();
+        assertTrue(chaining.lookup(3), "Should find key 3 with lookup in chaining.");
+        assertTrue(chaining.lookup(13), "Should find key 13 with lookup in chaining.");
+        assertFalse(chaining.lookup(123), "Should not find non-existent key.");
+        assertEquals(originalChainComparisons, chaining.metrics.getTotalComparisons(), "Lookup should not mutate metrics in chaining.");
+    }
+
 }

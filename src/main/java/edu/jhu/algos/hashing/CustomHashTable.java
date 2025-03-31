@@ -197,6 +197,46 @@ public class CustomHashTable extends HashTable {
     }
 
     /**
+     * Looks up a key in the hash table using the configured strategy.
+     * - Mirrors the search logic but does NOT modify performance metrics.
+     * - Useful for diagnostics, validation, or testing without affecting counts.
+     *
+     * @param key The key to look up.
+     * @return True if the key exists in the table; false otherwise.
+     */
+    @Override
+    public boolean lookup(int key) {
+        int index = hash(key);  // Compute the initial index using Fibonacci hashing
+
+        return switch (strategy) {
+            case "linear" -> {
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (index + i) % tableSize;
+
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
+                }
+                yield false;
+            }
+            case "quadratic" -> {
+                for (int i = 0; i < tableSize; i++) {
+                    int probeIndex = (int) ((index + c1 * i + c2 * i * i) % tableSize);
+                    if (probeIndex < 0) probeIndex = Math.floorMod(probeIndex, tableSize);
+
+                    if (table[probeIndex] == null) yield false;
+                    if (table[probeIndex].equals(key)) yield true;
+                }
+                yield false;
+            }
+            case "chaining" -> {
+                LinkedListChain chain = chainTable[index];
+                yield chain.contains(key);  // Use the no-metrics variant for lookup
+            }
+            default -> throw new IllegalStateException("Unsupported strategy: " + strategy);
+        };
+    }
+
+    /**
      * Returns either the Integer[] table (probing) or LinkedListChain[] (chaining).
      * This is used by the OutputFormatter for visualization.
      */

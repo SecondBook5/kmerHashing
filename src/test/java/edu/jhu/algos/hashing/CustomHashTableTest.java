@@ -220,4 +220,34 @@ public class CustomHashTableTest {
         assertTrue(metrics.getTotalProbes() >= 1, "Expected probing due to collision.");
         assertTrue(metrics.getTotalCollisions() >= 1, "Expected collision due to same home index.");
     }
+    @Test
+    public void testLookupFunctionality() {
+        // Linear Probing
+        CustomHashTable linear = new CustomHashTable(10, 1, "linear", true);
+        linear.insert(1);
+        linear.insert(11);
+
+        assertTrue(linear.lookup(1), "Should find key 1 in linear lookup.");
+        assertTrue(linear.lookup(11), "Should find key 11 in linear lookup.");
+        assertFalse(linear.lookup(99), "Should not find key 99 in linear lookup.");
+
+        // Quadratic Probing
+        CustomHashTable quadratic = new CustomHashTable(10, 1, "quadratic", true);
+        quadratic.insert(2);
+        quadratic.insert(12);
+
+        assertTrue(quadratic.lookup(2), "Should find key 2 in quadratic lookup.");
+        assertTrue(quadratic.lookup(12), "Should find key 12 in quadratic lookup.");
+        assertFalse(quadratic.lookup(200), "Should not find key 200 in quadratic lookup.");
+
+        // Chaining
+        CustomHashTable chaining = new CustomHashTable(10, 1, "chaining", true);
+        chaining.insert(3);
+        chaining.insert(13);  // same index as 3
+
+        assertTrue(chaining.lookup(3), "Should find key 3 in chaining lookup.");
+        assertTrue(chaining.lookup(13), "Should find key 13 in chaining lookup.");
+        assertFalse(chaining.lookup(300), "Should not find key 300 in chaining lookup.");
+    }
+
 }
