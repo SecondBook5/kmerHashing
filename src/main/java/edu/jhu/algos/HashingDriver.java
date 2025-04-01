@@ -77,7 +77,7 @@ public class HashingDriver {
 
             if (debug) table.printStatistics();
 
-            // Step 4: Store metrics for plotting
+            // Step 4: Store metrics for plotting and generate individual bucket distribution
             String label = "Scheme " + schemeNumber + " (" + scheme.strategy + ")";
             Map<String, Integer> metricsMap = new HashMap<>();
             metricsMap.put("Comparisons", Math.toIntExact(table.getMetrics().getTotalComparisons()));
@@ -88,29 +88,39 @@ public class HashingDriver {
             loadFactors.put(schemeNumber, table.getMetrics().getLoadFactor());
             insertionSizes.put(schemeNumber, Math.toIntExact(table.getMetrics().getTotalInsertions()));
 
-            // Generate individual bucket distribution for this scheme
+            // Step 4 (continued): Generate individual bucket distribution plot
             if (generatePlots) {
-                String schemeName = scheme.hashingMethod + "_mod" + scheme.modValue + "_" + scheme.strategy;
+                String runLabel = "scheme_" + scheme.schemeNumber;
+                String hashingMethod = scheme.hashingMethod;
+                String modValue = (scheme.modValue == -1) ? "none" : String.valueOf(scheme.modValue);
+                String bucketSize = String.valueOf(scheme.bucketSize);
+                String strategy = scheme.strategy;
+
+                // Hardcode c1/c2 as "0.5" for predefined quadratic strategies
+                String c1 = "quadratic".equals(strategy) ? "0.5" : null;
+                String c2 = "quadratic".equals(strategy) ? "0.5" : null;
+
+                // Extract just the base name of the output file (e.g., "results" from "output/results.txt")
+                String inputBaseName = baseOutputPath.contains("/") ?
+                        baseOutputPath.substring(baseOutputPath.lastIndexOf('/') + 1).replace(".txt", "") :
+                        baseOutputPath.replace(".txt", "");
+
+                String outputPlotPath = "plots/" + inputBaseName + "_" + runLabel + "_" +
+                        hashingMethod + "_mod" + modValue + "_bucket" + bucketSize + "_" + strategy + ".png";
+
+
                 HashingUtils.plotBucketDistribution(
                         HashingUtils.mapBucketDistribution(table),
-                        "plots/distributions/" + schemeName + ".png"
+                        outputPlotPath,
+                        runLabel,
+                        hashingMethod,
+                        modValue,
+                        bucketSize,
+                        strategy,
+                        c1,
+                        c2
                 );
             }
-
-        }
-
-
-
-        // Step 5: Generate plots if requested
-        if (generatePlots) {
-            HashingUtils.generateAllPlots(
-                    null,                  // No single table for bucket map
-                    null,                  // No single PerformanceMetrics instance
-                    loadFactors,
-                    strategyMetrics,
-                    insertionSizes,
-                    "plots/"
-            );
         }
     }
 
@@ -136,10 +146,7 @@ public class HashingDriver {
         }
     }
 
-    // runScheme and runManual stay unchanged...
-    // (Keep your current versions of runScheme and runManual intact here)
-
-/**
+    /**
      * Executes a predefined hashing scheme using HashingScheme (schemes 1–14).
      * Decision Tree:
      * Step 1: Validate inputs (scheme number and key list)
@@ -148,7 +155,7 @@ public class HashingDriver {
      * Step 4: If method == "custom", use CustomHashTable (Fibonacci hashing)
      * Step 5: If no match found, report an error
      */
-    public static void runScheme(int schemeNumber, List<Integer> keys, String outputFilePath, boolean debug) {
+    public static void runScheme(int schemeNumber, List<Integer> keys, String outputFilePath, boolean debug, boolean generatePlots) {
 
         // Step 1: Validate input
         if (keys == null || keys.isEmpty()) {
@@ -215,6 +222,37 @@ public class HashingDriver {
             );
 
             if (debug) table.printStatistics();
+
+            // Generate bucket distribution plot if flag enabled
+            if (generatePlots) {
+                String runLabel = "scheme_" + scheme.schemeNumber;
+                String hashingMethod = scheme.hashingMethod;
+                String modValue = String.valueOf(scheme.modValue);
+                String bucketSize = String.valueOf(scheme.bucketSize);
+                String strategy = scheme.strategy;
+                String c1 = "quadratic".equals(strategy) ? "0.5" : null;
+                String c2 = "quadratic".equals(strategy) ? "0.5" : null;
+
+                String baseName = outputFilePath.contains("/") ?
+                        outputFilePath.substring(outputFilePath.lastIndexOf('/') + 1).replace(".txt", "") :
+                        outputFilePath.replace(".txt", "");
+
+                String outputPlotPath = "plots/" + baseName + "_" + runLabel + "_" +
+                        hashingMethod + "_mod" + modValue + "_bucket" + bucketSize + "_" + strategy + ".png";
+
+                HashingUtils.plotBucketDistribution(
+                        HashingUtils.mapBucketDistribution(table),
+                        outputPlotPath,
+                        runLabel,
+                        hashingMethod,
+                        modValue,
+                        bucketSize,
+                        strategy,
+                        c1,
+                        c2
+                );
+            }
+
             return;
         }
 
@@ -253,12 +291,44 @@ public class HashingDriver {
             );
 
             if (debug) table.printStatistics();
+
+            // Generate bucket distribution plot if flag enabled
+            if (generatePlots) {
+                String runLabel = "scheme_" + scheme.schemeNumber;
+                String hashingMethod = scheme.hashingMethod;
+                String modValue = "none";
+                String bucketSize = String.valueOf(scheme.bucketSize);
+                String strategy = scheme.strategy;
+                String c1 = "quadratic".equals(strategy) ? "0.5" : null;
+                String c2 = "quadratic".equals(strategy) ? "0.5" : null;
+
+                String baseName = outputFilePath.contains("/") ?
+                        outputFilePath.substring(outputFilePath.lastIndexOf('/') + 1).replace(".txt", "") :
+                        outputFilePath.replace(".txt", "");
+
+                String outputPlotPath = "plots/" + baseName + "_" + runLabel + "_" +
+                        hashingMethod + "_mod" + modValue + "_bucket" + bucketSize + "_" + strategy + ".png";
+
+                HashingUtils.plotBucketDistribution(
+                        HashingUtils.mapBucketDistribution(table),
+                        outputPlotPath,
+                        runLabel,
+                        hashingMethod,
+                        modValue,
+                        bucketSize,
+                        strategy,
+                        c1,
+                        c2
+                );
+            }
+
             return;
         }
 
         // Step 5: Fallback (should never be reached unless HashingScheme is corrupted)
         System.err.printf("Unrecognized scheme or hashing method for scheme number %d.%n", schemeNumber);
     }
+
 
     /**
      * Executes a manual hashing configuration from CLI flags (outside the 1–14 schemes).
@@ -347,5 +417,32 @@ public class HashingDriver {
         );
 
         if (debug) table.printStatistics();
+
+        // Step 6: Plot bucket distribution (manual runs)
+        String runLabel = "manual_run";
+        String modLabel = "division".equalsIgnoreCase(hashingMethod) ? String.valueOf(modValue) : "none";
+        String c1Str = "quadratic".equalsIgnoreCase(strategy) ? String.valueOf(c1) : null;
+        String c2Str = "quadratic".equalsIgnoreCase(strategy) ? String.valueOf(c2) : null;
+
+        // Extract base name from outputFilePath (e.g., "results" from "output/results.txt")
+        String outputBaseName = outputFilePath.contains("/") ?
+                outputFilePath.substring(outputFilePath.lastIndexOf('/') + 1).replace(".txt", "") :
+                outputFilePath.replace(".txt", "");
+
+        // Construct final plot path with base name
+        String outputPlotPath = "plots/" + outputBaseName + "_manual_" + hashingMethod +
+                "_mod" + modLabel + "_bucket" + bucketSize + "_" + strategy + ".png";
+
+        HashingUtils.plotBucketDistribution(
+                HashingUtils.mapBucketDistribution(table),
+                outputPlotPath,
+                runLabel,
+                hashingMethod,
+                modLabel,
+                String.valueOf(bucketSize),
+                strategy,
+                c1Str,
+                c2Str
+        );
     }
 }

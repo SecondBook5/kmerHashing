@@ -41,5 +41,5 @@ None    90911   None    37319   None
 None    72501   67676   13956   57391   
 47993   None    None    None    None    
 
-Execution Time: 1.094e-04 seconds
+Execution Time: 1.894e-04 seconds
 Memory Usage: 0.000e+00 bytes

@@ -50,7 +50,7 @@ public class HashingDriverTest {
 
         for (int i = 1; i <= 11; i++) {
             String filePath = OUTPUT_PREFIX + i + ".txt";
-            HashingDriver.runScheme(i, keys, filePath, false);
+            HashingDriver.runScheme(i, keys, filePath, false, false);
 
             File file = new File(filePath);
             assertTrue(file.exists(), "Expected file not created for scheme " + i);
@@ -71,7 +71,7 @@ public class HashingDriverTest {
 
         for (int i = 12; i <= 14; i++) {
             String filePath = OUTPUT_PREFIX + i + ".txt";
-            HashingDriver.runScheme(i, keys, filePath, false);
+            HashingDriver.runScheme(i, keys, filePath, false, false);
 
             File file = new File(filePath);
             assertTrue(file.exists(), "Expected file not created for scheme " + i);
@@ -89,7 +89,7 @@ public class HashingDriverTest {
     @Test
     public void testEmptyInputList() {
         List<Integer> emptyKeys = new ArrayList<>();
-        assertDoesNotThrow(() -> HashingDriver.runScheme(1, emptyKeys, OUTPUT_PREFIX + "empty.txt", false));
+        assertDoesNotThrow(() -> HashingDriver.runScheme(1, emptyKeys, OUTPUT_PREFIX + "empty.txt", false, false));
     }
 
     /**
@@ -97,7 +97,7 @@ public class HashingDriverTest {
      */
     @Test
     public void testNullKeyList() {
-        assertDoesNotThrow(() -> HashingDriver.runScheme(1, null, OUTPUT_PREFIX + "null.txt", false));
+        assertDoesNotThrow(() -> HashingDriver.runScheme(1, null, OUTPUT_PREFIX + "null.txt", false, false));
     }
 
     /**
@@ -106,13 +106,13 @@ public class HashingDriverTest {
     @Test
     public void testInvalidSchemeNumberTooLow() {
         List<Integer> keys = loadSampleKeys();
-        assertDoesNotThrow(() -> HashingDriver.runScheme(0, keys, OUTPUT_PREFIX + "invalid_low.txt", false));
+        assertDoesNotThrow(() -> HashingDriver.runScheme(0, keys, OUTPUT_PREFIX + "invalid_low.txt", false, false));
     }
 
     @Test
     public void testInvalidSchemeNumberTooHigh() {
         List<Integer> keys = loadSampleKeys();
-        assertDoesNotThrow(() -> HashingDriver.runScheme(15, keys, OUTPUT_PREFIX + "invalid_high.txt", false));
+        assertDoesNotThrow(() -> HashingDriver.runScheme(15, keys, OUTPUT_PREFIX + "invalid_high.txt", false, false));
     }
 
     /**

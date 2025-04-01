@@ -8,20 +8,6 @@ import java.util.*;
  * Main entry point for the Hashing Lab.
  * Supports command-line execution of predefined schemes, fully manual configurations,
  * or batch mode via --run-all for comparative analysis and optional plot generation.
- * <p>
- * USAGE:
- *   --scheme <1-14>
- *   --run-all
- *   OR
- *   --hashing <division|custom> --mod <int> --bucket <1|3> --strategy <linear|quadratic|chaining> [--c1 <float>] [--c2 <float>]
- * <p>
- * Required:
- *   --input <filename>
- *   --output <filename>
- * <p>
- * Optional:
- *   --debug
- *   --generate-plots
  */
 public class Main {
 
@@ -30,6 +16,12 @@ public class Main {
 
         boolean debug = flags.containsKey("--debug");
         boolean generatePlots = flags.containsKey("--generate-plots");
+
+        // Debug print of all CLI flags
+        if (debug) {
+            System.out.println("[DEBUG] Parsed CLI Flags:");
+            flags.forEach((k, v) -> System.out.printf("  %s => %s%n", k, v));
+        }
 
         // -----------------------------
         // Step 1: Validate --input and --output
@@ -50,103 +42,101 @@ public class Main {
         }
 
         // -----------------------------
-        // Step 2: Dispatch based on CLI mode
+        // Step 2: Dispatch Mode (Exclusive)
         // -----------------------------
 
-        // MODE A: Run all 14 schemes and optionally generate plots
-        if (flags.containsKey("--run-all")) {
+        boolean isRunAll = flags.containsKey("--run-all");
+        boolean isSchemeMode = flags.containsKey("--scheme");
+        boolean isManualMode = flags.containsKey("--hashing") && flags.containsKey("--strategy");
+
+        int modeCount = (isRunAll ? 1 : 0) + (isSchemeMode ? 1 : 0) + (isManualMode ? 1 : 0);
+        if (modeCount != 1) {
+            System.err.println("Error: You must specify exactly one mode: --run-all, --scheme, or manual flags.");
+            printUsage();
+            return;
+        }
+
+        // MODE A: Run all 14 schemes
+        if (isRunAll) {
             HashingDriver.runAllSchemes(keys, outputFile, debug, generatePlots);
             return;
         }
 
-        // MODE B: Predefined scheme (1–14)
-        if (flags.containsKey("--scheme")) {
+        // MODE B: Predefined Scheme
+        if (isSchemeMode) {
             try {
                 int schemeNumber = Integer.parseInt(flags.get("--scheme"));
-                HashingDriver.runScheme(schemeNumber, keys, outputFile, debug);
+                if (schemeNumber < 1 || schemeNumber > 14) {
+                    System.err.println("Error: --scheme must be between 1 and 14.");
+                    return;
+                }
+                HashingDriver.runScheme(schemeNumber, keys, outputFile, debug, generatePlots);
             } catch (NumberFormatException e) {
                 System.err.println("Error: Invalid number for --scheme.");
             }
             return;
         }
 
-        // MODE C: Fully manual configuration
-        if (flags.containsKey("--hashing") && flags.containsKey("--strategy")) {
-            String method = flags.get("--hashing").toLowerCase();
-            String strategy = flags.get("--strategy").toLowerCase();
-            int mod = -1;
+        // MODE C: Fully Manual
+        String method = flags.get("--hashing").toLowerCase();
+        String strategy = flags.get("--strategy").toLowerCase();
 
-            // Mod only applies to division hashing
-            if (method.equals("division")) {
-                if (!flags.containsKey("--mod")) {
-                    System.err.println("Error: --mod is required for division hashing.");
-                    return;
-                }
-                try {
-                    mod = Integer.parseInt(flags.get("--mod"));
-                } catch (NumberFormatException e) {
-                    System.err.println("Error: Invalid value for --mod.");
-                    return;
-                }
+        int mod = -1;
+        if ("division".equals(method)) {
+            if (!flags.containsKey("--mod")) {
+                System.err.println("Error: --mod is required for division hashing.");
+                return;
             }
-
-            // Bucket size (1 or 3)
-            int bucketSize = 1;
-            if (flags.containsKey("--bucket")) {
-                try {
-                    bucketSize = Integer.parseInt(flags.get("--bucket"));
-                    if (bucketSize != 1 && bucketSize != 3) {
-                        System.err.println("Error: --bucket must be 1 or 3.");
-                        return;
-                    }
-                } catch (NumberFormatException e) {
-                    System.err.println("Error: Invalid value for --bucket.");
-                    return;
-                }
+            try {
+                mod = Integer.parseInt(flags.get("--mod"));
+            } catch (NumberFormatException e) {
+                System.err.println("Error: Invalid value for --mod.");
+                return;
             }
-
-            // Optional probing constants
-            double c1 = 0.5;
-            double c2 = 0.5;
-            if (flags.containsKey("--c1")) {
-                try {
-                    c1 = Double.parseDouble(flags.get("--c1"));
-                } catch (NumberFormatException e) {
-                    System.err.println("Error: Invalid value for --c1.");
-                    return;
-                }
-            }
-            if (flags.containsKey("--c2")) {
-                try {
-                    c2 = Double.parseDouble(flags.get("--c2"));
-                } catch (NumberFormatException e) {
-                    System.err.println("Error: Invalid value for --c2.");
-                    return;
-                }
-            }
-
-            // Run manually configured table
-            HashingDriver.runManual(method, mod, bucketSize, strategy, c1, c2, keys, outputFile, debug);
-            return;
         }
 
-        // -----------------------------
-        // Step 3: Invalid usage fallback
-        // -----------------------------
-        System.err.println("Error: Must specify one of: --run-all, --scheme, or --hashing + --strategy.");
-        printUsage();
+        int bucketSize = 1;
+        if (flags.containsKey("--bucket")) {
+            try {
+                bucketSize = Integer.parseInt(flags.get("--bucket"));
+                if (bucketSize != 1 && bucketSize != 3) {
+                    System.err.println("Error: --bucket must be 1 or 3.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Error: Invalid value for --bucket.");
+                return;
+            }
+        }
+
+        double c1 = 0.5, c2 = 0.5;
+        if (flags.containsKey("--c1")) {
+            try {
+                c1 = Double.parseDouble(flags.get("--c1"));
+            } catch (NumberFormatException e) {
+                System.err.println("Error: Invalid value for --c1.");
+                return;
+            }
+        }
+        if (flags.containsKey("--c2")) {
+            try {
+                c2 = Double.parseDouble(flags.get("--c2"));
+            } catch (NumberFormatException e) {
+                System.err.println("Error: Invalid value for --c2.");
+                return;
+            }
+        }
+
+        HashingDriver.runManual(method, mod, bucketSize, strategy, c1, c2, keys, outputFile, debug);
     }
 
     /**
-     * Parses CLI arguments into a key-value map.
-     * Handles flags both with and without values (e.g., --debug).
+     * Parses CLI arguments into a map of flag → value (or true for standalone).
      */
     private static Map<String, String> parseArgs(String[] args) {
         Map<String, String> map = new HashMap<>();
-
         for (int i = 0; i < args.length; i++) {
             String flag = args[i];
-
             if (flag.equals("--debug") || flag.equals("--run-all") || flag.equals("--generate-plots")) {
                 map.put(flag, "true");
             } else if (flag.startsWith("--")) {
@@ -154,16 +144,15 @@ public class Main {
                     map.put(flag, args[i + 1]);
                     i++;
                 } else {
-                    map.put(flag, "true"); // Standalone flag without value
+                    map.put(flag, "true");
                 }
             }
         }
-
         return map;
     }
 
     /**
-     * Prints usage instructions for the program.
+     * Prints command-line usage instructions.
      */
     private static void printUsage() {
         System.out.println("USAGE:");
