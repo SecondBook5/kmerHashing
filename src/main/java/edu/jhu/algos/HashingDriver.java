@@ -10,6 +10,9 @@ import edu.jhu.algos.utils.HashingUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * HashingDriver handles execution of all hashing schemes (1–14)
@@ -160,8 +163,19 @@ public class HashingDriver {
         // Step 1: Validate input
         if (keys == null || keys.isEmpty()) {
             System.err.println("Error: Input key list is empty or null.");
+
+            // Write an error stub output file so the script doesn't silently fail
+            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFilePath))) {
+                writer.println("## ERROR OUTPUT FILE");
+                writer.printf("SCHEME %d (FAILED): No valid keys were found in the input file.%n", schemeNumber);
+                writer.println("No hashing operations were performed.");
+            } catch (IOException io) {
+                System.err.println("[FATAL] Could not write error stub file: " + outputFilePath);
+            }
+
             return;
         }
+
 
         if (schemeNumber < 1 || schemeNumber > 14) {
             System.err.println("Error: Invalid scheme number → " + schemeNumber);
@@ -355,6 +369,16 @@ public class HashingDriver {
         // Step 1: Validate keys
         if (keys == null || keys.isEmpty()) {
             System.err.println("Error: Input key list is empty or null.");
+
+            // Write an error stub output so downstream tools can detect it
+            try (PrintWriter writer = new PrintWriter(new FileWriter(outputFilePath))) {
+                writer.println("## ERROR OUTPUT FILE");
+                writer.println("MANUAL CONFIG (FAILED): No valid keys were found in the input file.");
+                writer.println("No hashing operations were performed.");
+            } catch (IOException io) {
+                System.err.println("[FATAL] Could not write error stub file: " + outputFilePath);
+            }
+
             return;
         }
 
