@@ -1,0 +1,85 @@
+filename                     ,input_size, scheme, hashing_method, mod_value, bucket_size, strategy , collisions, primary_collisions, secondary_collisions, comparisons, insertions, load_factor, execution_time, memory_usage
+LabHashingOutput_scheme1.txt ,70,1, division      ,120,1, linear   ,30,19,11,90,60,0.5,0.0004175,0
+LabHashingOutput_scheme10.txt,70,10, division      ,41,3, linear   ,635,36,599,695,60,0.5,0.0001151,0
+LabHashingOutput_scheme11.txt,70,11, division      ,41,3, quadratic,180,36,144,240,60,0.5,0.0003165,0
+LabHashingOutput_scheme12.txt,70,12, custom        , N/A      ,1, linear   ,27,16,11,87,60,0.5,4.67E-05,0
+LabHashingOutput_scheme13.txt,70,13, custom        , N/A      ,1, quadratic,20,15,5,80,60,0.5,2.74E-05,0
+LabHashingOutput_scheme14.txt,70,14, custom        , N/A      ,1, chaining ,14,                   ,                     ,15,60,0.5,3.68E-05,0
+LabHashingOutput_scheme2.txt ,70,2, division      ,120,1, quadratic,25,18,7,85,60,0.5,0.0001249,0
+LabHashingOutput_scheme3.txt ,70,3, division      ,120,1, chaining ,17,                   ,                     ,23,60,0.5,7.58E-05,0
+LabHashingOutput_scheme4.txt ,70,4, division      ,127,1, linear   ,16,10,6,76,60,0.5,0.0001044,0
+LabHashingOutput_scheme5.txt ,70,5, division      ,127,1, quadratic,20,10,10,80,60,0.5,5.30E-05,0
+LabHashingOutput_scheme6.txt ,70,6, division      ,127,1, chaining ,10,                   ,                     ,11,60,0.5,4.92E-05,0
+LabHashingOutput_scheme7.txt ,70,7, division      ,113,1, linear   ,30,17,13,90,60,0.5,5.25E-05,0
+LabHashingOutput_scheme8.txt ,70,8, division      ,113,1, quadratic,25,17,8,85,60,0.5,3.60E-05,0
+LabHashingOutput_scheme9.txt ,70,9, division      ,113,1, chaining ,14,                   ,                     ,14,60,0.5,2.67E-05,0
+scheme_10_LabHashingInput.txt,70,10, division      ,41,3, linear   ,635,36,599,695,60,0.5,0.0007649,0
+scheme_10_input_108.txt      ,108,10, division      ,41,3, linear   ,3540,87,3453,3648,108,0.9,0.003346,0
+scheme_10_input_120.txt      ,120,10, division      ,41,3, linear   ,4835,95,4740,4955,120,1,0.006284,0
+scheme_10_input_36.txt       ,36,10, division      ,41,3, linear   ,75,15,60,111,36,0.3,0.001445,0
+scheme_10_input_84.txt       ,84,10, division      ,41,3, linear   ,1976,63,1913,2060,84,0.7,0.001543,0
+scheme_11_LabHashingInput.txt,70,11, division      ,41,3, quadratic,180,36,144,240,60,0.5,0.000545,0
+scheme_11_input_108.txt      ,108,11, division      ,41,3, quadratic,679,85,594,787,108,0.9,0.0006938,0
+scheme_11_input_120.txt      ,120,11, division      ,41,3, quadratic,1066,95,971,1185,119,0.991667,0.01552,0
+scheme_11_input_36.txt       ,36,11, division      ,41,3, quadratic,48,17,31,84,36,0.3,0.0006462,0
+scheme_11_input_84.txt       ,84,11, division      ,41,3, quadratic,423,63,360,507,84,0.7,0.0006907,0
+scheme_12_LabHashingInput.txt,70,12, custom        , N/A      ,1, linear   ,27,16,11,87,60,0.5,0.0002309,0
+scheme_12_input_108.txt      ,108,12, custom        , N/A      ,1, linear   ,223,45,178,331,108,0.9,0.001702,0
+scheme_12_input_120.txt      ,120,12, custom        , N/A      ,1, linear   ,873,57,816,993,120,1,0.003997,0
+scheme_12_input_36.txt       ,36,12, custom        , N/A      ,1, linear   ,1,1,0,37,36,0.3,0.0002556,0
+scheme_12_input_84.txt       ,84,12, custom        , N/A      ,1, linear   ,48,23,25,132,84,0.7,0.0009491,0
+scheme_13_LabHashingInput.txt,70,13, custom        , N/A      ,1, quadratic,20,15,5,80,60,0.5,0.0004725,0
+scheme_13_input_108.txt      ,108,13, custom        , N/A      ,1, quadratic,159,47,112,267,108,0.9,0.0004196,0
+scheme_13_input_120.txt      ,120,13, custom        , N/A      ,1, quadratic,667,58,609,785,118,0.983333,0.001641,0
+scheme_13_input_36.txt       ,36,13, custom        , N/A      ,1, quadratic,1,1,0,37,36,0.3,0.0007189,0
+scheme_13_input_84.txt       ,84,13, custom        , N/A      ,1, quadratic,50,23,27,134,84,0.7,0.0006413,0
+scheme_14_LabHashingInput.txt,70,14, custom        , N/A      ,1, chaining ,14,                   ,                     ,15,60,0.5,0.0004975,0
+scheme_14_input_108.txt      ,108,14, custom        , N/A      ,1, chaining ,41,                   ,                     ,52,108,0.9,0.001374,0
+scheme_14_input_120.txt      ,120,14, custom        , N/A      ,1, chaining ,42,                   ,                     ,55,120,1,0.001046,0
+scheme_14_input_36.txt       ,36,14, custom        , N/A      ,1, chaining ,1,                   ,                     ,1,36,0.3,0.0004524,0
+scheme_14_input_84.txt       ,84,14, custom        , N/A      ,1, chaining ,19,                   ,                     ,22,84,0.7,0.0009646,0
+scheme_1_LabHashingInput.txt ,70,1, division      ,120,1, linear   ,30,19,11,90,60,0.5,0.000328,0
+scheme_1_input_108.txt       ,108,1, division      ,120,1, linear   ,314,50,264,422,108,0.9,0.001549,0
+scheme_1_input_120.txt       ,120,1, division      ,120,1, linear   ,1157,67,1090,1277,120,1,0.001888,0
+scheme_1_input_36.txt        ,36,1, division      ,120,1, linear   ,4,4,0,40,36,0.3,0.001283,0
+scheme_1_input_84.txt        ,84,1, division      ,120,1, linear   ,78,28,50,162,84,0.7,0.0002899,0
+scheme_2_LabHashingInput.txt ,70,2, division      ,120,1, quadratic,25,18,7,85,60,0.5,0.0006131,0
+scheme_2_input_108.txt       ,108,2, division      ,120,1, quadratic,176,49,127,284,108,0.9,0.001457,0
+scheme_2_input_120.txt       ,120,2, division      ,120,1, quadratic,486,62,424,606,120,1,0.0007935,0
+scheme_2_input_36.txt        ,36,2, division      ,120,1, quadratic,4,4,0,40,36,0.3,0.0005033,0
+scheme_2_input_84.txt        ,84,2, division      ,120,1, quadratic,62,29,33,146,84,0.7,0.0003253,0
+scheme_3_LabHashingInput.txt ,70,3, division      ,120,1, chaining ,17,                   ,                     ,23,60,0.5,0.001148,0
+scheme_3_input_108.txt       ,108,3, division      ,120,1, chaining ,35,                   ,                     ,40,108,0.9,0.0005224,0
+scheme_3_input_120.txt       ,120,3, division      ,120,1, chaining ,43,                   ,                     ,67,120,1,0.001028,0
+scheme_3_input_36.txt        ,36,3, division      ,120,1, chaining ,4,                   ,                     ,4,36,0.3,0.0002307,0
+scheme_3_input_84.txt        ,84,3, division      ,120,1, chaining ,25,                   ,                     ,30,84,0.7,0.008414,0
+scheme_4_LabHashingInput.txt ,70,4, division      ,127,1, linear   ,16,10,6,76,60,0.5,0.0009675,0
+scheme_4_input_108.txt       ,108,4, division      ,127,1, linear   ,217,44,173,325,108,0.9,0.0007346,0
+scheme_4_input_120.txt       ,120,4, division      ,127,1, linear   ,687,70,617,807,120,1,0.003772,0
+scheme_4_input_36.txt        ,36,4, division      ,127,1, linear   ,8,7,1,44,36,0.3,0.0002785,0
+scheme_4_input_84.txt        ,84,4, division      ,127,1, linear   ,92,35,57,176,84,0.7,0.0004265,0
+scheme_5_LabHashingInput.txt ,70,5, division      ,127,1, quadratic,20,10,10,80,60,0.5,0.0002769,0
+scheme_5_input_108.txt       ,108,5, division      ,127,1, quadratic,131,42,89,239,108,0.9,0.003448,0
+scheme_5_input_120.txt       ,120,5, division      ,127,1, quadratic,585,65,520,703,118,0.983333,0.002423,0
+scheme_5_input_36.txt        ,36,5, division      ,127,1, quadratic,9,7,2,45,36,0.3,0.0002705,0
+scheme_5_input_84.txt        ,84,5, division      ,127,1, quadratic,97,34,63,181,84,0.7,0.001557,0
+scheme_6_LabHashingInput.txt ,70,6, division      ,127,1, chaining ,10,                   ,                     ,11,60,0.5,0.0003758,0
+scheme_6_input_108.txt       ,108,6, division      ,127,1, chaining ,33,                   ,                     ,38,108,0.9,0.0002922,0
+scheme_6_input_120.txt       ,120,6, division      ,127,1, chaining ,48,                   ,                     ,66,120,1,0.001447,0
+scheme_6_input_36.txt        ,36,6, division      ,127,1, chaining ,6,                   ,                     ,6,36,0.3,0.001589,0
+scheme_6_input_84.txt        ,84,6, division      ,127,1, chaining ,23,                   ,                     ,28,84,0.7,0.0003018,0
+scheme_7_LabHashingInput.txt ,70,7, division      ,113,1, linear   ,30,17,13,90,60,0.5,0.0009297,0
+scheme_7_input_108.txt       ,108,7, division      ,113,1, linear   ,461,51,410,569,108,0.9,0.00104,0
+scheme_7_input_120.txt       ,120,7, division      ,113,1, linear   ,662,66,596,782,120,1,0.001531,0
+scheme_7_input_36.txt        ,36,7, division      ,113,1, linear   ,5,5,0,41,36,0.3,0.0002302,0
+scheme_7_input_84.txt        ,84,7, division      ,113,1, linear   ,105,38,67,189,84,0.7,0.000756,0
+scheme_8_LabHashingInput.txt ,70,8, division      ,113,1, quadratic,25,17,8,85,60,0.5,0.0002954,0
+scheme_8_input_108.txt       ,108,8, division      ,113,1, quadratic,209,52,157,317,108,0.9,0.0007665,0
+scheme_8_input_120.txt       ,120,8, division      ,113,1, quadratic,542,60,482,661,119,0.991667,0.00244,0
+scheme_8_input_36.txt        ,36,8, division      ,113,1, quadratic,5,5,0,41,36,0.3,0.0007938,0
+scheme_8_input_84.txt        ,84,8, division      ,113,1, quadratic,75,36,39,159,84,0.7,0.0008243,0
+scheme_9_LabHashingInput.txt ,70,9, division      ,113,1, chaining ,14,                   ,                     ,14,60,0.5,0.0003859,0
+scheme_9_input_108.txt       ,108,9, division      ,113,1, chaining ,36,                   ,                     ,53,108,0.9,0.0005202,0
+scheme_9_input_120.txt       ,120,9, division      ,113,1, chaining ,47,                   ,                     ,68,120,1,0.001176,0
+scheme_9_input_36.txt        ,36,9, division      ,113,1, chaining ,5,                   ,                     ,5,36,0.3,0.001703,0
+scheme_9_input_84.txt        ,84,9, division      ,113,1, chaining ,26,                   ,                     ,31,84,0.7,0.0004769,0

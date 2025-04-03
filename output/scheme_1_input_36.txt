@@ -1,0 +1,41 @@
+original input:
+41130, 402763, 221248, 358884, 579970, 
+797525, 131505, 606918, 65519, 828093, 
+487182, 677502, 865276, 582292, 874476, 
+388032, 298456, 386170, 78743, 682209, 
+551400, 537863, 467226, 372913, 321243, 
+525241, 356030, 717458, 227387, 208246, 
+166730, 220756, 482430, 101085, 758217, 
+287727
+
+scheme 1 (division) - modulo: 120, bucket size: 1, linear
+# of primary collisions: 4, secondary collisions: 0, total collisions: 4
+# of comparisons: 40, records inserted: 36, load factor: 0.300000
+
+551400  525241  None    321243  None    
+797525  None    None    None    682209  
+579970  386170  None    None    None    
+None    298456  None    None    None    
+None    None    None    78743   537863  
+None    None    None    None    None    
+482430  None    None    None    None    
+None    874476  None    None    None    
+None    None    None    402763  None    
+101085  208246  None    None    None    
+166730  None    582292  None    None    
+None    None    758217  None    None    
+None    None    None    None    None    
+None    467226  None    None    None    
+None    None    388032  372913  None    
+None    865276  220756  606918  None    
+None    None    None    None    358884  
+None    None    287727  221248  None    
+41130   None    None    828093  None    
+None    None    None    717458  None    
+None    None    487182  677502  None    
+131505  None    227387  None    None    
+356030  None    None    None    None    
+None    None    None    None    65519   
+
+Execution Time: 1.283e-03 seconds
+Memory Usage: 0.000e+00 bytes

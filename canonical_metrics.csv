@@ -1,0 +1,1 @@
+scheme,input_file,hashing_method,mod_value,bucket_size,strategy,collisions,primary_collisions,secondary_collisions,comparisons,insertions,load_factor,execution_time_sec,memory_usage_bytes

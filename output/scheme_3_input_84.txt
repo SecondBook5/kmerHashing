@@ -1,0 +1,50 @@
+original input:
+845212, 518093, 600713, 191164, 572379, 
+678065, 509823, 522737, 903975, 310534, 
+512807, 526935, 880157, 258443, 37193, 
+34440, 315558, 374756, 587160, 174410, 
+135713, 414059, 238261, 736003, 635897, 
+132819, 837552, 736601, 419094, 760794, 
+702798, 339719, 93775, 879499, 692390, 
+477501, 551453, 20429, 137573, 83733, 
+190986, 592460, 800625, 22093, 128200, 
+722594, 71403, 167142, 347807, 422593, 
+624109, 646744, 310398, 384479, 433747, 
+487696, 539923, 723295, 696759, 534823, 
+558229, 453976, 55476, 883328, 439870, 
+411140, 87532, 720029, 844983, 651911, 
+372709, 573246, 855275, 462522, 252846, 
+618104, 217597, 34451, 504031, 522670, 
+318806, 167795, 240606, 165679
+
+scheme 3 (division) - modulo: 120, bucket size: 1, chaining
+# of collisions: 25
+# of comparisons: 30, records inserted: 84, load factor: 0.700000
+
+587160 -> 34440 -> NoneNone                None                71403 -> None       191164 -> None      
+None                240606 -> 252846 -> 573246 -> NoneNone                883328 -> None      None                
+None                34451 -> None       None                22093 -> None       None                
+526935 -> 903975 -> None453976 -> 487696 -> None635897 -> 522737 -> NoneNone                879499 -> None      
+411140 -> 592460 -> None477501 -> None      None                None                None                
+None                None                None                None                720029 -> 20429 -> None
+None                504031 -> None      None                None                None                
+167795 -> 855275 -> None55476 -> None       217597 -> None      None                696759 -> None      
+128200 -> None      736601 -> None      462522 -> None      539923 -> 736003 -> NoneNone                
+None                None                347807 -> 512807 -> NoneNone                None                
+174410 -> None      None                87532 -> 845212 -> None137573 -> 551453 -> 518093 -> None419094 -> None      
+723295 -> 93775 -> NoneNone                None                None                414059 -> None      
+None                238261 -> None      None                844983 -> 509823 -> None646744 -> None      
+678065 -> None      190986 -> None      433747 -> None      None                None                
+522670 -> 439870 -> None651911 -> None      837552 -> None      422593 -> None      722594 -> None      
+None                None                880157 -> None      310398 -> 702798 -> 315558 -> None165679 -> None      
+None                None                None                258443 -> None      None                
+None                318806 -> None      None                None                None                
+None                None                None                83733 -> None       310534 -> None      
+None                None                None                None                132819 -> 572379 -> None
+None                None                167142 -> None      534823 -> None      618104 -> None      
+800625 -> None      None                None                None                372709 -> 558229 -> 624109 -> None
+692390 -> None      None                None                135713 -> 37193 -> 600713 -> None760794 -> None      
+None                374756 -> None      None                None                384479 -> 339719 -> None
+
+Execution Time: 8.414e-03 seconds
+Memory Usage: 0.000e+00 bytes

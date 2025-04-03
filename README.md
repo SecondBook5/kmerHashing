@@ -5,6 +5,8 @@ kmerHashing is a Java-based project that implements and analyzes multiple hashin
 
 Users can run one of 14 predefined hashing schemes or configure custom runs via command-line. The program tracks detailed performance metrics—including comparisons, collisions, probes, memory usage, and execution time—and outputs results in an analysis-ready format.
 
+![alt text](asymptotic_benchmark_plot-1.png)
+
 ### 1.1 Java Version
 #### Versioning
 

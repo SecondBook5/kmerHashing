@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.143" tests="11" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/test-classes:/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/classes:/home/secondbook5/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/secondbook5/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter/5.8.2/junit-jupiter-5.8.2.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/home/secondbook5/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/secondbook5/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/home/secondbook5/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.8.2/junit-jupiter-params-5.8.2.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/home/secondbook5/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/home/secondbook5/.m2/repository/org/jfree/jfreechart/1.5.3/jfreechart-1.5.3.jar:"/>
+    <property name="sun.awt.enableExtraMouseButtons" value="true"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.font.fontmanager" value="sun.awt.X11FontManager"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/surefire/surefirebooter-20250402004758582_3.jar /home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/surefire 2025-04-02T00-47-58_311-jvmRun1 surefire-20250402004758582_1tmp surefire_0-20250402004758582_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/test-classes:/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/classes:/home/secondbook5/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/secondbook5/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter/5.8.2/junit-jupiter-5.8.2.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/home/secondbook5/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/secondbook5/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/home/secondbook5/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.8.2/junit-jupiter-params-5.8.2.jar:/home/secondbook5/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/home/secondbook5/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/home/secondbook5/.m2/repository/org/jfree/jfreechart/1.5.3/jfreechart-1.5.3.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/secondbook5"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing/target/surefire/surefirebooter-20250402004758582_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.14+7-Ubuntu-122.04.1"/>
+    <property name="user.name" value="secondbook5"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="5.15.167.4-microsoft-standard-WSL2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/secondbook5/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="17.0.14"/>
+    <property name="user.dir" value="/home/secondbook5/JHU_Bioinformatics/AlgorithmsBioinformatics/kmerHashing"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="17.0.14+7-Ubuntu-122.04.1"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="testTimeTracking" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.052"/>
+  <testcase name="testOperationCounters" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.001"/>
+  <testcase name="testPrimaryAndSecondaryCollisions" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.0"/>
+  <testcase name="testExtremeCounterValues" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.066"/>
+  <testcase name="testMemoryTracking" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.004"/>
+  <testcase name="testStopTimerWithoutStart" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.003"/>
+  <testcase name="testResetAll" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.001">
+    <system-err><![CDATA[Warning: getElapsedTime() called before stopTimer(). Returning 0.
+]]></system-err>
+  </testcase>
+  <testcase name="testToStringSummaryOutput" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.001">
+    <system-err><![CDATA[Warning: getElapsedTime() called before stopTimer(). Returning 0.
+]]></system-err>
+  </testcase>
+  <testcase name="testLoadFactorCalculation" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.001"/>
+  <testcase name="testZeroMemoryUsage" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.001"/>
+  <testcase name="testZeroExecutionTime" classname="edu.jhu.algos.utils.PerformanceMetricsTest" time="0.001"/>
+</testsuite>
