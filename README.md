@@ -479,12 +479,3 @@ The project is designed with modularity in mind, allowing for easy extensions in
 - Incorporation of new collision handling techniques
 
 ---
-## 8. Author
-
-**Project**: Book_AJ_Lab2_Hashing  
-**Course**: Algorithms for Bioinformatics  
-**Institution**: Johns Hopkins University
-
-**Author**: AJ Book 
-**Lab**: 2 – Hashing Algorithms
----
